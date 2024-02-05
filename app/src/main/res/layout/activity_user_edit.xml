@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:ignore="SpeakableTextPresentCheck"
+    tools:context=".UserEditActivity">
+
+    <TextView
+        android:id="@+id/userInfo"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="유저 정보 입력"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/nicknameTextview"
+        style="@style/Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="170dp"
+        android:text="닉네임"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/nicknameEditText"
+        style="@style/Value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="50dp"
+        android:inputType="text"
+        android:hint="1-8자 이내로 입력"
+        app:layout_constraintBaseline_toBaselineOf="@id/nicknameTextview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        android:privateImeOptions="defaultInputmode=korean"/>
+
+
+    <TextView
+        android:id="@+id/genderView"
+        style="@style/Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="성별"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nicknameTextview"
+        />
+
+    <RadioGroup
+        android:id="@+id/GenderRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/genderView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/genderView">
+
+        <RadioButton
+            android:id="@+id/GenderMale"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="남" />
+
+        <RadioButton
+            android:id="@+id/GenderFemale"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="여" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/explainView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* 운동 가능한 부위와 신체 기능을 선택해주세요."
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="25dp"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genderView" />
+
+
+
+    <Button
+        android:id="@+id/explainButton1"
+        android:layout_width="30dp"
+        android:layout_height="22dp"
+        app:layout_constraintStart_toStartOf="@id/explainView"
+        app:layout_constraintTop_toBottomOf="@id/explainView"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="37dp"
+        android:backgroundTint="@color/skyblue"
+        android:alpha="0.57"
+        />
+
+    <TextView
+        android:id="@+id/buttonExplainText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="운동 가능"
+        android:textSize="11dp"
+        app:layout_constraintStart_toEndOf="@id/explainButton1"
+        app:layout_constraintTop_toBottomOf="@id/explainView"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="5dp"
+        >
+
+    </TextView>
+
+    <Button
+        android:id="@+id/explainButton2"
+        android:layout_width="30dp"
+        android:layout_height="22dp"
+        app:layout_constraintStart_toEndOf="@id/buttonExplainText1"
+        app:layout_constraintTop_toBottomOf="@id/explainView"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:backgroundTint="@color/pink"
+        android:alpha="0.57"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="운동 불가능"
+        android:textSize="11dp"
+        app:layout_constraintStart_toEndOf="@id/explainButton2"
+        app:layout_constraintTop_toBottomOf="@id/explainView"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="5dp"
+        >
+
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(선택시 색상 변경됨)"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@id/anatomyImageView"
+        app:layout_constraintTop_toBottomOf="@id/anatomyImageView"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="50dp"
+        >
+
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/physical_ability_level_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="110dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/impossibleToSit"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="앉기 불가능" />
+
+        <RadioButton
+            android:id="@+id/possibleToSit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="앉기 가능" />
+
+        <RadioButton
+            android:id="@+id/possibleToStand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="서기 가능" />
+
+        <RadioButton
+            android:id="@+id/possibleToWalk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="걷기 가능" />
+
+        <RadioButton
+            android:id="@+id/possibleToRun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="달리기 가능" />
+
+
+
+    </RadioGroup>
+
+    <!-- 저장버튼-->
+    <Button
+        android:id="@+id/userinfo_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="35dp"
+        android:text="저장"
+        android:textSize="17sp"
+        android:backgroundTint="@color/mint"
+        android:layout_marginEnd="30dp">
+
+    </Button>
+
+    <!-- anatomy-->
+    <ImageView
+        android:id="@+id/anatomyImageView"
+        android:layout_width="190dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="360dp"
+        android:src="@drawable/anatomypic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/left_upper_arm_button"
+        android:layout_width="25sp"
+        android:layout_height="60sp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="404dp"
+        android:rotation="15"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/left_lower_arm_button"
+        android:layout_width="25sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="465dp"
+        android:rotation="15"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/right_upper_arm_button"
+        android:layout_width="25sp"
+        android:layout_height="60sp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="404dp"
+        android:rotation="-15"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/right_lower_arm_button"
+        android:layout_width="25sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="465dp"
+        android:rotation="-15"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--척추-->
+    <Button
+        android:id="@+id/core"
+        android:layout_width="30sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="443dp"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/left_upper_leg_button"
+        android:layout_width="25sp"
+        android:layout_height="70sp"
+        android:layout_marginStart="68.5dp"
+        android:layout_marginTop="500dp"
+        android:rotation="-5"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/left_lower_leg_button"
+        android:layout_width="20sp"
+        android:layout_height="55sp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="573dp"
+        android:rotation="-5"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/right_upper_leg_button"
+        android:layout_width="25sp"
+        android:layout_height="70sp"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="500dp"
+        android:rotation="5"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/right_lower_leg_button"
+        android:layout_width="20sp"
+        android:layout_height="55sp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="573dp"
+        android:rotation="5"
+        android:alpha="0.57"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <!--입력가이드-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="288dp" />
+
+
+    <!--tool bar 삽입-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
+
+        <include layout="@layout/toolbar" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

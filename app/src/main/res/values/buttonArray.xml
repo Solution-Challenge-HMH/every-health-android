@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="button_ids">
+        <item>@+id/left_upper_leg_button</item>
+        <item>@+id/left_lower_leg_button</item>
+        <item>@+id/left_upper_arm_button</item>
+        <item>@+id/left_lower_arm_button</item>
+        <item>@+id/right_upper_leg_button</item>
+        <item>@+id/right_lower_leg_button</item>
+        <item>@+id/right_upper_arm_button</item>
+        <item>@+id/right_lower_arm_button</item>
+        <item>@+id/core</item>
+    </integer-array>
+</resources>
