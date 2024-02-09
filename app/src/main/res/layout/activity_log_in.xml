@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main"
     tools:context=".LogInActivity">
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
+        android:src="@drawable/pasted_graphic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -22,6 +23,7 @@
         android:id="@+id/signin_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -36,6 +38,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signin_btn" />
 
+    <TextView
+        android:id="@+id/EVERY_HEALTH_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EVERY\nHEALTH"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/signin_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
