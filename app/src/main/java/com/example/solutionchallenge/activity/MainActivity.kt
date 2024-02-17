@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solutionchallenge.R
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.datamodel.ResponseExerciseData
 import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
 import com.example.solutionchallenge.fragment.RecommendListFragment
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -27,6 +28,27 @@ class MainActivity : AppCompatActivity() {
         val calendarInMain: MaterialCalendarView =
             findViewById(R.id.calendarInMain) //메인화면에서 캘린더 클릭시 캘린더로 이동x
         PERbutton.setOnClickListener {
+            //이걸 우리쪽에서 리스트 하나에 저장하는게 낫나..?
+            val call_Exercise: Call<List<ResponseExerciseData>> =
+                ServiceCreator.everyHealthService.getExercise()
+            call_Exercise.enqueue(object : Callback<List<ResponseExerciseData>> {
+                override fun onResponse(
+                    call: Call<List<ResponseExerciseData>>,
+                    response: Response<List<ResponseExerciseData>>
+                ) {
+                    if (response.isSuccessful) {
+                        //추천 운동 리스트 불러오기 성공
+                        Log.d(TAG, "추천 운동 리스트 불러오기 성공")
+                    } else {
+                        Log.d(TAG, "추천 운동 리스트 불러오기 실패")
+                    }
+                }
+
+                override fun onFailure(call: Call<List<ResponseExerciseData>>, t: Throwable) {
+                    Log.e("NetworkTest", "error:$t")
+                }
+            })
+
             val fragment = RecommendListFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -35,9 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         TodayButton.setOnClickListener {
-            val callTest: Call<ResponseExerciseRecommendedData> =
+            val call_ExerciseRecommended: Call<ResponseExerciseRecommendedData> =
                 ServiceCreator.everyHealthService.getExerciseRecommended()
-            callTest.enqueue(object : Callback<ResponseExerciseRecommendedData>{
+            call_ExerciseRecommended.enqueue(object : Callback<ResponseExerciseRecommendedData> {
                 override fun onResponse(
                     call: Call<ResponseExerciseRecommendedData>,
                     response: Response<ResponseExerciseRecommendedData>

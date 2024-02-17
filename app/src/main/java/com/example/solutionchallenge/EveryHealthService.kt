@@ -43,18 +43,18 @@ interface EveryHealthService { //로그인시 사용
     ): Call<ResponseUserInfoData>
 
 
-    ////Plan API
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    //////Plan API
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @POST("plan")
     fun postPlan(
         @Body body: RequestPlanData
     ): Call<ResponsePlanData>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @DELETE("plan/{planId}") //DELETE은 request body 없음
     fun deletePlanPlanId(@Path("planId") planId: Int): Call<ResponsePlanPlanidDELETEData>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @PATCH("plan/{planId}")
     fun patchPlanPlanId(
         @Path("planId") planId: Int,
@@ -62,36 +62,36 @@ interface EveryHealthService { //로그인시 사용
     ): Call<ResponsePlanPlanidPATCHData>
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("plan/today") //GET은 request body 없음
     fun getPlanToday(): Call<ResponsePlanTodayData> //path 없음
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("plan/calendar") //GET은 request body 없음
     fun getPlanCalendar(): Call<List<ResponsePlanCalendarData>> //path 없음
 
 
     ////Exercise API
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise") //GET은 request body 없음
     fun getExercise(): Call<List<ResponseExerciseData>>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise/{exerciseId}") //GET은 request body 없음
     fun getExerciseExerciseId(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseExerciseIdData> //path 있음
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @POST("exercise/{exerciseId}/bookmark") //GET에서 POST로 API 수정됨 (0217) (request body 없는 POST)
     fun postExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkPOSTData> //path 있음
 
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @DELETE("exercise/{exerciseId}/bookmark") //DELETE은 request body 없음
     fun deleteExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkDELETEData> //path 있음
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODAxMDYzMCwiZXhwIjoxNzA4MDk3MDMwfQ.3ekTZY7dCWjxuWuPiztiTnqDFVDh5uzNq4wEJ5_6TcTkJKXf3aQfYI-oJiFnBxOTR3OlA8Idl4I9v97K8vSSKQ")
+    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise/recommended") //GET은 request body 없음
     fun getExerciseRecommended(): Call<ResponseExerciseRecommendedData>
 
