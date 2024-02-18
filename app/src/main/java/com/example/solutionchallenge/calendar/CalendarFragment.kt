@@ -214,8 +214,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     }
 
 
-<<<<<<< HEAD
-=======
+
     companion object {
         const val TAG = "CalendarFragment"
         fun newInstance(receivedAccessToken: String?): CalendarFragment {
@@ -226,5 +225,5 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             return fragment
         }
     }
->>>>>>> 7805f2c2b712286824b05e1ff87d68833989252c
+
 }

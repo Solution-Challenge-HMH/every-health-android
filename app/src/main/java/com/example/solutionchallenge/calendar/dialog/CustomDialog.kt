@@ -28,7 +28,7 @@ class CustomDialog(
     private var customDialogInterface: CustomDialogInterface = myInterface
     private var selectedExerciseName: String? = null
     private var selectedExerciseId: Int? = null
-   // private var plannedDate: String? = null
+    // private var plannedDate: String? = null
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,28 +51,12 @@ class CustomDialog(
                 selectedExerciseName = exerciseNames[position] // 선택된 운동 이름 설정
                 Log.d("ExerciseSpinner", "Selected Exercise Name: $selectedExerciseName")
 
-<<<<<<< HEAD
-        okButton.setOnClickListener {
-            val exerciseName = exerciseEditView.text.toString()
-            val time_goal_Str = timeGoalEditView.text.toString()
-            val time_goal_Int = time_goal_Str.toIntOrNull()
-            // 입력하지 않았을 때
-
-
-            if (TextUtils.isEmpty(exerciseName) || time_goal_Int == null) {
-                Toast.makeText(context, "이름과 시간을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            } else {
-                // 이름과 시간을 추가해줌
-                customDialogInterface.onOkButtonClicked1(exerciseName, time_goal_Int, thisDate)
-                dismiss()
-=======
                 selectedExerciseId = exerciseList.find { it.name == selectedExerciseName }?.id
                 Log.d("selectedId", "$selectedExerciseId")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 selectedExerciseName = null
->>>>>>> 7805f2c2b712286824b05e1ff87d68833989252c
             }
         }
 
@@ -104,7 +88,7 @@ class CustomDialog(
             }
 
             val exerciseId = selectedExerciseId
-           // plannedDate = dateEditView.text.toString() // 자리 바꿔야 함
+            // plannedDate = dateEditView.text.toString() // 자리 바꿔야 함
 
             if (exerciseName == null || plannedTime == null  ) {
                 Toast.makeText(context, "계획을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
