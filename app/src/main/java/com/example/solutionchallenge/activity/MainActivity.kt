@@ -51,16 +51,8 @@ class MainActivity : AppCompatActivity() {
                             val parcelableExerciseList = ArrayList<Parcelable>(exerciseList.size)
 
                             exerciseList.forEach { exercise ->
-
-                                val name = exercise.name
-
                                 Log.d("Exercise Id", "${exercise.id}")
-                                Log.d("Exercise Name", name)
-
-                                Log.d("Exercise Name", name) // response 확인용
-
                                 parcelableExerciseList.add(exercise)
-
                                 Log.d("Parceling Exercise", exercise.toString())
 
                                 val fragment = receivedAccessToken?.let { it1 ->
@@ -133,9 +125,11 @@ class MainActivity : AppCompatActivity() {
         }
         toCalendarButton.setOnClickListener {
             val intent = Intent(this, CalendarActivity::class.java)
+            intent.putExtra("receivedAccessToken", receivedAccessToken)
             startActivity(intent)
             finish() // 현재 액티비티 종료
         }
+
 
 
     }
