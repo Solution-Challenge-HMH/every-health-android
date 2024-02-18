@@ -114,7 +114,9 @@ class MainActivity : AppCompatActivity() {
                         ToRecommendationDialog(
                             responseData.name,
                             responseData.time.toString(),
-                            responseData.difficulty.toString()
+                            responseData.difficulty.toString(),
+                            responseData.id,
+                            receivedAccessToken
                         )
 
                     } else {
@@ -141,8 +143,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun ToRecommendationDialog(nameData: String, timeData: String, difficultyData: String) {
-        val dialog = RecommendationOfTodayDialog(this,nameData,timeData,difficultyData) /// 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
+    fun ToRecommendationDialog(nameData: String, timeData: String, difficultyData: String, idData: Int, tokenData: String?) {
+        val dialog = RecommendationOfTodayDialog(this,nameData,timeData,difficultyData, idData, tokenData) /// 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
         dialog.show()
     }
 

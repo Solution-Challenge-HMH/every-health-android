@@ -150,7 +150,7 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
     }
 
     companion object {
-        private const val TAG = "RecommendListFragment"
+        private const val TAG = "ExerciseAdapter"
     }
 }
 
