@@ -28,7 +28,7 @@ class CustomDialog(
     private var customDialogInterface: CustomDialogInterface = myInterface
     private var selectedExerciseName: String? = null
     private var selectedExerciseId: Int? = null
-   // private var plannedDate: String? = null
+    // private var plannedDate: String? = null
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +88,7 @@ class CustomDialog(
             }
 
             val exerciseId = selectedExerciseId
-           // plannedDate = dateEditView.text.toString() // 자리 바꿔야 함
+            // plannedDate = dateEditView.text.toString() // 자리 바꿔야 함
 
             if (exerciseName == null || plannedTime == null  ) {
                 Toast.makeText(context, "계획을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()

@@ -31,21 +31,6 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
             // 체크 리스너 초기화 해줘 중복 오류 방지
             binding.exerciseCheckBox.setOnCheckedChangeListener(null)
 
-            /*
-            // 메모 체크 시 체크 데이터 업데이트
-            binding.exerciseCheckBox.setOnCheckedChangeListener { _, check ->
-                if (check) {
-                    exercise = Exercise( 0,true, currentExercise.name, currentExercise.time,
-                        currentExercise.year, currentExercise.month, currentExercise.day)
-                    this.exerciseViewModel.updateExercise(exercise)
-                }
-                else {
-                    exercise = Exercise( 0,false, currentExercise.name,currentExercise.time,
-                        currentExercise.year, currentExercise.month, currentExercise.day)
-                    this.exerciseViewModel.updateExercise(exercise)
-                }
-            }
-*/
             // 삭제 버튼 클릭 시 메모 삭제
             binding.deleteButton.setOnClickListener {
                 planViewModel.deletePlan(currentPlan)

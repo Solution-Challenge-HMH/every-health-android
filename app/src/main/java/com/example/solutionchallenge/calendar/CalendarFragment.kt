@@ -57,16 +57,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.calendarRecyclerview.adapter = adapter
 
-        /*
-                binding!!.calendarView.setOnDateChangeListener { _, year, month, day ->
-                    // 날짜 선택시 그 날의 정보 할당
-                    this.year = year
-                    this.month = month + 1
-                    this.day = day
-
-
-         */
-
         // 달력 - 날짜 선택 Listener
         binding!!.calendarView.setOnDateChangeListener { _, year, month, day->
 
@@ -224,6 +214,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     }
 
 
+
     companion object {
         const val TAG = "CalendarFragment"
         fun newInstance(receivedAccessToken: String?): CalendarFragment {
@@ -234,4 +225,5 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             return fragment
         }
     }
+
 }
