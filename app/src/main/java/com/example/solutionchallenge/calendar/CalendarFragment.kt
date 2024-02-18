@@ -1,6 +1,7 @@
 package com.example.solutionchallenge.calendar
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +19,13 @@ import com.example.solutionchallenge.calendar.model.Plan
 //import com.myfirstandroidapp.helpcalendar.databinding.FragmentCalendarBinding
 import com.example.solutionchallenge.databinding.FragmentCalendarBinding
 import com.example.solutionchallenge.datamodel.Exercise
+import com.example.solutionchallenge.datamodel.RequestPlanData
 import com.example.solutionchallenge.datamodel.ResponseExerciseData
+import com.example.solutionchallenge.datamodel.ResponsePlanData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 
 
 class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {
@@ -155,18 +159,60 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         plannedTime: Int,
         thisDate: String
     ) {
+        val receivedAccessToken = arguments?.getString("receivedAccessToken")
         // plannedDate가 null이거나 빈 문자열인 경우 예외 처리
         if (thisDate.isNotBlank()) {
             // 선택된 날짜로 메모를 추가해줌
             val plan = Plan(0, false, exerciseId, exerciseName, plannedTime, doneTime = 0, thisDate)
             planViewModel.addPlan(plan)
             Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
+
+            val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
+            Log.d("datefix", outputDateString)
+            val requestPlanData = RequestPlanData(
+                exerciseId,
+                outputDateString,
+                plannedTime
+
+            )
+            Log.d(TAG, "RequestPlanData: $requestPlanData")
+
+            val call: Call<ResponsePlanData> =
+                ServiceCreator.everyHealthService.postPlan("Bearer $receivedAccessToken",requestPlanData)
+
+            call.enqueue(object : Callback<ResponsePlanData> {
+                override fun onResponse(
+                    call: Call<ResponsePlanData>,
+                    response: Response<ResponsePlanData>
+                ) {
+                    if (response.isSuccessful) {
+
+                        Log.d(TAG, "플랜 전송 성공")
+
+
+                    } else {
+                        Log.d(TAG, "플랜 전송 실패")
+                    }
+
+                }
+                override fun onFailure(call: Call<ResponsePlanData>, t: Throwable) {
+                    Log.e("NetworkTest", "error:$t")
+                }
+            })
+
         } else {
             // 예외 처리: plannedDate가 null이거나 빈 문자열인 경우
             Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 
+    fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
+        val inputFormat = SimpleDateFormat(inputFormatString)
+        val outputFormat = SimpleDateFormat(outputFormatString)
+
+        val inputDate = inputFormat.parse(inputDateString) // 입력된 문자열을 날짜로 파싱
+        return outputFormat.format(inputDate) // 날짜를 지정된 형식의 문자열로 변환하여 반환
+    }
 
     override fun onOkButtonClicked2(
         //exerciseId: Int,

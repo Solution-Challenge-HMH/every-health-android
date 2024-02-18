@@ -2,9 +2,8 @@ package com.example.solutionchallenge.datamodel
 
 
 data class ResponsePlanData(
-
-    val status: Int,
-
+    val status: String,
+    val message: String,
     )
 
 //response body 없음
