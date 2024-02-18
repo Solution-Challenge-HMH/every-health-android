@@ -16,6 +16,7 @@ public class TokenToServer(private val accessToken: String) {
     var receivedAccessToken : String =""
 
     public fun sendTokenToServer(completion: (Boolean, String?) -> Unit) {
+        Log.d("TokentoServer access token ", "$accessToken")
         val requestUserLoginData = RequestUserLoginData(accessToken = accessToken)
         val call: Call<ResponseUserLoginData> =
             ServiceCreator.everyHealthService.postUserLogin(requestUserLoginData)

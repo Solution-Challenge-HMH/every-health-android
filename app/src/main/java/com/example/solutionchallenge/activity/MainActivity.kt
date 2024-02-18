@@ -3,6 +3,7 @@ package com.example.solutionchallenge.activity
 //import com.example.solutionchallenge.datamodel.exerciseList
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -47,10 +48,40 @@ class MainActivity : AppCompatActivity() {
 
                         if (responseExerciseData != null) {
                             val exerciseList = responseExerciseData.data
+                            val parcelableExerciseList = ArrayList<Parcelable>(exerciseList.size)
+
                             exerciseList.forEach { exercise ->
+
                                 val name = exercise.name
+
                                 Log.d("Exercise Id", "${exercise.id}")
                                 Log.d("Exercise Name", name)
+
+                                Log.d("Exercise Name", name) // response 확인용
+
+                                parcelableExerciseList.add(exercise)
+
+                                Log.d("Parceling Exercise", exercise.toString())
+
+                                val fragment = receivedAccessToken?.let { it1 ->
+                                    RecommendListFragment(it1).apply {
+                                        arguments = Bundle().apply {
+                                            // 운동 목록 데이터를 Bundle에 넣어 전달
+                                            putParcelableArrayList("exerciseList", parcelableExerciseList)
+                                            //**토큰 넘겨주는 코드 추가
+                                            //putString("receivedAccessToken", receivedAccessToken)
+                                        }
+                                    }
+                                }
+
+                                if (fragment != null) {
+                                    supportFragmentManager.beginTransaction()
+                                        .replace(R.id.fragment_container, fragment)
+                                        .addToBackStack(null) // 백 스택에 추가
+                                        .commit()
+                                }
+
+
                             }
 
                         } else {
@@ -66,11 +97,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-            val fragment = RecommendListFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null) // 백 스택에 추가
-                .commit()
         }
 
         todayButton.setOnClickListener {
