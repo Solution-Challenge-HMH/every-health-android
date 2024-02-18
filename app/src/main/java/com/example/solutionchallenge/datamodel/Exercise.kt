@@ -12,9 +12,9 @@ data class Exercise(
     val name: String,
     val time: Int,
     val difficulty: Int,
-    val description: String,
-    val caution: String,
-    val reference: String,
+    val description: String?,
+    val caution: String?,
+    val reference: String?,
     var bookmarked: Boolean
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

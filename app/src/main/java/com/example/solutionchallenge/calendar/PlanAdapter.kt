@@ -3,7 +3,7 @@ package com.example.solutionchallenge.calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.solutionchallenge.calendar.db.PlanViewModel
+import com.example.solutionchallenge.calendar.PlanAdapter
 import com.example.solutionchallenge.calendar.dialog.TimeGoalUpdateDialog
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.calendar.model.Plan
@@ -60,7 +60,7 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
         }
 
         // 다이얼로그의 결과값으로 업데이트 해줌
-        override fun onOkButtonClicked1(exerciseName: String,  plannedTime: Int, thisDate: String) { //캘린더 화면에서 날짜 고정된 상태로 운동 추가
+        override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String,  plannedTime: Int, thisDate: String) { //캘린더 화면에서 날짜 고정된 상태로 운동 추가
 
 
             val updatePlan = Plan(

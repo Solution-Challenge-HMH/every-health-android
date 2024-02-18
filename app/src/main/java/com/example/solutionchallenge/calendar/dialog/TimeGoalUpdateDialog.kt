@@ -47,7 +47,7 @@ class TimeGoalUpdateDialog(context: Context, updateDialogInterface: UpdateDialog
             // 입력 창이 비어 있지 않을 때
             else {
                 // 메모를 수정해줌
-                updateDialogInterface.onOkButtonClicked1(exerciseName, plannedTime, thisDate)
+                updateDialogInterface.onOkButtonClicked1(exerciseId, exerciseName, plannedTime, thisDate)
                 dismiss()
             }
         }

@@ -26,14 +26,15 @@ class TimeDoneUpdateDialog(context: Context, updateDialogInterface: UpdateDialog
 
         var okButton: Button = findViewById(R.id.okButton)
         var cancelButton: Button = findViewById(R.id.cancelButton)
-        var nameEditView: EditText = findViewById(R.id.NameEditView)
+       // var nameEditView: EditText = findViewById(R.id.NameEditView)
         var timeEditView: EditText = findViewById(R.id.TimeEditView)
 
 
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         okButton.setOnClickListener {
-            val exerciseName= nameEditView.text.toString()
+           // val exerciseName= nameEditView.text.toString()
+            val exerciseName = "gg"
             val timeStr = timeEditView.text.toString()
             val doneTime = timeStr.toIntOrNull()
             val exerciseId = 5

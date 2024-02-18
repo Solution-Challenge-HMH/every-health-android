@@ -6,6 +6,6 @@ data class ResponseExerciseData(
     val status: String,
     val message: String,
     @SerializedName("data")
-    val data: List<Exercise> //val data: MutableList<ExerciseData> 가 되어야하나.....??
+    val data: List<Exercise>
 )
 
