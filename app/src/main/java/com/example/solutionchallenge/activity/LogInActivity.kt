@@ -10,18 +10,12 @@ package com.example.solutionchallenge.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.solutionchallenge.ServiceCreator
-
-import com.example.solutionchallenge.databinding.ActivityLogInBinding
-import com.example.solutionchallenge.datamodel.RequestUserLoginData
-import com.example.solutionchallenge.datamodel.ResponseUserLoginData
 import com.example.solutionchallenge.TokenToServer
-import com.google.android.gms.auth.api.Auth
+import com.example.solutionchallenge.databinding.ActivityLogInBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -34,14 +28,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import okhttp3.Call
-
 import okhttp3.Callback
 import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONObject
 import java.io.IOException
 
@@ -54,7 +46,6 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var startGoogleLoginForResult: ActivityResultLauncher<Intent>
 
     private var loginDone: Boolean = false // 로그인 성공 여부를 추적하는 변수
-    private var userEditDone: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
     private var member: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
 
 
@@ -235,7 +226,7 @@ class LogInActivity : AppCompatActivity() {
 
     }
 
-    private fun createHttpClient(): OkHttpClient {
+ /*   private fun createHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(Interceptor { chain ->
                 val request: Request = chain.request()
@@ -250,7 +241,7 @@ class LogInActivity : AppCompatActivity() {
                     .build()
             })
             .build()
-    }
+    }*/
 
 
 
