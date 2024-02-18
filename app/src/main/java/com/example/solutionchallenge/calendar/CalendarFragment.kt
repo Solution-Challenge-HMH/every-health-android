@@ -58,36 +58,38 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
          */
 
         // 달력 - 날짜 선택 Listener
-        binding!!.calendarView.setOnDateChangedListener { _, date, _ ->
-            year = date.year
-            month = date.month + 1
-            day = date.day
+        binding!!.calendarView.setOnDateChangeListener { _, year, month, day->
 
-            binding!!.calendarDateText.text = "${this.year}-${this.month}-${this.day}"
-            thisDate = "${this.year}-${this.month}-${this.day}"
+            this.year = year
+            this.month = month + 1
+            this.day = day
+
+            binding!!.calendarDateText.text = "$year-${month + 1}-$day"
+            thisDate = "$year-${month + 1}-$day"
+
 
             // 해당 날짜 데이터를 불러옴 (currentData 변경)
-            planViewModel.readDateData(this.year, this.month, this.day) //여기가 잘못됐나1
+            planViewModel.readDateData(year, month+1, day)
         }
 
-        // 메모 데이터가 수정되었을 경우 날짜 데이터를 불러옴 (currentData 변경)
+// 메모 데이터가 수정되었을 경우 날짜 데이터를 불러옴 (currentData 변경)
         planViewModel.readAllData.observe(viewLifecycleOwner) {
-            planViewModel.readDateData(this.year, this.month, this.day)//여기가 잘못됐나2
+            // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
+            planViewModel.readDateData(this.year, this.month + 1, this.day)
         }
 
-        // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
+// 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
         planViewModel.currentData.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
-
         // Fab 클릭시 다이얼로그 띄움
         binding!!.calendarDialogButton.setOnClickListener {
             if (year == 0) {
                 Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
             } else {
 
-                val selected_date = "${this.year}-${this.month}-${this.day}"
-                onFabClicked(selected_date)
+                val selectedDate = "${this.year}-${this.month}-${this.day}"
+                onFabClicked(selectedDate)
             }
         }
 
@@ -95,8 +97,8 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     }
 
     // Fab 클릭시 사용되는 함수
-    private fun onFabClicked(selected_date: String) {
-        val customDialog = CustomDialog(requireActivity(), this, selected_date)
+    private fun onFabClicked(selectedDate: String) {
+        val customDialog = CustomDialog(requireActivity(), this, selectedDate)
         customDialog.show()
     }
 

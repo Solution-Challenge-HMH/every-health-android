@@ -54,7 +54,6 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var startGoogleLoginForResult: ActivityResultLauncher<Intent>
 
     private var loginDone: Boolean = false // 로그인 성공 여부를 추적하는 변수
-    private var userEditDone: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
     private var member: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
 
 
@@ -114,12 +113,11 @@ class LogInActivity : AppCompatActivity() {
         //val client = createHttpClient()
 
 
-
         // 요청 바디 생성
         val requestBody = FormBody.Builder()
             .add("grant_type", "authorization_code")
-            .add("client_id", "715605422298-3gqke8jgsiv83dismp2j4ovo085vdn1u.apps.googleusercontent.com") // 자신의 클라이언트 ID로 교체
-            .add("client_secret", "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") // 자신의 클라이언트 시크릿으로 교체
+            .add("client_id", "715605422298-3gqke8jgsiv83dismp2j4ovo085vdn1u.apps.googleusercontent.com")
+            .add("client_secret", "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")
             .add("redirect_uri", "")
             .add("code", authCode ?: "")
             .build()
@@ -151,24 +149,12 @@ class LogInActivity : AppCompatActivity() {
 
 
                     val tokenToServer = TokenToServer(accessToken.toString())
-                    tokenToServer.sendTokenToServer { isMember, receviedAccessToken ->
-                        //updateUI(null) 이거 왜 제거하라 그러지..?
-                        member = isMember // 콜백으로 받은 isMember 값을 LoginActivity의 member 변수에 할당합니다.
-                        // updateUI 메서드 호출은 onResponse 메서드에서 처리될 것입니다.
-                        updateUI(Firebase.auth.currentUser) // 로그인 정보는 이미 가져왔으므로 currentUser를 전달합니다.
+                    tokenToServer.sendTokenToServer { isMember, receivedAccessToken ->
+                        member = isMember // 콜백으로 받은 isMember 값을 LoginActivity의 member 변수에 할당
+                        updateUI(Firebase.auth.currentUser, receivedAccessToken) // 로그인 정보는 이미 가져왔으므로 currentUser를 전달
 
-                        fun createHttpClient(): OkHttpClient { // ?? 이건 왜 있는거쥐..? 왜 안쓰이지..?
-                            return OkHttpClient.Builder()
-                                .addInterceptor(Interceptor { chain ->
-                                    val original: Request = chain.request()
-                                    val requestBuilder: Request.Builder = original.newBuilder()
-                                        .header("Authorization", "Bearer ${receviedAccessToken}") // 여기서 TokenToServer.accessToken은 TokenToServer 클래스의 companion object 등을 통해 접근할 수 있어야 합니다.
-                                    val request: Request = requestBuilder.build()
-                                    chain.proceed(request)
-                                })
-                                .build()
 
-                        }
+
                     }
                 }
             }
@@ -190,14 +176,14 @@ class LogInActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "idtoken: $idToken")
                     val user = auth.currentUser
-                    updateUI(user)
+
 
 
                 } else {
                     loginDone = false // 로그인이 실패하면 false로 설정
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    updateUI(null)
+                    //updateUI(null)
 
                 }
             }
@@ -209,7 +195,7 @@ class LogInActivity : AppCompatActivity() {
 
 
 
-    private fun updateUI(user: FirebaseUser?) {
+    private fun updateUI(user: FirebaseUser?, receivedAccessToken: String?) {
         // FirebaseUser 데이터에 따른 UI 작업
         binding.userName.text = user?.displayName
 
@@ -220,9 +206,11 @@ class LogInActivity : AppCompatActivity() {
 
             if (member) { // i) response의 member가 true이면 MainActivity로 화면 전환
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("receivedAccessToken", receivedAccessToken)
                 startActivity(intent)
             } else { // ii) response의 member 가 false이면 UserEditActivity로 화면 전환
                 val intent = Intent(this, UserEditActivity::class.java)
+                intent.putExtra("receivedAccessToken", receivedAccessToken)
                 startActivity(intent)
             }
 
@@ -233,23 +221,6 @@ class LogInActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    private fun createHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(Interceptor { chain ->
-                val request: Request = chain.request()
-                Log.d("Request", request.toString())
-
-                val response: Response = chain.proceed(request)
-                val responseBodyString = response.body?.string()
-                Log.d("Response", responseBodyString ?: "")
-
-                response.newBuilder()
-                    .body(responseBodyString?.toResponseBody(response.body?.contentType()))
-                    .build()
-            })
-            .build()
     }
 
 

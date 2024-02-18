@@ -1,6 +1,7 @@
 package com.example.solutionchallenge.activity
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +34,7 @@ class UserEditActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         for (buttonId in buttonIds) {
             buttonStateMap[buttonId] = true // 초기 상태: 핑크색
             val colorButton = binding.root.findViewById<Button>(buttonId)
@@ -63,6 +65,8 @@ class UserEditActivity : AppCompatActivity() {
 
 
     private fun saveUserData() {
+        val receivedAccessToken = intent.getStringExtra("receivedAccessToken")
+
         val nickname = binding.nicknameEditText.text.toString()
         val gender = getGender()
         val physicalAbilityLevel = getPhysical_ability_level()
@@ -91,11 +95,10 @@ class UserEditActivity : AppCompatActivity() {
             leftLowerLeg
         )
         val call: Call<ResponseUserInfoData> =
-            ServiceCreator.everyHealthService.postUserInfo(requestUserInfoData)
+            ServiceCreator.everyHealthService.postUserInfo("Bearer $receivedAccessToken",requestUserInfoData)
 
 
         if (nickname.isNotEmpty() && gender.isNotEmpty() && physicalAbilityLevel.isNotEmpty()) {
-            //*** 여기서 call.enqueue 해서 postUserInfo() 하는 거 *******
             call.enqueue(object : Callback<ResponseUserInfoData> {
                 override fun onResponse(
                     call: Call<ResponseUserInfoData>,
@@ -104,6 +107,10 @@ class UserEditActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         //유저 신체 정보 전송 성공
                         Log.d(TAG, "유저 신체 정보 전송 성공")
+
+                        val intent = Intent(this@UserEditActivity, MainActivity::class.java)
+                        intent.putExtra("receivedAccessToken", receivedAccessToken)
+                        startActivity(intent)
                     } else {
                         Log.d(TAG, "유저 신체 정보 전송 실패")
                     }

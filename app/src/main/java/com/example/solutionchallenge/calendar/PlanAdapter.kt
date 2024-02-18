@@ -51,12 +51,6 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
                 planViewModel.deletePlan(currentPlan)
             }
 
-            // 수정 버튼 클릭 시 다이얼로그 띄움
-            binding.updateButton.setOnClickListener {
-                plan = currentPlan
-                val timeGoalUpdateDialog = TimeGoalUpdateDialog(binding.updateButton.context, this)
-                timeGoalUpdateDialog.show()
-            }
 
             binding.progressBar.setOnClickListener {
                 plan = currentPlan

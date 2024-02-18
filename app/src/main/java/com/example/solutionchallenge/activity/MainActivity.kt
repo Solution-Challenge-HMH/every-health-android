@@ -8,10 +8,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solutionchallenge.R
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.datamodel.Exercise
 import com.example.solutionchallenge.datamodel.ResponseExerciseData
 import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
 import com.example.solutionchallenge.fragment.RecommendListFragment
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import org.json.JSONObject
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,33 +21,47 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val PERbutton: Button = findViewById(R.id.ToPERlistButton) //개인운동 추천 버튼
-        val TodayButton: Button = findViewById(R.id.ToTodayERButton) //오늘의운동 추천 버튼
-        val calendarInMain: MaterialCalendarView =
-            findViewById(R.id.calendarInMain) //메인화면에서 캘린더 클릭시 캘린더로 이동x
+        val todayButton: Button = findViewById(R.id.ToTodayERButton) //오늘의운동 추천 버튼
+        val toCalendarButton: Button = findViewById(R.id.ToCalendarButtonInMain) //메인화면에서 캘린더 클릭시 캘린더로 이동x
+        val receivedAccessToken = intent.getStringExtra("receivedAccessToken")
+
         PERbutton.setOnClickListener {
-            //이걸 우리쪽에서 리스트 하나에 저장하는게 낫나..?
-            val call_Exercise: Call<List<ResponseExerciseData>> =
-                ServiceCreator.everyHealthService.getExercise()
-            call_Exercise.enqueue(object : Callback<List<ResponseExerciseData>> {
+            Log.d("token", "$receivedAccessToken")
+            val callExercise: Call<ResponseExerciseData> =
+                ServiceCreator.everyHealthService.getExercise("Bearer $receivedAccessToken")
+
+            callExercise.enqueue(object : Callback<ResponseExerciseData> {
                 override fun onResponse(
-                    call: Call<List<ResponseExerciseData>>,
-                    response: Response<List<ResponseExerciseData>>
+                    call: Call<ResponseExerciseData>,
+                    response: Response<ResponseExerciseData>
                 ) {
                     if (response.isSuccessful) {
-                        //추천 운동 리스트 불러오기 성공
-                        Log.d(TAG, "추천 운동 리스트 불러오기 성공")
+                        val responseExerciseData = response.body()
+
+                        if (responseExerciseData != null) {
+                            val exerciseList = responseExerciseData.data
+                            exerciseList.forEach { exercise ->
+                                val name = exercise.name
+                                Log.d("Exercise Name", name)
+                            }
+
+                        } else {
+                            Log.d(TAG, "운동 데이터 없음")
+                        }
                     } else {
-                        Log.d(TAG, "추천 운동 리스트 불러오기 실패")
+                        Log.d(TAG, "운동 데이터 가져오기 실패")
                     }
                 }
 
-                override fun onFailure(call: Call<List<ResponseExerciseData>>, t: Throwable) {
-                    Log.e("NetworkTest", "error:$t")
+                override fun onFailure(call: Call<ResponseExerciseData>, t: Throwable) {
+                    Log.e(TAG, "네트워크 요청 실패: $t")
                 }
             })
 
@@ -56,10 +72,10 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-        TodayButton.setOnClickListener {
-            val call_ExerciseRecommended: Call<ResponseExerciseRecommendedData> =
+        todayButton.setOnClickListener {
+            val callExerciseRecommended: Call<ResponseExerciseRecommendedData> =
                 ServiceCreator.everyHealthService.getExerciseRecommended()
-            call_ExerciseRecommended.enqueue(object : Callback<ResponseExerciseRecommendedData> {
+            callExerciseRecommended.enqueue(object : Callback<ResponseExerciseRecommendedData> {
                 override fun onResponse(
                     call: Call<ResponseExerciseRecommendedData>,
                     response: Response<ResponseExerciseRecommendedData>
@@ -81,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             //val dialog = RecommendationOfTodayDialog(this, randomExercise) /// 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
             //dialog.show()
         }
-        calendarInMain.setOnClickListener {
+        toCalendarButton.setOnClickListener {
             // CalendarActivity로 화면 전환... 이 안된다
             val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)

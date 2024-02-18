@@ -13,6 +13,7 @@ object ServiceCreator {
     private const val BASE_URL = "https://every-health.app/"
     //private const val TIMEOUT_LIMIT = 30L
 
+
     private val okHttpClient: OkHttpClient by lazy {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -21,10 +22,10 @@ object ServiceCreator {
             .build()
     }
 
-    private val retrofit: Retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
 

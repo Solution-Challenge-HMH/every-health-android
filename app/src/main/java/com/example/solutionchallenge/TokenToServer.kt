@@ -11,9 +11,9 @@ import retrofit2.Response
 
 public class TokenToServer(private val accessToken: String) {
 
-    var userEditDone: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
-    var member: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
 
+    var member: Boolean = false // 화면 전환을 UserEdit으로 시킬지 Main으로 시킬지 판단하려고 쓰는 변수
+    var receivedAccessToken : String =""
 
     public fun sendTokenToServer(completion: (Boolean, String?) -> Unit) {
         val requestUserLoginData = RequestUserLoginData(accessToken = accessToken)
@@ -37,6 +37,7 @@ public class TokenToServer(private val accessToken: String) {
                         Log.d(TAG, "Is Member: ${responseData.data.member}")
 
                         member = responseData.data.member // responseData.data.member 값을 그대로 success에 대입
+                        receivedAccessToken = responseData.data.accessToken
                         completion(responseData.data.member, responseData.data.accessToken)
 
                     } else {

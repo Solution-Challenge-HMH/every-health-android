@@ -21,6 +21,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -36,25 +37,27 @@ interface EveryHealthService { //로그인시 사용
 
     //@Headers("Authorization: Bearer ${accessToken}")
     //이 밑에있는 헤더 전부 수정해야함. 지금껀 임시 테스트용
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @POST("user/info")
     fun postUserInfo(
+        @Header("Authorization") authorization: String,
         @Body body: RequestUserInfoData
     ): Call<ResponseUserInfoData>
 
 
     //////Plan API
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @POST("plan")
     fun postPlan(
+        @Header("Authorization") authorization: String,
         @Body body: RequestPlanData
     ): Call<ResponsePlanData>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @DELETE("plan/{planId}") //DELETE은 request body 없음
-    fun deletePlanPlanId(@Path("planId") planId: Int): Call<ResponsePlanPlanidDELETEData>
+    fun deletePlanPlanId(
+        @Header("Authorization") authorization: String,
+        @Path("planId") planId: Int,
+        ): Call<ResponsePlanPlanidDELETEData>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
+
     @PATCH("plan/{planId}")
     fun patchPlanPlanId(
         @Path("planId") planId: Int,
@@ -62,21 +65,18 @@ interface EveryHealthService { //로그인시 사용
     ): Call<ResponsePlanPlanidPATCHData>
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("plan/today") //GET은 request body 없음
     fun getPlanToday(): Call<ResponsePlanTodayData> //path 없음
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("plan/calendar") //GET은 request body 없음
     fun getPlanCalendar(): Call<List<ResponsePlanCalendarData>> //path 없음
 
 
     ////Exercise API
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise") //GET은 request body 없음
-    fun getExercise(): Call<List<ResponseExerciseData>>
+    fun getExercise(@Header("Authorization") authorization: String
+    ): Call<ResponseExerciseData>
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise/{exerciseId}") //GET은 request body 없음
     fun getExerciseExerciseId(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseExerciseIdData> //path 있음
 

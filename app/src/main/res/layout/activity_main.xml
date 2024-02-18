@@ -34,8 +34,8 @@
 
             <android.widget.Button
                 android:id="@+id/ToPERlistButton"
-                android:layout_width="340dp"
-                android:layout_height="100dp"
+                android:layout_width="300dp"
+                android:layout_height="85dp"
                 android:drawableRight="@drawable/heartratepic"
                 android:background="@drawable/slidingcustom"
                 android:layout_gravity="center"
@@ -43,37 +43,51 @@
                 android:paddingEnd="35dp"
                 android:paddingLeft="35dp"
                 android:textColor="@color/black"
-                android:textSize="23dp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:backgroundTint="@color/white"
                 />
 
             <android.widget.Button
                 android:id="@+id/ToTodayERButton"
-                android:layout_width="340dp"
-                android:layout_height="100dp"
+                android:layout_width="300dp"
+                android:layout_height="85dp"
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/trophypic"
                 android:background="@drawable/slidingcustom"
                 android:text="오늘의 운동 추천"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:paddingEnd="35dp"
                 android:paddingLeft="35dp"
                 android:textColor="@color/black"
-                android:textSize="23dp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:backgroundTint="@color/white"
                 />
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarInMain"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+
+            <FrameLayout
                 android:layout_marginTop="30dp"
-                android:background="@color/white"
-                />
+                android:layout_width="300dp"
+                android:layout_height="300dp">
+
+                <!-- 캘린더 -->
+                <CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_log" />
+
+                <Button
+                    android:id="@+id/ToCalendarButtonInMain"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </FrameLayout>
 
 
         </LinearLayout>
