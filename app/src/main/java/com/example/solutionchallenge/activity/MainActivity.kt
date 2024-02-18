@@ -51,16 +51,8 @@ class MainActivity : AppCompatActivity() {
                             val parcelableExerciseList = ArrayList<Parcelable>(exerciseList.size)
 
                             exerciseList.forEach { exercise ->
-
-                                val name = exercise.name
-
                                 Log.d("Exercise Id", "${exercise.id}")
-                                Log.d("Exercise Name", name)
-
-                                Log.d("Exercise Name", name) // response 확인용
-
                                 parcelableExerciseList.add(exercise)
-
                                 Log.d("Parceling Exercise", exercise.toString())
 
                                 val fragment = receivedAccessToken?.let { it1 ->

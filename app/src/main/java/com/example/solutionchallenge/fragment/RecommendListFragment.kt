@@ -37,10 +37,9 @@ class RecommendListFragment(private val receivedAccessToken :String ) : Fragment
 
         val exerciseList = arguments?.getParcelableArrayList<Exercise>("exerciseList")
 
-        if (receivedAccessToken != null) {
 
-            adapter.setAccessToken(receivedAccessToken)
-        }
+        adapter.setAccessToken(receivedAccessToken)
+
 
         exerciseList?.let {
             adapter.setData(it)

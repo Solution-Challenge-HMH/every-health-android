@@ -101,7 +101,8 @@ interface EveryHealthService { //로그인시 사용
 
     @DELETE("exercise/{exerciseId}/bookmark") //DELETE은 request body 없음
     fun deleteExerciseExerciseIdBookmark(
-        @Header("Authorization") authorization: String, @Path("exerciseId") exerciseId: Int
+        @Header("Authorization") authorization: String,
+        @Path("exerciseId") exerciseId: Int,
     ): Call<ResponseExerciseBookmarkDELETEData> //path 있음
 
     @GET("exercise/recommended") //GET은 request body 없음

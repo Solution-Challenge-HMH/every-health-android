@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.solutionchallenge.dao.ExerciseDao
 
-@Database(entities = [Exercise::class], version = 1, exportSchema = false)
+@Database(entities = [Exercise::class], version = 2, exportSchema = false)
 abstract class ExerciseDatabase : RoomDatabase(){
 
     abstract fun exerciseDao() : ExerciseDao

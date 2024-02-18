@@ -17,11 +17,11 @@
 
         <TextView
             android:id="@+id/PERNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:text="@{exercise.name}"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
+            android:text="@{exercise.name}"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +29,17 @@
 
         <TextView
             android:id="@+id/PERTimeTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="@{String.valueOf(exercise.time)}"
+            android:text="@{String.valueOf(exercise.time) + @string/exercise_time_minutes}"
             android:textColor="#7A7575"
-            android:textSize="12sp"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@id/PERNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/PERNameTextView" />
+            app:layout_constraintTop_toBottomOf="@id/PERNameTextView"
+            app:layout_constraintBottom_toTopOf="@+id/RecommendGuideLine"/>
+
+
 
         <Button
             android:id="@+id/ToRecommendationDetailDialogButton"
@@ -57,10 +60,10 @@
 
         <CheckBox
             android:id="@+id/BookmarkCheckButton"
-            android_button="@null"
+            android:button="@null"
             android:background="@drawable/bookmark_checkbox_custom"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:checked="@{exercise.bookmarked}"
             android:layout_marginRight="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,6 +71,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </CheckBox>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/RecommendGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

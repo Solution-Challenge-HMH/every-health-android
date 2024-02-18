@@ -1,18 +1,25 @@
 package com.example.solutionchallenge.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.solutionchallenge.EveryHealthService
 import com.example.solutionchallenge.ExerciseDiffCallback
 import com.example.solutionchallenge.RecommendationDetailDialog
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.activity.MainActivity
+import com.example.solutionchallenge.activity.UserEditActivity
 import com.example.solutionchallenge.databinding.ItemRecommendationBinding
 import com.example.solutionchallenge.databinding.RecommendationDetailDialogBinding
 import com.example.solutionchallenge.datamodel.Exercise
+import com.example.solutionchallenge.datamodel.ResponseExerciseBookmarkDELETEData
+import com.example.solutionchallenge.datamodel.ResponseExerciseBookmarkPOSTData
 import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
+import com.example.solutionchallenge.datamodel.ResponseUserInfoData
 import com.example.solutionchallenge.viewmodel.ExerciseViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,11 +49,13 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
             }
 
 
-            binding.BookmarkCheckButton.setOnCheckedChangeListener(null)
+           // binding.BookmarkCheckButton.setOnCheckedChangeListener(null)
 
-// BookmarkCheckButton 관련 로직 수정필요
-     /*       // 메모 체크 시 체크 데이터 업데이트 -- 에러 있음
+
             binding.BookmarkCheckButton.setOnCheckedChangeListener { _, check ->
+                val exerciseId = currentExercise.id
+
+                // 북마크 추가
                 if (check) {
                     exercise = Exercise(
                         currentExercise.id,
@@ -58,11 +67,34 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
                         currentExercise.reference,
                         true
                     )
-                    this.exerciseViewModel.addExercise(exercise)
 
 
+                    val call: Call<ResponseExerciseBookmarkPOSTData> =
+                        ServiceCreator.everyHealthService.postExerciseExerciseIdBookmark("Bearer $receivedAccessToken", exerciseId)
 
-                } else {
+                    call.enqueue(object : Callback<ResponseExerciseBookmarkPOSTData> {
+                        override fun onResponse(
+                            call: Call<ResponseExerciseBookmarkPOSTData>,
+                            response: Response<ResponseExerciseBookmarkPOSTData>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d(TAG, "북마크 전송 성공")
+
+                            } else {
+                                Log.d(TAG, "북마크 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<ResponseExerciseBookmarkPOSTData>,
+                            t: Throwable
+                        ) {
+                            Log.e("NetworkTest", "error:$t")
+                        }
+                    })
+                }  // 북마크 삭제
+                else {
+
                     exercise = Exercise(
                         currentExercise.id,
                         currentExercise.name,
@@ -73,18 +105,46 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
                         currentExercise.reference,
                         false
                     )
-                    this.exerciseViewModel.deleteExercise(exercise)
 
+
+
+
+                    val call: Call<ResponseExerciseBookmarkDELETEData> =
+                        ServiceCreator.everyHealthService.deleteExerciseExerciseIdBookmark("Bearer $receivedAccessToken", exerciseId)
+
+                    call.enqueue(object : Callback<ResponseExerciseBookmarkDELETEData> {
+                        override fun onResponse(
+                            call: Call<ResponseExerciseBookmarkDELETEData>,
+                            response: Response<ResponseExerciseBookmarkDELETEData>
+                        ) {
+                            Log.d(TAG, "Sending DELETE request to remove bookmark for exerciseId: $exerciseId")
+
+                            if (response.isSuccessful) {
+                                Log.d(TAG, "북마크 삭제 성공")
+
+                            } else {
+                                Log.d(TAG, "북마크 삭제 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<ResponseExerciseBookmarkDELETEData>,
+                            t: Throwable
+                        ) {
+                            Log.e("NetworkTest", "error:$t")
+                        }
+                    })
                 }
-
-                Log.d("BookmarkStatus", "Bookmark status ${exercise.bookmarked} =? $check  for item ${currentExercise.name}")
+                //상태 확인용 log
+                Log.d("BookmarkStatus", "Bookmark ${exercise.bookmarked} =? $check  for item ${currentExercise.name}")
             }
-*/
+
+
+            //운동 상세정보 조회
             binding.ToRecommendationDetailDialogButton.setOnClickListener{
-                // currentExercise의 id 값을 가져옴
                 val exerciseId = currentExercise.id
 
-                // 운동의 상세 정보를 가져오기 위해 서버로 요청
+
                 val callExerciseDetail: Call<ResponseExerciseExerciseIdData> =
                     ServiceCreator.everyHealthService.getExerciseExerciseId("Bearer $receivedAccessToken", exerciseId)
 
@@ -119,6 +179,7 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
 
 
     }
+    //토큰 받아오기
     fun setAccessToken(token: String) {
         receivedAccessToken = token
     }
