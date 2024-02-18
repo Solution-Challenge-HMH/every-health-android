@@ -3,7 +3,7 @@ package com.example.solutionchallenge.datamodel
 
 data class ResponsePlanData(
 
-    val status: Int,
+    val status: String,
 
     )
 

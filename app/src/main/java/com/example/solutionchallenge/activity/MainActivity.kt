@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val PERbutton: Button = findViewById(R.id.ToPERlistButton) //개인운동 추천 버튼
         val todayButton: Button = findViewById(R.id.ToTodayERButton) //오늘의운동 추천 버튼
         val toCalendarButton: Button =
-            findViewById(R.id.ToCalendarButtonInMain) //메인화면에서 캘린더 클릭시 캘린더로 이동x
+            findViewById(R.id.ToCalendarButtonInMain)
         val receivedAccessToken = intent.getStringExtra("receivedAccessToken")
 
         PERbutton.setOnClickListener {
@@ -68,8 +68,7 @@ class MainActivity : AppCompatActivity() {
                                         arguments = Bundle().apply {
                                             // 운동 목록 데이터를 Bundle에 넣어 전달
                                             putParcelableArrayList("exerciseList", parcelableExerciseList)
-                                            //**토큰 넘겨주는 코드 추가
-                                            //putString("receivedAccessToken", receivedAccessToken)
+
                                         }
                                     }
                                 }
@@ -110,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         //오늘의 추천 운동 불러오기 성공
                         Log.d(TAG, "오늘의 추천 운동 불러오기 성공")
-                        val responseData = response.body()!!.data //nonnull? safe?
+                        val responseData = response.body()!!.data
                         ToRecommendationDialog(
                             responseData.name,
                             responseData.time.toString(),
@@ -125,16 +124,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<ResponseExerciseRecommendedData>, t: Throwable) {
-                    Log.e("NetworkTest", "error:$t") //여기서 문젠데...
+                    Log.e("NetworkTest", "error:$t")
 
                 }
             })
-            // val randomExercise = getRandomExercise()
-            // 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
+
 
         }
         toCalendarButton.setOnClickListener {
-            // CalendarActivity로 화면 전환... 이 안된다
             val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
             finish() // 현재 액티비티 종료
@@ -148,13 +145,6 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    /// 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
-    /*
-        private fun getRandomExercise(): Exercise {
-            val randomIndex = Random.nextInt(exerciseList.size)
-            return exerciseList[randomIndex]
-        }
-    */
 
     companion object {
         const val TAG = "MainActivity"

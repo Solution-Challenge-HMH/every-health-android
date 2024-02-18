@@ -37,15 +37,15 @@ class CustomDialog(context: Context, myInterface: CustomDialogInterface, selecte
         okButton.setOnClickListener {
             val exerciseName = exerciseEditView.text.toString()
             val time_goal_Str = timeGoalEditView.text.toString()
-            val plannedTime = time_goal_Str.toIntOrNull()
+            val time_goal_Int = time_goal_Str.toIntOrNull()
             // 입력하지 않았을 때
 
 
-            if (TextUtils.isEmpty(exerciseName) || plannedTime == null) {
+            if (TextUtils.isEmpty(exerciseName) || time_goal_Int == null) {
                 Toast.makeText(context, "이름과 시간을 입력해주세요.", Toast.LENGTH_SHORT).show()
             } else {
                 // 이름과 시간을 추가해줌
-                customDialogInterface.onOkButtonClicked1(exerciseName, plannedTime, thisDate)
+                customDialogInterface.onOkButtonClicked1(exerciseName, time_goal_Int, thisDate)
                 dismiss()
             }
         }

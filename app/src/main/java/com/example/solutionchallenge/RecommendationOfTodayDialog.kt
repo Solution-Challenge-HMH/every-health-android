@@ -10,9 +10,7 @@ import android.util.Log
 
 import android.widget.Button
 import android.widget.TextView
-import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
-import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,14 +24,15 @@ class RecommendationOfTodayDialog(
     private val tokenData: String?
 ) : Dialog(context) {
 
-//class RecommendationOfTodayDialog(context: Context, private val nameData:String, private val timeData:String, private val difficultyData:String) : Dialog(context) {
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recommendationoftoday_dialog)
 
         var toCalendarButton: Button = findViewById(R.id.ToCalendarButton)
+        var toRecommendationDialogButton: Button = findViewById(R.id.ToRecommendationDialogButton)
         var closeButton: Button = findViewById(R.id.CloseButton)
         var name: TextView = findViewById(R.id.RecommendNameTextView)
         var time: TextView = findViewById(R.id.RecommendTimeValue)
@@ -48,22 +47,24 @@ class RecommendationOfTodayDialog(
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
 
-        // 닫기 버튼 클릭 시 종료
-        closeButton.setOnClickListener { dismiss() }
+        toCalendarButton.setOnClickListener {
+            val planAddDialog =
+                PlanAddDialog(context, idData, tokenData)
+            planAddDialog.show()
+        }
 
 
-        val toRecommendationDialogButton: Button = findViewById(R.id.ToRecommendationDialogButton)
+
+
         toRecommendationDialogButton.setOnClickListener {
-
 
             //얘가 클릭되면, 운동 상세 정보 화면 띄우는 액티비티로 넘어가야함.
 
-            //운동 id(idData) 전달 받아서 -> done
+            //운동 id(idData) 전달 받아서
             val exerciseId = idData
             val receivedAccessToken = tokenData
 
             //그 id로 callExerciseDetail 한번 한다음에,
-            // 운동의 상세 정보를 가져오기 위해 서버로 요청
             val callExerciseDetail: Call<ResponseExerciseExerciseIdData> =
                 ServiceCreator.everyHealthService.getExerciseExerciseId(
                     "Bearer $receivedAccessToken",
@@ -82,7 +83,6 @@ class RecommendationOfTodayDialog(
                             // 운동의 상세 정보를 사용하여 다이얼로그를 띄우는 등의 작업 수행
                             val recommendationDialog =
                                 RecommendationDetailDialog(context, exerciseDetail)
-                                //RecommendationDetailDialog(binding.root.context, exerciseDetail)
                             recommendationDialog.show()
                         } else {
                             Log.d(TAG, "운동 상세 정보 없음")
@@ -96,11 +96,11 @@ class RecommendationOfTodayDialog(
                     Log.e(TAG, "운동 상세 정보 요청 실패: $t")
                 }
             })
-/*
-            //RecommendationDetailDialog로 전환
-            val recommendationDialog = RecommendationDetailDialog(context, exercise)
-            recommendationDialog.show()*/
         }
+
+
+        // 닫기 버튼 클릭 시 종료
+        closeButton.setOnClickListener { dismiss() }
     }
 
     companion object {
