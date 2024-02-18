@@ -3,6 +3,7 @@ package com.example.solutionchallenge.activity
 //import com.example.solutionchallenge.datamodel.exerciseList
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -47,9 +48,27 @@ class MainActivity : AppCompatActivity() {
 
                         if (responseExerciseData != null) {
                             val exerciseList = responseExerciseData.data
+                            val parcelableExerciseList = ArrayList<Parcelable>(exerciseList.size)
+
                             exerciseList.forEach { exercise ->
+
                                 val name = exercise.name
-                                Log.d("Exercise Name", name)
+                                Log.d("Exercise Name", name) // response 확인용
+
+                                parcelableExerciseList.add(exercise)
+
+                                Log.d("Parceling Exercise", exercise.toString())
+
+                                val fragment = RecommendListFragment().apply {
+                                    arguments = Bundle().apply {
+                                        // 운동 목록 데이터를 Bundle에 넣어 전달
+                                        putParcelableArrayList("exerciseList", parcelableExerciseList)
+                                    }
+                                }
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_container, fragment)
+                                    .addToBackStack(null) // 백 스택에 추가
+                                    .commit()
                             }
 
                         } else {

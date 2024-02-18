@@ -81,17 +81,15 @@ interface EveryHealthService { //로그인시 사용
     fun getExerciseExerciseId(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseExerciseIdData> //path 있음
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
+
     @POST("exercise/{exerciseId}/bookmark") //GET에서 POST로 API 수정됨 (0217) (request body 없는 POST)
     fun postExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkPOSTData> //path 있음
 
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @DELETE("exercise/{exerciseId}/bookmark") //DELETE은 request body 없음
     fun deleteExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkDELETEData> //path 있음
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise/recommended") //GET은 request body 없음
     fun getExerciseRecommended(): Call<ResponseExerciseRecommendedData>
 

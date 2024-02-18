@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.databinding.FragmentRecommendListBinding
+import com.example.solutionchallenge.datamodel.Exercise
 import com.example.solutionchallenge.viewmodel.ExerciseViewModel
 
 
@@ -31,12 +32,19 @@ class RecommendListFragment : Fragment() {
         binding!!.PERRecyclerview.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.PERRecyclerview.adapter = adapter
 
-        // 운동 추천 목록 설정
-        //adapter.setData(exerciseList) // recommendationList 추가
 
-        recommendationViewModel.currentData.observe(viewLifecycleOwner, Observer {
+        val exerciseList = arguments?.getParcelableArrayList<Exercise>("exerciseList")
+
+
+        exerciseList?.let {
+            adapter.setData(it)
+        }
+
+      /*  recommendationViewModel.currentData.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
+        */
+
 
         /*
         binding!!.toTodayRecButton.setOnClickListener {
