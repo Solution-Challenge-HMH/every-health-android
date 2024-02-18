@@ -9,27 +9,28 @@ import android.os.Bundle
 
 import android.widget.Button
 import android.widget.TextView
+import com.example.solutionchallenge.calendar.dialog.CustomDialog
+import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
 import com.example.solutionchallenge.datamodel.Exercise
 
 
-class RecommendationDetailDialog(context: Context, private val exercise: Exercise) : Dialog(context) {
 
-
-
+class RecommendationDetailDialog(context: Context, private val exercise: Exercise) : Dialog(context),
+    CustomDialogInterface {
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recommendation_detail_dialog)
 
-        var toCalendarButton : Button = findViewById(R.id.ToCalendarButton)
-        var closeButton : Button = findViewById(R.id.CloseButton)
-        var name : TextView = findViewById(R.id.RecommendNameTextView)
-        var time : TextView = findViewById(R.id.RecommendTimeValue)
-        var difficulty : TextView = findViewById(R.id.RecommendDifficultyValue)
-        var description : TextView = findViewById(R.id.RecommendDescriptionValue)
-        var caution : TextView = findViewById(R.id.RecommendCautionValue)
-        var reference : TextView = findViewById(R.id.RecommendReferenceValue)
+        var toCalendarButton: Button = findViewById(R.id.ToCalendarButton)
+        var closeButton: Button = findViewById(R.id.CloseButton)
+        var name: TextView = findViewById(R.id.RecommendNameTextView)
+        var time: TextView = findViewById(R.id.RecommendTimeValue)
+        var difficulty: TextView = findViewById(R.id.RecommendDifficultyValue)
+        var description: TextView = findViewById(R.id.RecommendDescriptionValue)
+        var caution: TextView = findViewById(R.id.RecommendCautionValue)
+        var reference: TextView = findViewById(R.id.RecommendReferenceValue)
 
         name.text = exercise.name
         time.text = exercise.time.toString()
@@ -38,12 +39,30 @@ class RecommendationDetailDialog(context: Context, private val exercise: Exercis
         caution.text = exercise.caution
         reference.text = exercise.reference
 
-
-
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
+        toCalendarButton.setOnClickListener {
+            val exerciseList = mutableListOf(exercise)
+            // RecommendationDetailDialog를 CustomDialogInterface로 캐스팅하여 CustomDialog의 생성자에 전달
+            val customDialog = CustomDialog(context, this@RecommendationDetailDialog as CustomDialogInterface, null, exerciseList )
+            customDialog.show()
+            dismiss()
+        }
 
-        // 닫기 버튼 클릭 시 종료
-        closeButton.setOnClickListener { dismiss()}
+        // 닫기 버튼 클릭 시 다이얼로그 종료
+        closeButton.setOnClickListener { dismiss() }
     }
+
+    // CustomDialogInterface의 메서드 구현
+    override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String, plannedTime: Int, thisDate: String) {
+        // 추천 운동을 캘린더에 추가하는 로직을 여기에 작성
+        // 예를 들어, 추천 운동을 캘린더에 추가하는 API를 호출하거나, ViewModel을 통해 데이터를 처리하는 등의 작업을 수행
+    }
+
+    /*
+    override fun onOkButtonClicked2(exerciseName: String, doneTime: Int, thisDate: String) {
+        // 이 메서드는 현재 사용되지 않으므로 구현하지 않아도 됩니다.
+    }
+
+     */
 }

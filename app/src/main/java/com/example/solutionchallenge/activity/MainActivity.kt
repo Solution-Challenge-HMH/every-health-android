@@ -128,9 +128,11 @@ class MainActivity : AppCompatActivity() {
         toCalendarButton.setOnClickListener {
             // CalendarActivity로 화면 전환... 이 안된다
             val intent = Intent(this, CalendarActivity::class.java)
+            intent.putExtra("receivedAccessToken", receivedAccessToken)
             startActivity(intent)
             finish() // 현재 액티비티 종료
         }
+
 
 
     }

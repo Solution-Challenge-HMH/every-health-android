@@ -9,13 +9,19 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.solutionchallenge.calendar.db.PlanViewModel
+import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.calendar.PlanViewModel
+import com.example.solutionchallenge.calendar.dialog.CustomDialog
 import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.calendar.model.Plan
 //import com.myfirstandroidapp.helpcalendar.databinding.FragmentCalendarBinding
 import com.example.solutionchallenge.databinding.FragmentCalendarBinding
-import com.myfirstandroidapp.helpcalendar.dialog.CustomDialog
+import com.example.solutionchallenge.datamodel.Exercise
+import com.example.solutionchallenge.datamodel.ResponseExerciseData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {
@@ -98,9 +104,44 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
 
     // Fab 클릭시 사용되는 함수
     private fun onFabClicked(selectedDate: String) {
-        val customDialog = CustomDialog(requireActivity(), this, selectedDate)
-        customDialog.show()
+        val receivedAccessToken = arguments?.getString("receivedAccessToken")
+
+        val callExercise: Call<ResponseExerciseData> =
+            ServiceCreator.everyHealthService.getExercise("Bearer $receivedAccessToken")
+
+        callExercise.enqueue(object : Callback<ResponseExerciseData> {
+            override fun onResponse(call: Call<ResponseExerciseData>, response: Response<ResponseExerciseData>) {
+                if (response.isSuccessful) {
+                    val responseExerciseData = response.body()
+                    if (responseExerciseData != null) {
+
+                        val exerciseList = responseExerciseData.data
+                        val parcelableExerciseList = ArrayList<Exercise>(exerciseList.size)
+
+                        exerciseList.forEach { exercise ->
+                            val parcelableExercise = Exercise(exercise.id, exercise.name, exercise.time, exercise.difficulty,
+                                exercise.description, exercise.caution, exercise.reference, exercise.bookmarked)
+                            parcelableExerciseList.add(parcelableExercise)
+                        }
+
+
+                        // 운동 목록을 다이얼로그로 전달하여 표시
+                        val customDialog = CustomDialog(requireActivity(), this@CalendarFragment, selectedDate, parcelableExerciseList)
+                        customDialog.show()
+                    }
+                } else {
+                    // 서버 요청이 실패한 경우 처리
+                    Toast.makeText(requireContext(), "운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseExerciseData>, t: Throwable) {
+                // 네트워크 오류 등으로 서버 요청이 실패한 경우 처리
+                Toast.makeText(requireContext(), "네트워크 오류로 운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
+
 
     // 프래그먼트는 뷰보다 오래 지속 . 프래그먼트의 onDestroyView() 메서드에서 결합 클래스 인스턴스 참조를 정리
     override fun onDestroyView() {
@@ -109,19 +150,21 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     }
 
     override fun onOkButtonClicked1(
-        //exerciseId: Int,
+        exerciseId: Int,
         exerciseName: String,
         plannedTime: Int,
         thisDate: String
     ) {
-
-        // 선택된 날짜로 메모를 추가해줌
-        val plan = Plan(0, false, exerciseId=0, exerciseName, plannedTime, doneTime = 0, thisDate)
-        planViewModel.addPlan(plan)
-        Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
-
-
-
+        // plannedDate가 null이거나 빈 문자열인 경우 예외 처리
+        if (thisDate.isNotBlank()) {
+            // 선택된 날짜로 메모를 추가해줌
+            val plan = Plan(0, false, exerciseId, exerciseName, plannedTime, doneTime = 0, thisDate)
+            planViewModel.addPlan(plan)
+            Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
+        } else {
+            // 예외 처리: plannedDate가 null이거나 빈 문자열인 경우
+            Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -133,11 +176,16 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     ) {
         TODO("Not yet implemented")
     }
-    /*
-        override fun onOkButtonClicked(name: String, time: Int) {
-            TODO("Not yet implemented")
+
+
+    companion object {
+        const val TAG = "CalendarFragment"
+        fun newInstance(receivedAccessToken: String?): CalendarFragment {
+            val fragment = CalendarFragment()
+            val args = Bundle()
+            args.putString("receivedAccessToken", receivedAccessToken)
+            fragment.arguments = args
+            return fragment
         }
-
-     */
-
+    }
 }
