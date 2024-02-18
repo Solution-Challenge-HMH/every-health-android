@@ -78,7 +78,9 @@ interface EveryHealthService { //로그인시 사용
     ): Call<ResponseExerciseData>
 
     @GET("exercise/{exerciseId}") //GET은 request body 없음
-    fun getExerciseExerciseId(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseExerciseIdData> //path 있음
+    fun getExerciseExerciseId(@Header("Authorization") authorization: String,
+                              @Path("exerciseId") exerciseId: Int
+    ): Call<ResponseExerciseExerciseIdData> //path 있음
 
 
 

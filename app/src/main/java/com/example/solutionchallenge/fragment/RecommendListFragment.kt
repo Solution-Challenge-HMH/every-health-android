@@ -2,6 +2,7 @@ package com.example.solutionchallenge.fragment
 
 //import com.example.solutionchallenge.datamodel.exerciseList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,26 +16,31 @@ import com.example.solutionchallenge.datamodel.Exercise
 import com.example.solutionchallenge.viewmodel.ExerciseViewModel
 
 
-class RecommendListFragment : Fragment() {
+class RecommendListFragment(private val receivedAccessToken :String ) : Fragment() {
     private var binding: FragmentRecommendListBinding? = null
     private val recommendationViewModel: ExerciseViewModel by viewModels {
         ExerciseViewModel.Factory(requireActivity().application)
     }
+
     private val adapter: ExerciseAdapter by lazy { ExerciseAdapter(recommendationViewModel, true) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentRecommendListBinding.inflate(inflater, container, false)
         adapter.setHasStableIds(true)
 
         binding!!.PERRecyclerview.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.PERRecyclerview.adapter = adapter
 
-
         val exerciseList = arguments?.getParcelableArrayList<Exercise>("exerciseList")
 
+        if (receivedAccessToken != null) {
+
+            adapter.setAccessToken(receivedAccessToken)
+        }
 
         exerciseList?.let {
             adapter.setData(it)

@@ -8,25 +8,31 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solutionchallenge.ExerciseDiffCallback
 import com.example.solutionchallenge.RecommendationDetailDialog
+import com.example.solutionchallenge.ServiceCreator
 import com.example.solutionchallenge.databinding.ItemRecommendationBinding
 import com.example.solutionchallenge.databinding.RecommendationDetailDialogBinding
 import com.example.solutionchallenge.datamodel.Exercise
+import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
 import com.example.solutionchallenge.viewmodel.ExerciseViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class ExerciseAdapter(private val recommendationViewModel: ExerciseViewModel, private val isBookmarkVisible: Boolean)
+class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private val isBookmarkVisible: Boolean)
     : RecyclerView.Adapter<ExerciseAdapter.MyViewHolder>() {
 
     private var recommendationList = emptyList<Exercise>()
+    private var receivedAccessToken: String? = null
 
     inner class MyViewHolder(private val binding: ItemRecommendationBinding) : RecyclerView.ViewHolder(binding.root) {
 
         lateinit var exercise: Exercise
-        lateinit var exerciseViewModel: ExerciseViewModel
+        private lateinit var exerciseViewModel: ExerciseViewModel
 
         fun bind(currentExercise: Exercise, exerciseViewModel: ExerciseViewModel) {
             binding.exercise = currentExercise
-            this.exerciseViewModel = recommendationViewModel
+            this.exerciseViewModel = exerciseViewModel
 
             //즐찾버튼 숨김/보임
             if (!isBookmarkVisible) {
@@ -75,10 +81,37 @@ class ExerciseAdapter(private val recommendationViewModel: ExerciseViewModel, pr
             }
 
             binding.ToRecommendationDetailDialogButton.setOnClickListener{
-                exercise = currentExercise
-                val recommendationDialog = RecommendationDetailDialog(binding.root.context, currentExercise)
-                recommendationDialog.show()
+                // currentExercise의 id 값을 가져옴
+                val exerciseId = currentExercise.id
 
+                // 운동의 상세 정보를 가져오기 위해 서버로 요청
+                val callExerciseDetail: Call<ResponseExerciseExerciseIdData> =
+                    ServiceCreator.everyHealthService.getExerciseExerciseId("Bearer $receivedAccessToken", exerciseId)
+
+                callExerciseDetail.enqueue(object : Callback<ResponseExerciseExerciseIdData> {
+                    override fun onResponse(
+                        call: Call<ResponseExerciseExerciseIdData>,
+                        response: Response<ResponseExerciseExerciseIdData>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseExerciseDetailData = response.body()
+                            if (responseExerciseDetailData != null) {
+                                val exerciseDetail = responseExerciseDetailData.data
+                                // 운동의 상세 정보를 사용하여 다이얼로그를 띄우는 등의 작업 수행
+                                val recommendationDialog = RecommendationDetailDialog(binding.root.context, exerciseDetail)
+                                recommendationDialog.show()
+                            } else {
+                                Log.d(TAG, "운동 상세 정보 없음")
+                            }
+                        } else {
+                            Log.d(TAG, "운동 상세 정보 가져오기 실패")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseExerciseExerciseIdData>, t: Throwable) {
+                        Log.e(TAG, "운동 상세 정보 요청 실패: $t")
+                    }
+                })
             }
 
         }
@@ -86,7 +119,9 @@ class ExerciseAdapter(private val recommendationViewModel: ExerciseViewModel, pr
 
 
     }
-
+    fun setAccessToken(token: String) {
+        receivedAccessToken = token
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemRecommendationBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -98,7 +133,7 @@ class ExerciseAdapter(private val recommendationViewModel: ExerciseViewModel, pr
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(recommendationList[position],recommendationViewModel)
+        holder.bind(recommendationList[position],exerciseViewModel)
 
     }
 
@@ -114,7 +149,9 @@ class ExerciseAdapter(private val recommendationViewModel: ExerciseViewModel, pr
         return position.toLong()
     }
 
-
+    companion object {
+        private const val TAG = "RecommendListFragment"
+    }
 }
 
 

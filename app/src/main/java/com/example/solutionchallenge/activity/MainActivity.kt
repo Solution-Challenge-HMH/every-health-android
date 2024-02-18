@@ -59,16 +59,25 @@ class MainActivity : AppCompatActivity() {
 
                                 Log.d("Parceling Exercise", exercise.toString())
 
-                                val fragment = RecommendListFragment().apply {
-                                    arguments = Bundle().apply {
-                                        // 운동 목록 데이터를 Bundle에 넣어 전달
-                                        putParcelableArrayList("exerciseList", parcelableExerciseList)
+                                val fragment = receivedAccessToken?.let { it1 ->
+                                    RecommendListFragment(it1).apply {
+                                        arguments = Bundle().apply {
+                                            // 운동 목록 데이터를 Bundle에 넣어 전달
+                                            putParcelableArrayList("exerciseList", parcelableExerciseList)
+                                            //**토큰 넘겨주는 코드 추가
+                                            //putString("receivedAccessToken", receivedAccessToken)
+                                        }
                                     }
                                 }
-                                supportFragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_container, fragment)
-                                    .addToBackStack(null) // 백 스택에 추가
-                                    .commit()
+
+                                if (fragment != null) {
+                                    supportFragmentManager.beginTransaction()
+                                        .replace(R.id.fragment_container, fragment)
+                                        .addToBackStack(null) // 백 스택에 추가
+                                        .commit()
+                                }
+
+
                             }
 
                         } else {
@@ -84,11 +93,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-            val fragment = RecommendListFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null) // 백 스택에 추가
-                .commit()
         }
 
         todayButton.setOnClickListener {
