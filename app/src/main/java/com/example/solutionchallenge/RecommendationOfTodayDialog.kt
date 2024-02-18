@@ -9,12 +9,12 @@ import android.os.Bundle
 
 import android.widget.Button
 import android.widget.TextView
-import com.example.solutionchallenge.datamodel.Exercise
+import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
+import retrofit2.Callback
 
-class RecommendationOfTodayDialog(context: Context, private val exercise : Exercise) : Dialog(context) {
+class RecommendationOfTodayDialog(context: Context, private val nameData:String, private val timeData:String, private val difficultyData:String) : Dialog(context) {
 
-
-
+//class RecommendationOfTodayDialog(context: Context, private val nameData:String, private val timeData:String, private val difficultyData:String) : Dialog(context) {
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +29,9 @@ class RecommendationOfTodayDialog(context: Context, private val exercise : Exerc
 
 
 
-        name.text = exercise.name
-        time.text = exercise.time.toString()
-        difficulty.text = exercise.difficulty.toString()
+        name.text = nameData
+        time.text = timeData
+        difficulty.text = difficultyData
 
 
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
@@ -41,10 +41,10 @@ class RecommendationOfTodayDialog(context: Context, private val exercise : Exerc
         closeButton.setOnClickListener { dismiss()}
 
         val toRecommendationDialogButton: Button = findViewById(R.id.ToRecommendationDialogButton)
-        toRecommendationDialogButton.setOnClickListener {
+        /*toRecommendationDialogButton.setOnClickListener {
             val recommendationDialog = RecommendationDetailDialog(context, exercise)
             recommendationDialog.show()
-        }
+        }*/
     }
     }
 

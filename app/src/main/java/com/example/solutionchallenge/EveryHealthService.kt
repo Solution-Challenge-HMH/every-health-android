@@ -55,45 +55,60 @@ interface EveryHealthService { //로그인시 사용
     fun deletePlanPlanId(
         @Header("Authorization") authorization: String,
         @Path("planId") planId: Int,
-        ): Call<ResponsePlanPlanidDELETEData>
+    ): Call<ResponsePlanPlanidDELETEData>
 
 
     @PATCH("plan/{planId}")
     fun patchPlanPlanId(
+        @Header("Authorization") authorization: String,
         @Path("planId") planId: Int,
         @Field("doneTime") field: RequestPlanPlanIdPATCHData //patch 요청하는 형식 이거 아닐수도..?
     ): Call<ResponsePlanPlanidPATCHData>
 
 
     @GET("plan/today") //GET은 request body 없음
-    fun getPlanToday(): Call<ResponsePlanTodayData> //path 없음
+    fun getPlanToday(
+        @Header("Authorization") authorization: String,
+    ): Call<ResponsePlanTodayData> //path 없음
 
     @GET("plan/calendar") //GET은 request body 없음
-    fun getPlanCalendar(): Call<List<ResponsePlanCalendarData>> //path 없음
+    fun getPlanCalendar(
+        @Header("Authorization") authorization: String,
+    ): Call<List<ResponsePlanCalendarData>> //path 없음
 
 
     ////Exercise API
     @GET("exercise") //GET은 request body 없음
-    fun getExercise(@Header("Authorization") authorization: String
+    fun getExercise(
+        @Header("Authorization") authorization: String
     ): Call<ResponseExerciseData>
 
     @GET("exercise/{exerciseId}") //GET은 request body 없음
-    fun getExerciseExerciseId(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseExerciseIdData> //path 있음
+    fun getExerciseExerciseId(
+        @Header("Authorization") authorization: String,
+        @Path("exerciseId") exerciseId: Int
+    ): Call<ResponseExerciseExerciseIdData> //path 있음
 
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
+    //@Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @POST("exercise/{exerciseId}/bookmark") //GET에서 POST로 API 수정됨 (0217) (request body 없는 POST)
-    fun postExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkPOSTData> //path 있음
+    fun postExerciseExerciseIdBookmark(
+        @Header("Authorization") authorization: String,
+        @Path("exerciseId") exerciseId: Int
+    ): Call<ResponseExerciseBookmarkPOSTData> //path 있음
 
 
-
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
+    //@Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @DELETE("exercise/{exerciseId}/bookmark") //DELETE은 request body 없음
-    fun deleteExerciseExerciseIdBookmark(@Path("exerciseId") exerciseId: Int): Call<ResponseExerciseBookmarkDELETEData> //path 있음
+    fun deleteExerciseExerciseIdBookmark(
+        @Header("Authorization") authorization: String, @Path("exerciseId") exerciseId: Int
+    ): Call<ResponseExerciseBookmarkDELETEData> //path 있음
 
-    @Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
+    //@Headers("Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3IiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwODE3NjI1OSwiZXhwIjoxNzA4MjYyNjU5fQ.ChI5GgbLUr50L-bzfmKadCRODXBAXRY-twwtF3w6Qscacw5PSuZrDkJ0o5CQyt-HWZiYun0SbctHAMIEKSpMBw")
     @GET("exercise/recommended") //GET은 request body 없음
-    fun getExerciseRecommended(): Call<ResponseExerciseRecommendedData>
+    fun getExerciseRecommended(
+        @Header("Authorization") authorization: String,
+    ): Call<ResponseExerciseRecommendedData>
 
 }
 
