@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
-import com.example.solutionchallenge.calendar.model.Plan
 import com.example.solutionchallenge.databinding.ItemPlanBinding
 import com.example.solutionchallenge.calendar.dialog.TimeDoneUpdateDialog
-
+import com.example.solutionchallenge.calendar.model.Plan
 
 
 class PlanAdapter(private val planViewModel: PlanViewModel) :

@@ -10,11 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.solutionchallenge.PlanAddDialog
-import com.example.solutionchallenge.RecommendationDetailDialog
 import com.example.solutionchallenge.ServiceCreator
-import com.example.solutionchallenge.adapter.ExerciseAdapter
-import com.example.solutionchallenge.calendar.PlanViewModel
 import com.example.solutionchallenge.calendar.dialog.CustomDialog
 import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
@@ -24,15 +20,12 @@ import com.example.solutionchallenge.databinding.FragmentCalendarBinding
 import com.example.solutionchallenge.datamodel.Exercise
 import com.example.solutionchallenge.datamodel.RequestPlanData
 import com.example.solutionchallenge.datamodel.ResponseExerciseData
-import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
 import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
-import com.example.solutionchallenge.datamodel.ResponsePlanTodayData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 
 
 class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {

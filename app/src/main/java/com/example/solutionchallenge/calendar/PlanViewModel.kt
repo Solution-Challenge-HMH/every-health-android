@@ -3,10 +3,9 @@ package com.example.solutionchallenge.calendar
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.solutionchallenge.calendar.PlanRepository
 import com.example.solutionchallenge.calendar.db.PlanDatabase
-
 import com.example.solutionchallenge.calendar.model.Plan
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
