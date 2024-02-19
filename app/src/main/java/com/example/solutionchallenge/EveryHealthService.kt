@@ -13,6 +13,7 @@ import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanPlanidDELETEData
 import com.example.solutionchallenge.datamodel.ResponsePlanPlanidPATCHData
+import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
 import com.example.solutionchallenge.datamodel.ResponsePlanTodayData
 import com.example.solutionchallenge.datamodel.ResponseUserInfoData
 import com.example.solutionchallenge.datamodel.ResponseUserLoginData
@@ -26,6 +27,7 @@ import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 //******* 확인할꺼: Path 전달하는 코드 맞게 짠건지 *********
@@ -65,8 +67,13 @@ interface EveryHealthService { //로그인시 사용
         @Field("doneTime") field: RequestPlanPlanIdPATCHData //patch 요청하는 형식 이거 아닐수도..?
     ): Call<ResponsePlanPlanidPATCHData>
 
+    @GET("plan") //GET은 request body 없음
+    fun getPlanOfThisDate(
+        @Header("Authorization") authorization: String,
+        @Query("date") date: String // 날짜별 플랜 조회를 위한 쿼리 추가, 형식은 ?date={}
+    ): Call<ResponsePlanThisDateData> //path 없음
 
-    @GET("plan/today") //GET은 request body 없음
+    @GET("plan") //GET은 request body 없음
     fun getPlanToday(
         @Header("Authorization") authorization: String,
     ): Call<ResponsePlanTodayData> //path 없음
@@ -74,7 +81,7 @@ interface EveryHealthService { //로그인시 사용
     @GET("plan/calendar") //GET은 request body 없음
     fun getPlanCalendar(
         @Header("Authorization") authorization: String,
-    ): Call<List<ResponsePlanCalendarData>> //path 없음
+    ): Call<ResponsePlanCalendarData> //path 없음
 
 
     ////Exercise API

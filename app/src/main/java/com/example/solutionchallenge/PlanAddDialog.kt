@@ -115,20 +115,9 @@ class PlanAddDialog(
                 Log.e("NetworkTest", "error:$t")
             }
         })
-
-
-
-
     }
-    /*
-    fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
-        val inputFormat = SimpleDateFormat(inputFormatString)
-        val outputFormat = SimpleDateFormat(outputFormatString)
 
-        val inputDate = inputFormat.parse(inputDateString) // 입력된 문자열을 날짜로 파싱
-        return outputFormat.format(inputDate) // 날짜를 지정된 형식의 문자열로 변환하여 반환
-    }
-*/
+
     companion object {
         const val TAG = "PlanAddDialog"
     }

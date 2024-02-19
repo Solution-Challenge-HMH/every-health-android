@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.solutionchallenge.PlanAddDialog
+import com.example.solutionchallenge.RecommendationDetailDialog
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.calendar.PlanViewModel
 import com.example.solutionchallenge.calendar.dialog.CustomDialog
 import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
@@ -21,7 +24,11 @@ import com.example.solutionchallenge.databinding.FragmentCalendarBinding
 import com.example.solutionchallenge.datamodel.Exercise
 import com.example.solutionchallenge.datamodel.RequestPlanData
 import com.example.solutionchallenge.datamodel.ResponseExerciseData
+import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
+import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
+import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
+import com.example.solutionchallenge.datamodel.ResponsePlanTodayData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,13 +58,39 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
         adapter.setHasStableIds(true)
 
-        val receivedAccessToken = arguments?.getString("receivedAccessToken")
 
+        //전체 달력 플랜 가져오기 - getPlanCalendar()
+        val receivedAccessToken = arguments?.getString("receivedAccessToken")
+        val callGetCalendar: Call<ResponsePlanCalendarData> =
+            ServiceCreator.everyHealthService.getPlanCalendar("Bearer $receivedAccessToken")
+
+        callGetCalendar.enqueue(object :Callback<ResponsePlanCalendarData>{
+            override fun onResponse(
+                call: Call<ResponsePlanCalendarData>,
+                response: Response<ResponsePlanCalendarData>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, " 달력 전체 플랜 가져오기 성공")
+                    val responsePlanCalendarData = response.body()
+                    if(responsePlanCalendarData != null){
+                        val planCalendarData = responsePlanCalendarData.data
+                        Log.d("planCalendarData", "$planCalendarData")
+                    }
+                } else {
+                    Log.d(TAG, "달력 전체 플랜 가져오기 실패")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlanCalendarData>, t: Throwable) {
+                Log.e("NetworkTest", "error:$t")
+            }
+        })
 
         // 아이템을 가로로 하나씩 보여주고 어댑터 연결
         binding!!.calendarRecyclerview.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.calendarRecyclerview.adapter = adapter
+
 
         // 달력 - 날짜 선택 Listener
         binding!!.calendarView.setOnDateChangeListener { _, year, month, day->
@@ -70,6 +103,33 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
 
 
+            //지정날짜에 대한 PlanList 불러오기
+            val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
+                ServiceCreator.everyHealthService.getPlanOfThisDate("Bearer $receivedAccessToken",thisDate)
+
+
+            callPlanOfThisDate.enqueue(object : Callback<ResponsePlanThisDateData> {
+                override fun onResponse(
+                    call: Call<ResponsePlanThisDateData>,
+                    response: Response<ResponsePlanThisDateData>
+                ) {
+                    if (response.isSuccessful) {
+                        val responsePlanOfThisDateData = response.body()
+                        if (responsePlanOfThisDateData != null) {
+                            val thisDatePlanDetail = responsePlanOfThisDateData.data
+                         Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                        } else {
+                            Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                        }
+                    } else {
+                        Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePlanThisDateData>, t: Throwable) {
+                    Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
+                }
+            })
             // 해당 날짜 데이터를 불러옴 (currentData 변경)
             planViewModel.readDateData(year, month+1, day)
         }

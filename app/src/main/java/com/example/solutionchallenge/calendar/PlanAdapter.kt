@@ -3,8 +3,6 @@ package com.example.solutionchallenge.calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.solutionchallenge.calendar.PlanAdapter
-import com.example.solutionchallenge.calendar.dialog.TimeGoalUpdateDialog
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.calendar.model.Plan
 import com.example.solutionchallenge.databinding.ItemPlanBinding
@@ -28,12 +26,13 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
             binding.plan = currentPlan
             this.planViewModel = planViewModel
 
-            // 체크 리스너 초기화 해줘 중복 오류 방지
+            // 체크 리스너 초기화 중복 오류 방지
             binding.exerciseCheckBox.setOnCheckedChangeListener(null)
 
-            // 삭제 버튼 클릭 시 메모 삭제
+            // 삭제 버튼 클릭 시 플랜 삭제
             binding.deleteButton.setOnClickListener {
                 planViewModel.deletePlan(currentPlan)
+                // 플랜 삭제 API 호출
             }
 
 
@@ -44,9 +43,11 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
             }
         }
 
+
+
         // 다이얼로그의 결과값으로 업데이트 해줌
         override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String,  plannedTime: Int, thisDate: String) { //캘린더 화면에서 날짜 고정된 상태로 운동 추가
-
+/*
 
             val updatePlan = Plan(
                 plan.planId,
@@ -59,6 +60,8 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
 
             )
             planViewModel.updatePlan(updatePlan)
+
+ */
         }
 
         override fun onOkButtonClicked2(exerciseName: String, doneTime: Int,date: String) { //이미 추가된 운동의 "달성시간" 수정 (프로그레스바 터치)

@@ -144,7 +144,6 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
             binding.ToRecommendationDetailDialogButton.setOnClickListener{
                 val exerciseId = currentExercise.id
 
-
                 val callExerciseDetail: Call<ResponseExerciseExerciseIdData> =
                     ServiceCreator.everyHealthService.getExerciseExerciseId("Bearer $receivedAccessToken", exerciseId)
 
