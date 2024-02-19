@@ -30,11 +30,12 @@ import retrofit2.Response
 
 class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {
 
+    private lateinit var  receivedAccessToken : String
+
     private var binding: FragmentCalendarBinding? = null
     private val planViewModel: PlanViewModel by viewModels {
         PlanViewModel.Factory(requireActivity().application)
     } // 뷰모델 연결 (수정함******************)
-    private val adapter: PlanAdapter by lazy { PlanAdapter(planViewModel) } // 어댑터 선언
 
     private var year: Int = 0
     private var month: Int = 0
@@ -45,15 +46,19 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        receivedAccessToken = arguments?.getString("receivedAccessToken").toString()
+
+        val adapter: PlanAdapter by lazy { PlanAdapter(planViewModel, receivedAccessToken)}
+
         // 뷰바인딩
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
         // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
-        adapter.setHasStableIds(true)
+        //adapter.setHasStableIds(true)
 
 
         //전체 달력 플랜 가져오기 - getPlanCalendar()
-        val receivedAccessToken = arguments?.getString("receivedAccessToken")
         val callGetCalendar: Call<ResponsePlanCalendarData> =
             ServiceCreator.everyHealthService.getPlanCalendar("Bearer $receivedAccessToken")
 
@@ -111,6 +116,10 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                         if (responsePlanOfThisDateData != null) {
                             val thisDatePlanDetail = responsePlanOfThisDateData.data
                          Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                            val allPlans = thisDatePlanDetail.planList
+
+                            adapter.setData(allPlans)
+
                         } else {
                             Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
                         }
@@ -123,15 +132,17 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                     Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
                 }
             })
-            // 해당 날짜 데이터를 불러옴 (currentData 변경)
-            planViewModel.readDateData(year, month+1, day)
+
         }
 
-        // 메모 데이터가 수정되었을 경우 날짜 데이터를 불러옴 (currentData 변경)
         planViewModel.readAllData.observe(viewLifecycleOwner) {
-            // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
-            planViewModel.readDateData(this.year, this.month + 1, this.day)
+            planViewModel.readAllData
         }
+
+        planViewModel.readAllData.observe(viewLifecycleOwner) {
+             planViewModel.readDateData(this.year, this.month + 1, this.day)
+        }
+
 
         // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
         planViewModel.currentData.observe(viewLifecycleOwner, Observer {
@@ -205,8 +216,8 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         plannedTime: Int,
         thisDate: String
     ) {
-
         val receivedAccessToken = arguments?.getString("receivedAccessToken")
+
         // plannedDate가 null이거나 빈 문자열인 경우 예외 처리
         if (thisDate.isNotBlank()) {
             // 선택된 날짜로 메모를 추가해줌
@@ -215,8 +226,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
 
 
-          //  val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
-          //  Log.d("datefix", outputDateString)
             val requestPlanData = RequestPlanData(
                 exerciseId,
                 thisDate,
@@ -247,15 +256,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         }
     }
 
-    /*
-    private fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
-        val inputFormat = SimpleDateFormat(inputFormatString)
-        val outputFormat = SimpleDateFormat(outputFormatString)
-
-        val inputDate = inputFormat.parse(inputDateString) // 입력된 문자열을 날짜로 파싱
-        return outputFormat.format(inputDate) // 날짜를 지정된 형식의 문자열로 변환하여 반환
-    }
-*/
     override fun onOkButtonClicked2(
         //exerciseId: Int,
         exerciseName: String,

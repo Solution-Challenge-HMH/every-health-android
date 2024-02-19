@@ -11,7 +11,7 @@ import com.example.solutionchallenge.datamodel.ResponseExerciseExerciseIdData
 import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
 import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
-import com.example.solutionchallenge.datamodel.ResponsePlanPlanidDELETEData
+import com.example.solutionchallenge.datamodel.ResponsePlanIdDELETEData
 import com.example.solutionchallenge.datamodel.ResponsePlanPlanidPATCHData
 import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
 import com.example.solutionchallenge.datamodel.ResponsePlanTodayData
@@ -57,7 +57,7 @@ interface EveryHealthService { //로그인시 사용
     fun deletePlanPlanId(
         @Header("Authorization") authorization: String,
         @Path("planId") planId: Int,
-    ): Call<ResponsePlanPlanidDELETEData>
+    ): Call<ResponsePlanIdDELETEData>
 
 
     @PATCH("plan/{planId}")
@@ -95,7 +95,6 @@ interface EveryHealthService { //로그인시 사용
     fun getExerciseExerciseId(@Header("Authorization") authorization: String,
                               @Path("exerciseId") exerciseId: Int
     ): Call<ResponseExerciseExerciseIdData> //path 있음
-
 
 
 

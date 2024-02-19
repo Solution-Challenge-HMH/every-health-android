@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.solutionchallenge.calendar.model.Plan
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlanDao {
@@ -24,7 +25,7 @@ interface PlanDao {
 
     //@Query("SELECT * FROM `Plan` ORDER BY thisDate DESC, planId DESC")
     @Query("SELECT * FROM `Plan` ORDER BY year DESC, month DESC, day DESC, planId DESC")
-    fun readAllData() : LiveData<List<Plan>>
+    fun readAllData() : Flow<List<Plan>>
 
 
 

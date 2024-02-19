@@ -36,8 +36,7 @@ class PlanViewModel(application: Application) : AndroidViewModel(application) {
     init{
         val planDao = PlanDatabase.getDatabase(application)!!.planDao()
         repository = PlanRepository(planDao)
-        //readAllData = repository.readAllData.asLiveData()
-        readAllData = repository.readAllData
+        readAllData = repository.readAllData.asLiveData()
     }
 
     fun addPlan(plan: Plan){

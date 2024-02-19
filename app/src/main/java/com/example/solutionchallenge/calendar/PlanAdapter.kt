@@ -1,16 +1,25 @@
 package com.example.solutionchallenge.calendar
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.solutionchallenge.ServiceCreator
+
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.databinding.ItemPlanBinding
 import com.example.solutionchallenge.calendar.dialog.TimeDoneUpdateDialog
 import com.example.solutionchallenge.calendar.model.Plan
+import com.example.solutionchallenge.datamodel.ResponsePlanIdDELETEData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class PlanAdapter(private val planViewModel: PlanViewModel) :
+class PlanAdapter(private val planViewModel: PlanViewModel, private val accessToken : String) :
     RecyclerView.Adapter<PlanAdapter.MyViewHolder>() {
+
+    val receivedAccessToken = accessToken
 
     private var planList = emptyList<Plan>()
 
@@ -21,19 +30,47 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
         private lateinit var plan: Plan
         private lateinit var planViewModel: PlanViewModel
 
-        fun bind(currentPlan: Plan, planViewModel: PlanViewModel) {
+
+        fun bind(currentPlan: Plan, planViewModel: PlanViewModel, receivedAccessToken : String) {
             binding.plan = currentPlan
             this.planViewModel = planViewModel
-
+            val planId = currentPlan.planId
             // 체크 리스너 초기화 중복 오류 방지
             binding.exerciseCheckBox.setOnCheckedChangeListener(null)
 
             // 삭제 버튼 클릭 시 플랜 삭제
             binding.deleteButton.setOnClickListener {
+                val receivedAccessToken = receivedAccessToken
+
                 planViewModel.deletePlan(currentPlan)
                 // 플랜 삭제 API 호출
-            }
+                val callPlanDelete: Call<ResponsePlanIdDELETEData> =
+                    ServiceCreator.everyHealthService.deletePlanPlanId("Bearer $receivedAccessToken", planId)
+                    Log.d("PlanToken" , "$receivedAccessToken")
 
+                callPlanDelete.enqueue(object : Callback<ResponsePlanIdDELETEData> {
+                    override fun onResponse(
+                        call: Call<ResponsePlanIdDELETEData>,
+                        response: Response<ResponsePlanIdDELETEData>
+                    ) {
+                        Log.d(TAG, "Sending DELETE request to remove planId: $planId")
+
+                        if (response.isSuccessful) {
+                            Log.d(TAG, "플랜 삭제 성공")
+
+                        } else {
+                            Log.d(TAG, "플랜 삭제 실패")
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<ResponsePlanIdDELETEData>,
+                        t: Throwable
+                    ) {
+                        Log.e("NetworkTest", "error:$t")
+                    }
+                })
+            }
 
             binding.progressBar.setOnClickListener {
                 plan = currentPlan
@@ -42,25 +79,9 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
             }
         }
 
-
-
         // 다이얼로그의 결과값으로 업데이트 해줌
         override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String,  plannedTime: Int, thisDate: String) { //캘린더 화면에서 날짜 고정된 상태로 운동 추가
-/*
 
-            val updatePlan = Plan(
-                plan.planId,
-                plan.check,
-                exerciseId=0, //name 이랑 연결
-                exerciseName,
-                plannedTime,
-                plan.doneTime,
-                plan.thisDate
-
-            )
-            planViewModel.updatePlan(updatePlan)
-
- */
         }
 
         override fun onOkButtonClicked2(exerciseName: String, doneTime: Int,date: String) { //이미 추가된 운동의 "달성시간" 수정 (프로그레스바 터치)
@@ -75,8 +96,8 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
             )
             planViewModel.updatePlan(updatePlan)
         }
-    }
 
+    }
 
     // 어떤 xml 으로 뷰 홀더를 생성할지 지정
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -87,7 +108,7 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
 
     // 바인딩 함수로 넘겨줌
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(planList[position], planViewModel)
+        holder.bind(planList[position], planViewModel, receivedAccessToken)
     }
 
     // 뷰 홀더의 개수 리턴
@@ -105,4 +126,10 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+
+    companion object {
+        private const val TAG = "PlanAdapter"
+    }
+
+
 }

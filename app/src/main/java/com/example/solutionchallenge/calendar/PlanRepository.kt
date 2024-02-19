@@ -3,9 +3,10 @@ package com.example.solutionchallenge.calendar
 import androidx.lifecycle.LiveData
 import com.example.solutionchallenge.calendar.db.PlanDao
 import com.example.solutionchallenge.calendar.model.Plan
+import kotlinx.coroutines.flow.Flow
 
 class PlanRepository (private val planDao: PlanDao) {
-    val readAllData : LiveData<List<Plan>> = planDao.readAllData()
+    val readAllData : Flow<List<Plan>> = planDao.readAllData()
 
     suspend fun addPlan(plan: Plan){
         planDao.addPlan(plan)

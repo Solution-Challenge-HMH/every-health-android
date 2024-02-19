@@ -48,10 +48,6 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
                 binding.BookmarkCheckButton.visibility = View.VISIBLE
             }
 
-
-           // binding.BookmarkCheckButton.setOnCheckedChangeListener(null)
-
-
             binding.BookmarkCheckButton.setOnCheckedChangeListener { _, check ->
                 val exerciseId = currentExercise.id
 

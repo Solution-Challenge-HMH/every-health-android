@@ -1,10 +1,9 @@
 package com.example.solutionchallenge.datamodel
 
 
-data class ResponsePlanPlanidDELETEData(
-
-    val status: Int
-
+data class ResponsePlanIdDELETEData(
+    val status: String,
+    val message: String
     )
 
 //response body 없음

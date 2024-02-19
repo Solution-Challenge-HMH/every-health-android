@@ -1,6 +1,6 @@
 package com.example.solutionchallenge.fragment
 
-//import com.example.solutionchallenge.datamodel.exerciseList
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,35 +37,15 @@ class RecommendListFragment(private val receivedAccessToken :String ) : Fragment
 
         val exerciseList = arguments?.getParcelableArrayList<Exercise>("exerciseList")
 
-
         adapter.setAccessToken(receivedAccessToken)
-
 
         exerciseList?.let {
             adapter.setData(it)
         }
 
-      /*  recommendationViewModel.currentData.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
-        })
-        */
-
-
-        /*
-        binding!!.toTodayRecButton.setOnClickListener {
-            val randomRecommendation = getRandomRecommendation()
-            val dialog = RecommendationOfTodayDialog(requireContext(), randomRecommendation)
-            dialog.show()
-        }
-*/
         return binding!!.root
     }
-    /*
-    private fun getRandomRecommendation(): Recommendation {
-        val randomIndex = Random.nextInt(recommendationList.size)
-        return recommendationList[randomIndex]
-    }
-*/
+
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()
