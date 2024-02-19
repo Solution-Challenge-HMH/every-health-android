@@ -47,29 +47,22 @@ class RecommendationOfTodayDialog(
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
 
+        //운동 고정 dialog로
         toCalendarButton.setOnClickListener {
-            val planAddDialog =
-                PlanAddDialog(context, idData, tokenData)
-            planAddDialog.show()
-        }
-
-
-
+            val planAddDialog =  PlanAddDialog(context, idData, tokenData)
+            planAddDialog.show() }
 
         toRecommendationDialogButton.setOnClickListener {
 
-            //얘가 클릭되면, 운동 상세 정보 화면 띄우는 액티비티로 넘어가야함.
 
-            //운동 id(idData) 전달 받아서
+            //운동 id(idData) 전달 받음
             val exerciseId = idData
             val receivedAccessToken = tokenData
 
-            //그 id로 callExerciseDetail 한번 한다음에,
+            //현 운동 id로 callExerciseDetail
             val callExerciseDetail: Call<ResponseExerciseExerciseIdData> =
                 ServiceCreator.everyHealthService.getExerciseExerciseId(
-                    "Bearer $receivedAccessToken",
-                    exerciseId
-                )
+                    "Bearer $receivedAccessToken", exerciseId)
 
             callExerciseDetail.enqueue(object : Callback<ResponseExerciseExerciseIdData> {
                 override fun onResponse(
@@ -81,8 +74,7 @@ class RecommendationOfTodayDialog(
                         if (responseExerciseDetailData != null) {
                             val exerciseDetail = responseExerciseDetailData.data
                             // 운동의 상세 정보를 사용하여 다이얼로그를 띄우는 등의 작업 수행
-                            val recommendationDialog =
-                                RecommendationDetailDialog(context, exerciseDetail)
+                            val recommendationDialog = RecommendationDetailDialog(context, exerciseDetail)
                             recommendationDialog.show()
                         } else {
                             Log.d(TAG, "운동 상세 정보 없음")
@@ -97,14 +89,12 @@ class RecommendationOfTodayDialog(
                 }
             })
         }
-
-
         // 닫기 버튼 클릭 시 종료
         closeButton.setOnClickListener { dismiss() }
     }
 
     companion object {
-        private const val TAG = "ExerciseAdapter"
+        private const val TAG = "RecommendationOfTodayDialog"
     }
 }
 

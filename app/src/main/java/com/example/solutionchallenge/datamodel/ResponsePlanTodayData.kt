@@ -1,17 +1,15 @@
 package com.example.solutionchallenge.datamodel
 
+import com.google.gson.annotations.SerializedName
+
 
 data class ResponsePlanTodayData(
 
-    val status: Int,
-    val data: PlanTodayData
+    val status: String,
+    val message: String,
+    @SerializedName("data")
+    val data: DatePlan
 
-)
-
-
-data class PlanTodayData(
-    val date: String,
-    val planList: MutableList<Plan>
 )
 
 

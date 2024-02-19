@@ -40,7 +40,7 @@ class CustomDialog(
         var cancelButton: Button = findViewById(R.id.cancelButton)
         var exerciseSpinner: Spinner = findViewById(R.id.ExerciseNameSpinner)
         var timeGoalEditView: EditText = findViewById(R.id.TimeEditView)
-        var dateEditView: EditText = findViewById(R.id.DDateEditView)
+        //var dateEditView: EditText = findViewById(R.id.DDateEditView)
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, exerciseNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -101,9 +101,6 @@ class CustomDialog(
                             )
                         }
                     } else {
-                        // plannedDate가 null이거나 빈 문자열인 경우 처리할 내용을 여기에 추가하세요.
-                        // 예를 들어, 사용자에게 날짜를 입력하도록 알리는 메시지를 표시할 수 있습니다.
-                        Toast.makeText(context, "날짜를 입력해주세요.", Toast.LENGTH_SHORT).show()
                     }
 
                 }

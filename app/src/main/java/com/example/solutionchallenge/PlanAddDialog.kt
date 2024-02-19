@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.Toast
+import com.example.solutionchallenge.calendar.CalendarFragment
 import com.example.solutionchallenge.databinding.DialogAddPlanBinding
 import com.example.solutionchallenge.datamodel.RequestPlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
@@ -50,7 +51,8 @@ class PlanAddDialog(
             this.month = month + 1
             this.day = day
 
-            thisDate = "$year-${month + 1}-$day"
+            //데이터 포맷 수정
+            thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
 
             Log.d(TAG, "캘린더에서 "+thisDate+" 선택됨")
 
@@ -59,18 +61,17 @@ class PlanAddDialog(
 
 
         okButton.setOnClickListener {
-            val time_goal_Str = timeGoalEditView.text.toString()
-            val time_goal_Int = time_goal_Str.toIntOrNull()
+            val timeGoalStr = timeGoalEditView.text.toString()
+            val timeGoalInt = timeGoalStr.toIntOrNull()
 
-            println(time_goal_Int)
+            println(timeGoalInt)
             println(thisDate)
-            if (time_goal_Int == null||TextUtils.isEmpty(thisDate)) {
-                Toast.makeText(context, "날째와 목표시간을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+            if (timeGoalInt == null||TextUtils.isEmpty(thisDate)) {
+                Toast.makeText(context, "계획을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
             } else {
-                //백으로 데이터 넘기기
-                val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
-                thisDate = outputDateString
-                postPlan(exerciseId, thisDate, time_goal_Int)
+               // val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
+               // thisDate = outputDateString
+                postPlan(exerciseId, thisDate, timeGoalInt)
                 dismiss()
             }
 
@@ -82,7 +83,7 @@ class PlanAddDialog(
     }
 
 
-    fun postPlan(exerciseId: Int, date: String, plannedTime: Int) {
+    private fun postPlan(exerciseId: Int, date: String, plannedTime: Int) {
         //여기서 post plan api 호출
 
         val requestPlanData = RequestPlanData(
@@ -90,22 +91,23 @@ class PlanAddDialog(
             date,
             plannedTime
         )
+        Log.d(TAG, "RequestPlanData: $requestPlanData") // 서버로 보내기 전 확인용
+
         val callAddPlan: Call<ResponsePlanData> =
-            ServiceCreator.everyHealthService.postPlan(
-                "Bearer $receivedAccessToken",
-                requestPlanData
-            )
+            ServiceCreator.everyHealthService.postPlan("Bearer $receivedAccessToken",
+                requestPlanData)
+
         callAddPlan.enqueue(object :Callback<ResponsePlanData>{
             override fun onResponse(
                 call: Call<ResponsePlanData>,
                 response: Response<ResponsePlanData>
             ) {
                 if (response.isSuccessful) {
-                    //일정 추가하기 성공
-                    Log.d(TAG, "일정 추가하기 성공")
+                    //일정 추가하기 성공 --> 현재 서버로는 잘 보내지는데 calendar에서는 잘 안보임 (0219 민경)
+                    Log.d(TAG, "플랜 전송 성공")
 
                 } else {
-                    Log.d(TAG, "유저 신체 정보 전송 실패")
+                    Log.d(TAG, "플랜 전송 실패")
                 }
             }
 
@@ -118,6 +120,7 @@ class PlanAddDialog(
 
 
     }
+    /*
     fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
         val inputFormat = SimpleDateFormat(inputFormatString)
         val outputFormat = SimpleDateFormat(outputFormatString)
@@ -125,7 +128,7 @@ class PlanAddDialog(
         val inputDate = inputFormat.parse(inputDateString) // 입력된 문자열을 날짜로 파싱
         return outputFormat.format(inputDate) // 날짜를 지정된 형식의 문자열로 변환하여 반환
     }
-
+*/
     companion object {
         const val TAG = "PlanAddDialog"
     }

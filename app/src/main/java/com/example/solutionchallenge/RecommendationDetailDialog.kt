@@ -43,7 +43,6 @@ class RecommendationDetailDialog(context: Context, private val exercise: Exercis
 
         toCalendarButton.setOnClickListener {
             val exerciseList = mutableListOf(exercise)
-            // RecommendationDetailDialog를 CustomDialogInterface로 캐스팅하여 CustomDialog의 생성자에 전달
             val customDialog = CustomDialog(context, this@RecommendationDetailDialog as CustomDialogInterface, null, exerciseList )
             customDialog.show()
             dismiss()
@@ -55,14 +54,7 @@ class RecommendationDetailDialog(context: Context, private val exercise: Exercis
 
     // CustomDialogInterface의 메서드 구현
     override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String, plannedTime: Int, thisDate: String) {
-        // 추천 운동을 캘린더에 추가하는 로직을 여기에 작성
-        // 예를 들어, 추천 운동을 캘린더에 추가하는 API를 호출하거나, ViewModel을 통해 데이터를 처리하는 등의 작업을 수행
+
     }
 
-    /*
-    override fun onOkButtonClicked2(exerciseName: String, doneTime: Int, thisDate: String) {
-        // 이 메서드는 현재 사용되지 않으므로 구현하지 않아도 됩니다.
-    }
-
-     */
 }

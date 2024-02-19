@@ -48,9 +48,11 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         // 뷰바인딩
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
-
         // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
         adapter.setHasStableIds(true)
+
+        val receivedAccessToken = arguments?.getString("receivedAccessToken")
+
 
         // 아이템을 가로로 하나씩 보여주고 어댑터 연결
         binding!!.calendarRecyclerview.layoutManager =
@@ -64,21 +66,21 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             this.month = month + 1
             this.day = day
 
-            binding!!.calendarDateText.text = "$year-${month + 1}-$day"
-            thisDate = "$year-${month + 1}-$day"
+            binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+            thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
 
 
             // 해당 날짜 데이터를 불러옴 (currentData 변경)
             planViewModel.readDateData(year, month+1, day)
         }
 
-// 메모 데이터가 수정되었을 경우 날짜 데이터를 불러옴 (currentData 변경)
+        // 메모 데이터가 수정되었을 경우 날짜 데이터를 불러옴 (currentData 변경)
         planViewModel.readAllData.observe(viewLifecycleOwner) {
             // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
             planViewModel.readDateData(this.year, this.month + 1, this.day)
         }
 
-// 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
+        // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
         planViewModel.currentData.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
@@ -88,7 +90,8 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                 Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
             } else {
 
-                val selectedDate = "${this.year}-${this.month}-${this.day}"
+                //데이터 포맷 수정
+                val selectedDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
                 onFabClicked(selectedDate)
             }
         }
@@ -149,6 +152,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         plannedTime: Int,
         thisDate: String
     ) {
+
         val receivedAccessToken = arguments?.getString("receivedAccessToken")
         // plannedDate가 null이거나 빈 문자열인 경우 예외 처리
         if (thisDate.isNotBlank()) {
@@ -157,15 +161,14 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             planViewModel.addPlan(plan)
             Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
 
-            val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
-            Log.d("datefix", outputDateString)
+
+          //  val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
+          //  Log.d("datefix", outputDateString)
             val requestPlanData = RequestPlanData(
                 exerciseId,
-                outputDateString,
-                plannedTime
-
-            )
-            Log.d(TAG, "RequestPlanData: $requestPlanData")
+                thisDate,
+                plannedTime)
+            Log.d(TAG, "RequestPlanData: $requestPlanData") // 서버로 보내기 전 확인용
 
             val call: Call<ResponsePlanData> =
                 ServiceCreator.everyHealthService.postPlan("Bearer $receivedAccessToken",requestPlanData)
@@ -176,34 +179,30 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                     response: Response<ResponsePlanData>
                 ) {
                     if (response.isSuccessful) {
-
                         Log.d(TAG, "플랜 전송 성공")
-
-
                     } else {
                         Log.d(TAG, "플랜 전송 실패")
                     }
-
                 }
                 override fun onFailure(call: Call<ResponsePlanData>, t: Throwable) {
                     Log.e("NetworkTest", "error:$t")
                 }
             })
-
         } else {
             // 예외 처리: plannedDate가 null이거나 빈 문자열인 경우
             Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
+    /*
+    private fun convertDateFormat(inputDateString: String, inputFormatString: String, outputFormatString: String): String {
         val inputFormat = SimpleDateFormat(inputFormatString)
         val outputFormat = SimpleDateFormat(outputFormatString)
 
         val inputDate = inputFormat.parse(inputDateString) // 입력된 문자열을 날짜로 파싱
         return outputFormat.format(inputDate) // 날짜를 지정된 형식의 문자열로 변환하여 반환
     }
-
+*/
     override fun onOkButtonClicked2(
         //exerciseId: Int,
         exerciseName: String,
