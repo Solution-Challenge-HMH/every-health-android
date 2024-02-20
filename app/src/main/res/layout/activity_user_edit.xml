@@ -8,30 +8,21 @@
     tools:ignore="SpeakableTextPresentCheck"
     tools:context=".activity.UserEditActivity">
 
-    <!--tool bar 삽입-->
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        tools:context=".activity.MainActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
-        <include layout="@layout/toolbar" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <TextView
         android:id="@+id/userInfo"
         style="@style/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="유저 정보 입력"
+        android:layout_marginTop="70dp"
+        android:text="User Information"
+        android:textColor="@color/main"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent"
+
+         />
 
 
     <TextView
@@ -39,9 +30,10 @@
         style="@style/Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="170dp"
-        android:text="닉네임"
+        android:textColor="@color/main"
+        android:text="Nickname"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +47,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="50dp"
         android:inputType="text"
-        android:hint="1-8자 이내로 입력"
+        android:hint="Enter 1-8 characters"
         app:layout_constraintBaseline_toBaselineOf="@id/nicknameTextview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -68,7 +60,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:text="성별"
+        android:text="Gender"
+        android:textColor="@color/main"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nicknameTextview"
@@ -108,10 +101,10 @@
         android:id="@+id/explainView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="* 운동 가능한 부위와 신체 기능을 선택해주세요."
+        android:text="* Choose a body function and an exerciseable areas."
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="25dp"
-        android:textSize="13sp"
+        android:layout_marginTop="30dp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genderView" />
 
@@ -124,7 +117,7 @@
         app:layout_constraintStart_toStartOf="@id/explainView"
         app:layout_constraintTop_toBottomOf="@id/explainView"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="37dp"
+        android:layout_marginLeft="65dp"
         android:backgroundTint="@color/skyblue"
         android:alpha="0.57"
         />
@@ -133,8 +126,8 @@
         android:id="@+id/buttonExplainText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="운동 가능"
-        android:textSize="11dp"
+        android:text="Possible"
+        android:textSize="12dp"
         app:layout_constraintStart_toEndOf="@id/explainButton1"
         app:layout_constraintTop_toBottomOf="@id/explainView"
         android:layout_marginTop="12dp"
@@ -158,7 +151,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="운동 불가능"
+        android:text="Impossible"
         android:textSize="11dp"
         app:layout_constraintStart_toEndOf="@id/explainButton2"
         app:layout_constraintTop_toBottomOf="@id/explainView"
@@ -171,12 +164,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(선택시 색상 변경됨)"
-        android:textSize="10dp"
+        android:text="(Color changes when Clicked)"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="@id/anatomyImageView"
         app:layout_constraintTop_toBottomOf="@id/anatomyImageView"
         android:layout_marginTop="12dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="17dp"
         >
 
     </TextView>
@@ -187,7 +180,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginStart="150dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="130dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent">
@@ -196,31 +189,31 @@
             android:id="@+id/impossibleToSit"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="앉기 불가능" />
+            android:text="Unable to Sit" />
 
         <RadioButton
             android:id="@+id/possibleToSit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="앉기 가능" />
+            android:text="Able to Sit" />
 
         <RadioButton
             android:id="@+id/possibleToStand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="서기 가능" />
+            android:text="Able to Stand" />
 
         <RadioButton
             android:id="@+id/possibleToWalk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="걷기 가능" />
+            android:text="Able to Walk" />
 
         <RadioButton
             android:id="@+id/possibleToRun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="달리기 가능" />
+            android:text="Able to Run" />
 
 
 
@@ -230,13 +223,15 @@
     <Button
         android:id="@+id/userinfo_save_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="35dp"
-        android:text="저장"
-        android:textSize="17sp"
-        android:backgroundTint="@color/mint"
+        android:text="Save"
+        android:textSize="13sp"
+        android:backgroundTint="@color/main"
+        android:background="@drawable/round_log"
         android:layout_marginEnd="30dp">
 
     </Button>
@@ -256,6 +251,7 @@
         android:layout_width="25sp"
         android:layout_height="60sp"
         android:layout_marginStart="52dp"
+        android:background="@drawable/round_log"
         android:layout_marginTop="404dp"
         android:rotation="15"
         android:alpha="0.57"
@@ -268,6 +264,7 @@
         android:layout_height="50sp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="465dp"
+        android:background="@drawable/round_log"
         android:rotation="15"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
@@ -279,6 +276,7 @@
         android:layout_height="60sp"
         android:layout_marginStart="112dp"
         android:layout_marginTop="404dp"
+        android:background="@drawable/round_log"
         android:rotation="-15"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
@@ -291,6 +289,7 @@
         android:layout_marginStart="125dp"
         android:layout_marginTop="465dp"
         android:rotation="-15"
+        android:background="@drawable/round_log"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -303,6 +302,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="443dp"
         android:alpha="0.57"
+        android:background="@drawable/round_log"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -311,6 +311,7 @@
         android:layout_width="25sp"
         android:layout_height="70sp"
         android:layout_marginStart="68.5dp"
+        android:background="@drawable/round_log"
         android:layout_marginTop="500dp"
         android:rotation="-5"
         android:alpha="0.57"
@@ -324,6 +325,7 @@
         android:layout_marginStart="72dp"
         android:layout_marginTop="573dp"
         android:rotation="-5"
+        android:background="@drawable/round_log"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -334,8 +336,10 @@
         android:layout_height="70sp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="500dp"
+        android:background="@drawable/round_log"
         android:rotation="5"
         android:alpha="0.57"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -345,6 +349,7 @@
         android:layout_height="55sp"
         android:layout_marginStart="96dp"
         android:layout_marginTop="573dp"
+        android:background="@drawable/round_log"
         android:rotation="5"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"

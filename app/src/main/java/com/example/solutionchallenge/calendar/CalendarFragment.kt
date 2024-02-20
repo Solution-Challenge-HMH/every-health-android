@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.calendar
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +13,14 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.solutionchallenge.OneDayDecorator
+import com.example.solutionchallenge.PlanDayDecorator
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.activity.CalendarActivity
+import com.example.solutionchallenge.activity.LogOutActivity
+import com.example.solutionchallenge.activity.MainActivity
+import com.example.solutionchallenge.activity.StopWatchActivity
 import com.example.solutionchallenge.calendar.dialog.CustomDialog
 import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
 import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
@@ -25,6 +33,7 @@ import com.example.solutionchallenge.datamodel.ResponseExerciseData
 import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,8 +68,44 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
         adapter.setHasStableIds(true)
+//전체 달력 플랜 가져오기 - getPlanCalendar()
+        val receivedAccessToken = arguments?.getString("receivedAccessToken").toString()
+        val callGetCalendar: Call<ResponsePlanCalendarData> =
+            ServiceCreator.everyHealthService.getPlanCalendar("Bearer $receivedAccessToken")
 
+        callGetCalendar.enqueue(object :Callback<ResponsePlanCalendarData>{
+            override fun onResponse(
+                call: Call<ResponsePlanCalendarData>,
+                response: Response<ResponsePlanCalendarData>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, " 달력 전체 플랜 가져오기 성공")
+                    val responsePlanCalendarData = response.body()
+                    if(responsePlanCalendarData != null){
+                        val planCalendarData = responsePlanCalendarData.data
 
+                        Log.d("planCalendarData", "$planCalendarData")
+
+                        val emptyPlanDates = planCalendarData.filter { it.planList.isEmpty() }.map { it.date }
+                        val nonEmptyPlanDates = planCalendarData.filter { it.planList.isNotEmpty() }.map { it.date }
+                        Log.d("noplandate", "$emptyPlanDates")
+                        Log.d("yesplandate", "$nonEmptyPlanDates")
+
+                        val decorator = PlanDayDecorator(requireContext(), nonEmptyPlanDates)
+
+                        // MaterialCalendarView에 데코레이터 추가
+                        binding!!.calendarView.addDecorator(decorator)
+                    }
+                } else {
+                    Log.d(TAG, "달력 전체 플랜 가져오기 실패")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlanCalendarData>, t: Throwable) {
+                Log.e("NetworkTest", "error:$t")
+            }
+        })
+/*
         val calendar = Calendar.getInstance()
         val todayDate = calendar.time
 
@@ -75,6 +120,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
 
         // 텍스트뷰에 오늘 날짜 설정
         binding?.calendarDateText?.text = formattedDate
+
 
         val callPlanToday: Call<ResponsePlanThisDateData> =
             ServiceCreator.everyHealthService.getPlanOfThisDate(
@@ -111,32 +157,36 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                 Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
             }
         })
+        */
 
         // 아이템을 가로로 하나씩 보여주고 어댑터 연결
         binding!!.calendarRecyclerview.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.calendarRecyclerview.adapter = adapter
 
+        //캘린더 데코!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        binding!!.calendarView.selectedDate = CalendarDay.today()
+
+        val decorator = OneDayDecorator( this)
+        binding!!.calendarView.addDecorator(decorator)
+
 
         // 달력 - 날짜 선택 Listener
-        binding!!.calendarView.setOnDateChangeListener { _, year, month, day ->
+        binding!!.calendarView.setOnDateChangedListener { _, date, _ ->
+            val year = date.year
+            val month = date.month + 1
+            val day = date.day
+
+            Log.d("mater", "$year, $month, $day")
 
             this.year = year
-            this.month = month + 1
+            this.month = month
             this.day = day
+            Log.d("mater", "$this.year, $this.month, $this.day")
 
-            binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${
-                String.format(
-                    "%02d",
-                    this.day
-                )
-            }"
-            thisDate = "${this.year}-${String.format("%02d", this.month)}-${
-                String.format(
-                    "%02d",
-                    this.day
-                )
-            }"
+            binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+            thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+
 
 
             //지정날짜에 대한 PlanList 불러오기
@@ -182,7 +232,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
 
 
         // currentData LiveData를 관찰하여 변경이 감지될 때마다 RecyclerView 어댑터 업데이트
-        // ******************** 얜 뭐하는 애지????? **********************
         planViewModel.currentData.observe(viewLifecycleOwner) {
             adapter.setData(it)
         }
@@ -203,7 +252,16 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                 }"
                 onFabClicked(selectedDate)
             }
+
         }
+
+        binding!!.stopwatchImage.setOnClickListener{
+            val intent = Intent(context, StopWatchActivity::class.java)
+            intent.putExtra("receivedAccessToken", receivedAccessToken)
+            startActivity(intent)
+
+        }
+        toolbarButton(binding!!.toolbar, receivedAccessToken)
 
         return binding!!.root
     }
@@ -393,6 +451,45 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
         }
     }
 
+
+    fun toolbarButton(toolbar: androidx.appcompat.widget.Toolbar, receivedAccessToken: String?){
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.ToCalendarButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    /*
+                                        Log.i("CalFrag", "캘린더 아이콘 클릭됨")
+                                        val intent = Intent(context, CalendarActivity::class.java)
+                                        startActivity(intent)
+                                        true
+                    */
+                    val intent = Intent(context, CalendarActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    //finish()
+                    true// 현재 액티비티 종료
+                }
+                R.id.ToMypageButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    Log.i("CalFrag", "마이페이지 아이콘 클릭됨")
+                    val intent = Intent(context, LogOutActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    true
+                }
+                R.id.ToMainButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    Log.i("CalFrag", "로고 클릭")
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
     companion object {
         const val TAG = "CalendarFragment"

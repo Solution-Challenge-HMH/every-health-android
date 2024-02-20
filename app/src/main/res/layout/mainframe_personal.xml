@@ -12,7 +12,7 @@
         android:layout_height="110dp"
         android:drawableRight="@drawable/heartratepic"
         android:background="@drawable/slidingcustom"
-        android:text="개인 운동 추천"
+        android:text="Exercises Recommended for You"
         android:paddingEnd="35dp"
         android:paddingLeft="35dp"
         android:textColor="@color/black"

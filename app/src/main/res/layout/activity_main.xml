@@ -13,7 +13,8 @@
         app:title="@string/app_name"
         app:titleTextColor="@color/white"
         android:background="@color/main"
-        app:menu="@menu/top_nav">
+        app:menu="@menu/top_nav"
+        android:id="@+id/toolbar">
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -34,56 +35,59 @@
 
             <android.widget.Button
                 android:id="@+id/ToPERlistButton"
-                android:layout_width="300dp"
-                android:layout_height="85dp"
+                android:layout_width="330dp"
+                android:layout_height="90dp"
                 android:drawableRight="@drawable/heartratepic"
                 android:background="@drawable/slidingcustom"
                 android:layout_gravity="center"
-                android:text="개인 운동 추천"
-                android:paddingEnd="35dp"
-                android:paddingLeft="35dp"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:text="Exercises
+                Recommended for You"
+                android:paddingEnd="20dp"
+                android:paddingLeft="25dp"
+                android:textColor="@color/lessblack"
+                android:textSize="17dp"
+
                 android:backgroundTint="@color/white"
                 />
 
             <android.widget.Button
                 android:id="@+id/ToTodayERButton"
-                android:layout_width="300dp"
-                android:layout_height="85dp"
+                android:layout_width="330dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/trophypic"
                 android:background="@drawable/slidingcustom"
-                android:text="오늘의 운동 추천"
+                android:text="today's recommendation"
                 android:layout_marginTop="15dp"
-                android:paddingEnd="35dp"
-                android:paddingLeft="35dp"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:textColor="@color/lessblack"
+                android:textSize="17dp"
                 android:backgroundTint="@color/white"
                 />
 
             <FrameLayout
                 android:layout_marginTop="30dp"
-                android:layout_width="300dp"
-                android:layout_height="300dp">
+                android:layout_marginBottom="20dp"
+                android:layout_width="330dp"
+                android:layout_height="330dp">
 
                 <!-- 캘린더 -->
-                <CalendarView
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
+                    android:layout_width="330dp"
+                    app:mcv_selectionColor="@color/main"
+                    android:layout_height="330dp"
                     android:layout_gravity="center"
                     android:background="@drawable/round_log" />
 
                 <Button
                     android:id="@+id/ToCalendarButtonInMain"
-                    android:layout_width="300dp"
+                    android:layout_width="330dp"
                     android:layout_height="300dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_gravity="center"
                     android:background="@android:color/transparent"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -61,21 +61,6 @@ class CustomDialog(
         }
 
 
-        /*
-        if (selectedDate != null) {
-            // selectedDate가 null이 아닌 경우에는 DDateEditView를 보이지 않게 함
-            dateEditView.visibility = View.GONE
-            plannedDate = selectedDate
-
-
-        } else {
-            // selectedDate가 null인 경우에는 DDateEditView를 보여줘서 날짜값을 입력받게 함
-            dateEditView.visibility = View.VISIBLE
-
-        }
-
-*/
-
         okButton.setOnClickListener {
             val exerciseName = selectedExerciseName
             val inputTime = timeGoalEditView.text.toString()

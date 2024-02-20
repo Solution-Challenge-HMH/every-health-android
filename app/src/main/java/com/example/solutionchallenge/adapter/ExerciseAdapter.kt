@@ -152,8 +152,10 @@ class ExerciseAdapter(private val exerciseViewModel: ExerciseViewModel, private 
                             val responseExerciseDetailData = response.body()
                             if (responseExerciseDetailData != null) {
                                 val exerciseDetail = responseExerciseDetailData.data
+                                val idData = exerciseDetail.id
+                                val tokenData = receivedAccessToken
                                 // 운동의 상세 정보를 사용하여 다이얼로그를 띄우는 등의 작업 수행
-                                val recommendationDialog = RecommendationDetailDialog(binding.root.context, exerciseDetail)
+                                val recommendationDialog = RecommendationDetailDialog(binding.root.context, exerciseDetail, idData, tokenData)
                                 recommendationDialog.show()
                             } else {
                                 Log.d(TAG, "운동 상세 정보 없음")

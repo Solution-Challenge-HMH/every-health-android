@@ -6,9 +6,17 @@
     app:layout_constraintBottom_toBottomOf="parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
-    app:title="@string/app_name"
+    app:title=""
     app:titleTextColor="@color/white"
     android:background="@color/main"
     app:menu="@menu/top_nav">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Your Text"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_gravity="start"/>
 
 </androidx.appcompat.widget.Toolbar>

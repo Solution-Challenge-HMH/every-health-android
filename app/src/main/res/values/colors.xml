@@ -2,10 +2,11 @@
 <resources>
     <color name="backgroudcolor">#EAEAEA</color>
     <color name="black">#FF000000</color>
+    <color name="lessblack">#161616</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mint">#2E9FFF</color>
     <color name="skyblue">#33b5e5</color>
-    <color name="pink">#ffff4444</color>
+    <color name="pink">#FF2BAA</color>
     <color name="main">#25D9E4</color>
     <color name="stop_button">#FA6AAF</color>
     <color name="pause_button">#A7A7A7</color>
