@@ -1,6 +1,7 @@
 package com.example.solutionchallenge.fragment
 
 //import com.example.solutionchallenge.datamodel.exerciseList
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.solutionchallenge.R
+import com.example.solutionchallenge.activity.CalendarActivity
+import com.example.solutionchallenge.activity.LogOutActivity
+import com.example.solutionchallenge.activity.MainActivity
 import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.databinding.FragmentRecommendListBinding
 import com.example.solutionchallenge.datamodel.Exercise
@@ -58,7 +63,10 @@ class RecommendListFragment(private val receivedAccessToken :String ) : Fragment
             dialog.show()
         }
 */
+        //toolbarButton(binding!!.toolbar)
+
         return binding!!.root
+
     }
     /*
     private fun getRandomRecommendation(): Recommendation {
@@ -70,4 +78,5 @@ class RecommendListFragment(private val receivedAccessToken :String ) : Fragment
         binding = null
         super.onDestroyView()
     }
+
 }

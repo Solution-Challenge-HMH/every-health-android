@@ -9,24 +9,26 @@
 
 
 
+
     <TextView
         android:id="@+id/PersonalizedExerciseRecommendation"
         style="@style/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="개인 운동 추천"
+        android:layout_marginTop="10dp"
+        android:text="Exercises Recommended for You"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"/>
 
 
     <TextView
         android:id="@+id/PERExerciseList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="운동 추천 목록"
+        android:text="Recommended Excercise List"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"

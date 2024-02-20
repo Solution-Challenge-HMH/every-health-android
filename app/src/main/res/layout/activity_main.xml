@@ -13,7 +13,8 @@
         app:title="@string/app_name"
         app:titleTextColor="@color/white"
         android:background="@color/main"
-        app:menu="@menu/top_nav">
+        app:menu="@menu/top_nav"
+        android:id="@+id/toolbar">
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -39,7 +40,7 @@
                 android:drawableRight="@drawable/heartratepic"
                 android:background="@drawable/slidingcustom"
                 android:layout_gravity="center"
-                android:text="개인 운동 추천"
+                android:text="Exercises Recommended for You"
                 android:paddingEnd="35dp"
                 android:paddingLeft="35dp"
                 android:textColor="@color/black"
@@ -55,10 +56,10 @@
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/trophypic"
                 android:background="@drawable/slidingcustom"
-                android:text="오늘의 운동 추천"
+                android:text="today's recommendation"
                 android:layout_marginTop="15dp"
-                android:paddingEnd="35dp"
-                android:paddingLeft="35dp"
+                android:paddingEnd="15dp"
+                android:paddingLeft="15dp"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 android:textStyle="bold"

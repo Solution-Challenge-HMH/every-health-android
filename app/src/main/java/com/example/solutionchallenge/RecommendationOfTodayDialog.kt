@@ -54,7 +54,6 @@ class RecommendationOfTodayDialog(
 
         toRecommendationDialogButton.setOnClickListener {
 
-
             //운동 id(idData) 전달 받음
             val exerciseId = idData
             val receivedAccessToken = tokenData
@@ -74,7 +73,7 @@ class RecommendationOfTodayDialog(
                         if (responseExerciseDetailData != null) {
                             val exerciseDetail = responseExerciseDetailData.data
                             // 운동의 상세 정보를 사용하여 다이얼로그를 띄우는 등의 작업 수행
-                            val recommendationDialog = RecommendationDetailDialog(context, exerciseDetail)
+                            val recommendationDialog = RecommendationDetailDialog(context, exerciseDetail, idData, tokenData)
                             recommendationDialog.show()
                         } else {
                             Log.d(TAG, "운동 상세 정보 없음")

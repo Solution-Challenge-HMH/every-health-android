@@ -7,6 +7,18 @@
     tools:context=".activity.CalendarActivity">
     <!--tools:context=".CalendarFragment">-->
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title=""
+        app:titleTextColor="@color/white"
+        android:background="@color/main"
+        android:id="@+id/toolbar"
+        app:menu="@menu/top_nav"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
+
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
@@ -14,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="60dp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,8 +57,8 @@
         android:id="@+id/calendarDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="달력에서 날짜를 선택해주세요."
-        android:textSize="20sp"
+        android:text="Choose a date to see your plan of the date"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />

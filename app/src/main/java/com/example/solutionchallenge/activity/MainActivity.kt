@@ -1,6 +1,5 @@
 package com.example.solutionchallenge.activity
 
-//import com.example.solutionchallenge.datamodel.exerciseList
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -19,6 +18,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
+
+
+
 class MainActivity : AppCompatActivity() {
 
 
@@ -27,11 +29,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         val PERbutton: Button = findViewById(R.id.ToPERlistButton) //개인운동 추천 버튼
         val todayButton: Button = findViewById(R.id.ToTodayERButton) //오늘의운동 추천 버튼
         val toCalendarButton: Button =
             findViewById(R.id.ToCalendarButtonInMain)
         val receivedAccessToken = intent.getStringExtra("receivedAccessToken")
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbarButton(toolbar, receivedAccessToken)
+
 
         PERbutton.setOnClickListener {
             Log.d("token", "$receivedAccessToken")
@@ -89,7 +96,6 @@ class MainActivity : AppCompatActivity() {
             })
 
         }
-
         todayButton.setOnClickListener {
             val callExerciseRecommended: Call<ResponseExerciseRecommendedData> =
                 ServiceCreator.everyHealthService.getExerciseRecommended("Bearer $receivedAccessToken")
@@ -130,13 +136,48 @@ class MainActivity : AppCompatActivity() {
             finish() // 현재 액티비티 종료
         }
 
-
-
     }
 
     fun ToRecommendationDialog(nameData: String, timeData: String, difficultyData: String, idData: Int, tokenData: String?) {
         val dialog = RecommendationOfTodayDialog(this,nameData,timeData,difficultyData, idData, tokenData) /// 랜덤 운동 반환하는 로직 백에서 구현해두신듯 (오늘의 추천운동 조회)
         dialog.show()
+    }
+
+    /*
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbarButton(toolbar)
+     */
+    fun toolbarButton(toolbar: androidx.appcompat.widget.Toolbar, receivedAccessToken: String?){
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.ToCalendarButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.ToMypageButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, LogOutActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.ToMainButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 

@@ -30,6 +30,11 @@ class LogOutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_out)
 
+        val receivedAccessToken = intent.getStringExtra("receivedAccessToken")
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbarButton(toolbar, receivedAccessToken)
+
         var logOutButton : Button =findViewById(R.id.logOutButton)
 
         logOutButton.setOnClickListener {
@@ -38,6 +43,43 @@ class LogOutActivity : AppCompatActivity() {
 
 
 
+    }
+
+    /*
+    val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+    toolbarButton(toolbar)
+ */
+    fun toolbarButton(toolbar: androidx.appcompat.widget.Toolbar, receivedAccessToken: String?){
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.ToCalendarButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.ToMypageButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, LogOutActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.ToMainButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
 

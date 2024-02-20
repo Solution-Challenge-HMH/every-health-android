@@ -3,18 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/ToCalendarButtonInMenu"
+        android:id="@+id/ToMainButtonInMenu"
         android:enabled="true"
-        android:title="메뉴1"
-        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="MainActivity"
+        android:icon="@drawable/pasted_graphic"
         app:showAsAction="always"/>
+
+    <item
+        android:title=""
+        app:showAsAction="always" />
+    <item
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:title=""
+        app:showAsAction="always" />
+    <item
+        android:title=""
+        app:showAsAction="always" />
+
+
 
     <item
         android:id="@+id/ToMypageButtonInMenu"
         android:enabled="true"
         android:icon="@drawable/baseline_person_24"
-        android:title="메뉴2"
+        android:title="LogOutActivity"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/ToCalendarButtonInMenu"
+        android:enabled="true"
+        android:title="CalendarActivity"
+        android:icon="@drawable/baseline_calendar_month_24"
+        app:showAsAction="always"/>
+
 
 
 

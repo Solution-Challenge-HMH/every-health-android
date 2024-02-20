@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.calendar
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,8 +12,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.solutionchallenge.PlanAddDialog
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.RecommendationDetailDialog
 import com.example.solutionchallenge.ServiceCreator
+import com.example.solutionchallenge.activity.CalendarActivity
+import com.example.solutionchallenge.activity.LogOutActivity
+import com.example.solutionchallenge.activity.MainActivity
 import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.calendar.PlanViewModel
 import com.example.solutionchallenge.calendar.dialog.CustomDialog
@@ -60,7 +65,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
 
 
         //전체 달력 플랜 가져오기 - getPlanCalendar()
-        val receivedAccessToken = arguments?.getString("receivedAccessToken")
+        val receivedAccessToken = arguments?.getString("receivedAccessToken").toString()
         val callGetCalendar: Call<ResponsePlanCalendarData> =
             ServiceCreator.everyHealthService.getPlanCalendar("Bearer $receivedAccessToken")
 
@@ -119,7 +124,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                             val thisDatePlanDetail = responsePlanOfThisDateData.data
                          Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
                         } else {
-                            Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                            Log.d(TAG, "지정 날짜 플랜 가져오기 실패")
                         }
                     } else {
                         Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
@@ -155,6 +160,8 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                 onFabClicked(selectedDate)
             }
         }
+
+        toolbarButton(binding!!.toolbar, receivedAccessToken)
 
         return binding!!.root
     }
@@ -272,6 +279,46 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         TODO("Not yet implemented")
     }
 
+
+
+    fun toolbarButton(toolbar: androidx.appcompat.widget.Toolbar, receivedAccessToken: String?){
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.ToCalendarButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+/*
+                    Log.i("CalFrag", "캘린더 아이콘 클릭됨")
+                    val intent = Intent(context, CalendarActivity::class.java)
+                    startActivity(intent)
+                    true
+*/
+                    val intent = Intent(context, CalendarActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    //finish()
+                    true// 현재 액티비티 종료
+                }
+                R.id.ToMypageButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    Log.i("CalFrag", "마이페이지 아이콘 클릭됨")
+                    val intent = Intent(context, LogOutActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    true
+                }
+                R.id.ToMainButtonInMenu -> { // 메뉴 아이템의 ID에 따라 동작을 결정합니다.
+                    // 다음 activity로 이동하는 코드를 작성합니다.
+                    Log.i("CalFrag", "로고 클릭")
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("receivedAccessToken", receivedAccessToken)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
 
     companion object {

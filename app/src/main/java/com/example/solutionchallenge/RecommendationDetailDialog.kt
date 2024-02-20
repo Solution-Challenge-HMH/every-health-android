@@ -14,8 +14,12 @@ import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
 import com.example.solutionchallenge.datamodel.Exercise
 
 
-
-class RecommendationDetailDialog(context: Context, private val exercise: Exercise) : Dialog(context),
+class RecommendationDetailDialog(
+    context: Context,
+    private val exercise : Exercise,
+    private val idData: Int,
+    private val tokenData: String?
+) : Dialog(context),
     CustomDialogInterface {
 
     @SuppressLint("ResourceAsColor")
@@ -41,19 +45,35 @@ class RecommendationDetailDialog(context: Context, private val exercise: Exercis
 
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
+
+        //운동 고정 dialog로
         toCalendarButton.setOnClickListener {
-            val exerciseList = mutableListOf(exercise)
-            val customDialog = CustomDialog(context, this@RecommendationDetailDialog as CustomDialogInterface, null, exerciseList )
-            customDialog.show()
-            dismiss()
+            val planAddDialog = PlanAddDialog(context, idData, tokenData)
+            planAddDialog.show()
         }
+
+
+        /*
+                toCalendarButton.setOnClickListener {
+                    val exerciseList = mutableListOf(exercise)
+                    val customDialog = CustomDialog(context, this@RecommendationDetailDialog as CustomDialogInterface, null, exerciseList )
+                    customDialog.show()
+                    dismiss()
+                }
+        */
+
 
         // 닫기 버튼 클릭 시 다이얼로그 종료
         closeButton.setOnClickListener { dismiss() }
     }
 
     // CustomDialogInterface의 메서드 구현
-    override fun onOkButtonClicked1(exerciseId: Int, exerciseName: String, plannedTime: Int, thisDate: String) {
+    override fun onOkButtonClicked1(
+        exerciseId: Int,
+        exerciseName: String,
+        plannedTime: Int,
+        thisDate: String
+    ) {
 
     }
 

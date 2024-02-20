@@ -13,6 +13,8 @@ import com.example.solutionchallenge.calendar.dialog.TimeDoneUpdateDialog
 class PlanAdapter(private val planViewModel: PlanViewModel) :
     RecyclerView.Adapter<PlanAdapter.MyViewHolder>() {
 
+
+
     private var planList = emptyList<Plan>()
 
     // 뷰 홀더에 데이터를 바인딩
@@ -31,7 +33,12 @@ class PlanAdapter(private val planViewModel: PlanViewModel) :
 
             // 삭제 버튼 클릭 시 플랜 삭제
             binding.deleteButton.setOnClickListener {
-                planViewModel.deletePlan(currentPlan)
+                //여까지 토큰 전달 완료.....
+                //val receivedReceicedAccTok = accTok
+                planViewModel.deletePlan(currentPlan)//deletePlan이 인자로 accTok 받아서 deletePlan안에서 서버 통신을 해야하나?
+                //아니면 걍 여기서 서버랑 통신??
+                //deletePlan이 ui랑만 상관잇는건가?
+
                 // 플랜 삭제 API 호출
             }
 
