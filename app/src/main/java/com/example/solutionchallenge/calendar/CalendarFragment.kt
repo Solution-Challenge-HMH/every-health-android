@@ -18,6 +18,7 @@ import com.example.solutionchallenge.ServiceCreator
 import com.example.solutionchallenge.activity.CalendarActivity
 import com.example.solutionchallenge.activity.LogOutActivity
 import com.example.solutionchallenge.activity.MainActivity
+import com.example.solutionchallenge.activity.StopWatchActivity
 import com.example.solutionchallenge.adapter.ExerciseAdapter
 import com.example.solutionchallenge.calendar.PlanViewModel
 import com.example.solutionchallenge.calendar.dialog.CustomDialog
@@ -159,6 +160,12 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                 val selectedDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
                 onFabClicked(selectedDate)
             }
+        }
+        binding!!.stopwatchImage.setOnClickListener{
+            val intent = Intent(context, StopWatchActivity::class.java)
+            intent.putExtra("receivedAccessToken", receivedAccessToken)
+            startActivity(intent)
+
         }
 
         toolbarButton(binding!!.toolbar, receivedAccessToken)
