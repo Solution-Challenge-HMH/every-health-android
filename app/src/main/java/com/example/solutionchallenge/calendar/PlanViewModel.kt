@@ -2,9 +2,11 @@ package com.example.solutionchallenge.calendar
 
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.solutionchallenge.calendar.db.PlanDatabase
 import com.example.solutionchallenge.calendar.model.Plan
+import com.example.solutionchallenge.datamodel.DatePlan
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,6 +15,7 @@ import kotlinx.coroutines.launch
 class PlanViewModel(application: Application) : AndroidViewModel(application) {
 
     val readAllData : LiveData<List<Plan>>
+    val currentData: LiveData<List<Plan>> = MutableLiveData()
 
     private val repository : PlanRepository
 
@@ -29,19 +32,22 @@ class PlanViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     // get set
-    private var _currentData = MutableLiveData<List<Plan>>()
-    val currentData : LiveData<List<Plan>>
-        get() = _currentData
+  //  private var _currentData = MutableLiveData<List<Plan>>()
+  //  val currentData: MutableLiveData<List<Plan>>
+      // get() = _currentData
+
 
     init{
         val planDao = PlanDatabase.getDatabase(application)!!.planDao()
         repository = PlanRepository(planDao)
-        readAllData = repository.readAllData.asLiveData()
+        readAllData = repository.readAllData
+
     }
 
     fun addPlan(plan: Plan){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addPlan(plan)
+
         }
     }
 
@@ -57,16 +63,19 @@ class PlanViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
+
     fun readDateData(year : Int, month : Int, day : Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val tmp = repository.readDateData(year, month, day)
-            _currentData.postValue(tmp)
+            val data = repository.readDateData(year, month, day).value
+            if (data != null) {
+                (currentData as MutableLiveData).postValue(data)
+            } else {
+                // 데이터가 null인 경우에 대한 처리 (예: 에러 핸들링)
+
+            }
         }
     }
 
-
-//    fun searchDatabase(searchQuery: String): LiveData<List<Memo>> {
-//        return repository.searchDatabase(searchQuery).asLiveData()
-//    }
 
 }

@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/edit/baseline_edit_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/check_box_outline_blank/baseline_check_box_outline_blank_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,7 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_edit_24" />
+                            <entry key="opacityPercent" value="0" />
+                            <entry key="outputName" value="baseline_check_box_outline_blank_24" />
                             <entry key="sourceFile" value="C:\Users\smk19\every-health-android" />
                           </map>
                         </option>
