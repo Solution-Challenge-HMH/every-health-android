@@ -14,6 +14,7 @@ import com.example.solutionchallenge.calendar.CalendarFragment
 import com.example.solutionchallenge.databinding.DialogAddPlanBinding
 import com.example.solutionchallenge.datamodel.RequestPlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,12 +44,16 @@ class PlanAddDialog(
         val timeGoalEditView: EditText = findViewById(R.id.timeGoalEditView)
 
 
-        val calendarView: CalendarView = findViewById(R.id.calendarView2)
+        val calendarView: MaterialCalendarView = findViewById(R.id.calendarView2)
 
-        calendarView.setOnDateChangeListener { _, year, month, day ->
+        calendarView.setOnDateChangedListener {  _, date, _ ->
+
+            val year = date.year
+            val month = date.month + 1
+            val day = date.day
 
             this.year = year
-            this.month = month + 1
+            this.month = month
             this.day = day
 
             //데이터 포맷 수정
@@ -67,7 +72,7 @@ class PlanAddDialog(
             println(timeGoalInt)
             println(thisDate)
             if (timeGoalInt == null||TextUtils.isEmpty(thisDate)) {
-                Toast.makeText(context, "계획을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Enter all your plans.", Toast.LENGTH_SHORT).show()
             } else {
                // val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
                // thisDate = outputDateString

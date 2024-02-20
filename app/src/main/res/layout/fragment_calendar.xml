@@ -4,17 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CalendarActivity">
+    tools:context=".activity.CalendarActivity"
+    android:background="#EAEAEA">
     <!--tools:context=".CalendarFragment">-->
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:title=""
+        app:titleTextColor="@color/white"
+        android:background="@color/main"
+        android:id="@+id/toolbar"
+        app:menu="@menu/top_nav"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="370dp"
+        android:layout_height="330dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp" />
+        android:background="@drawable/round_log"
+        app:mcv_selectionColor="@color/main"
+        android:theme="@style/CalenderViewCustom"
+        android:layout_marginTop="60dp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,11 +61,30 @@
         android:id="@+id/calendarDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="달력에서 날짜를 선택해주세요."
-        android:textSize="20sp"
+        android:text="Choose a date for the plan"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/lessblack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintTop_toBottomOf="@id/calendarView" />
+
+    <Button
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/calendarDateText"
+        app:layout_constraintStart_toEndOf="@id/calendarDateText"
+        android:background="@android:color/transparent"/>
+
+    <ImageView
+        android:id="@+id/stopwatchImage"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/calendarDateText"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="@id/calendarDateText"
+        app:srcCompat="@drawable/pasted_graphic_4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

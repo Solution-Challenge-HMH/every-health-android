@@ -43,6 +43,7 @@ class UserEditActivity : AppCompatActivity() {
         }
 
         binding.userinfoSaveButton.setOnClickListener {
+
             saveUserData()
 
         }
@@ -59,7 +60,7 @@ class UserEditActivity : AppCompatActivity() {
 
     private fun setButtonColor(button: Button, isBlue: Boolean) {
         val colorRes =
-            if (isBlue) android.R.color.holo_blue_light else android.R.color.holo_red_light
+            if (isBlue) android.R.color.holo_blue_light else R.color.pink
         button.setBackgroundColor(ContextCompat.getColor(this, colorRes))
     }
 
@@ -79,6 +80,8 @@ class UserEditActivity : AppCompatActivity() {
         val rightLowerLeg = buttonStateMap[R.id.right_upper_leg_button] ?: false
         val leftUpperLeg = buttonStateMap[R.id.right_upper_leg_button] ?: false
         val leftLowerLeg = buttonStateMap[R.id.left_lower_leg_button] ?: false
+
+
 
         val requestUserInfoData = RequestUserInfoData(
             nickname,
@@ -108,9 +111,12 @@ class UserEditActivity : AppCompatActivity() {
                         //유저 신체 정보 전송 성공
                         Log.d(TAG, "유저 신체 정보 전송 성공")
 
-                        val intent = Intent(this@UserEditActivity, MainActivity::class.java)
-                        intent.putExtra("receivedAccessToken", receivedAccessToken)
-                        startActivity(intent)
+                        val intent = Intent(this@UserEditActivity, LogOutActivity::class.java)
+                        intent.putExtra("nickname", nickname)
+                        Log.d("nickname", "$nickname")
+                        val mainIntent = Intent(this@UserEditActivity, MainActivity::class.java)
+                        mainIntent.putExtra("receivedAccessToken", receivedAccessToken)
+                        startActivity(mainIntent)
                     } else {
                         Log.d(TAG, "유저 신체 정보 전송 실패")
                     }

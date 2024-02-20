@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="35dp"
-        android:text="Today's recommended exercise"
-        android:textColor="@color/black"
+        android:text="Today's Recommendation"
+        android:textColor="@color/lessblack"
         android:textSize="19dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +63,7 @@
         android:text="Exercise Name"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/lessblack"
         app:layout_constraintStart_toStartOf="@id/RecommendationOfTodayTextView"
         app:layout_constraintTop_toBottomOf="@id/eclipseImageView" />
 
@@ -73,7 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="Recommendation time :"
+        android:text="Recommended time :"
+        android:textColor="@color/lessblack"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/RecommendNameTextView"
@@ -94,35 +96,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:text="Difficulty : "
+        android:textColor="@color/lessblack"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/RecommendNameTextView"
         app:layout_constraintTop_toBottomOf="@id/RecommendTimeTextView" />
 
+    <ImageView
+        android:id="@+id/diff_1"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/RecommendDifficultyTextView"
+        app:layout_constraintStart_toEndOf="@id/RecommendDifficultyTextView" />
 
-    <TextView
-        android:id="@+id/RecommendDifficultyValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/RecommendDifficultyTextView"
-        app:layout_constraintTop_toBottomOf="@id/RecommendTimeTextView" />
+    <ImageView
+        android:id="@+id/diff_2"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/RecommendDifficultyTextView"
+        app:layout_constraintStart_toEndOf="@id/diff_1" />
+
+    <ImageView
+        android:id="@+id/diff_3"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/RecommendDifficultyTextView"
+        app:layout_constraintStart_toEndOf="@id/diff_2" />
+
+    <ImageView
+        android:id="@+id/diff_4"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/RecommendDifficultyTextView"
+        app:layout_constraintStart_toEndOf="@id/diff_3" />
+
+    <ImageView
+        android:id="@+id/diff_5"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/RecommendDifficultyTextView"
+        app:layout_constraintStart_toEndOf="@id/diff_4" />
+
 
     <Button
         android:id="@+id/ToCalendarButton"
         android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginRight="35dp"
         android:backgroundTint="@color/main"
+        android:background="@drawable/round_log"
         android:padding="0dp"
         android:layout_marginStart="55dp"
         android:layout_marginBottom="40dp"
         android:text="Add to calendar"
-        android:textColor="@color/black"
+        android:textColor="@color/lessblack"
         android:textSize="11dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -130,13 +169,14 @@
     <Button
         android:id="@+id/ToRecommendationDialogButton"
         android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="35dp"
         android:backgroundTint="@color/main"
         android:padding="0dp"
+        android:background="@drawable/round_log"
         android:text="Read more"
-        android:textColor="@color/black"
+        android:textColor="@color/lessblack"
         android:textSize="11dp"
         app:layout_constraintBottom_toBottomOf="@id/ToCalendarButton"
         app:layout_constraintStart_toEndOf="@id/ToCalendarButton" />
