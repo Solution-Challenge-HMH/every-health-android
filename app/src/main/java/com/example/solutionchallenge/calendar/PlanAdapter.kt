@@ -1,5 +1,6 @@
 package com.example.solutionchallenge.calendar
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.databinding.ItemPlanBinding
 import com.example.solutionchallenge.calendar.dialog.TimeDoneUpdateDialog
 import com.example.solutionchallenge.calendar.model.Plan
+import com.example.solutionchallenge.datamodel.DatePlan
 import com.example.solutionchallenge.datamodel.ResponsePlanIdDELETEData
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +33,7 @@ class PlanAdapter(private val planViewModel: PlanViewModel, private val accessTo
         private lateinit var planViewModel: PlanViewModel
 
 
+        @SuppressLint("SuspiciousIndentation")
         fun bind(currentPlan: Plan, planViewModel: PlanViewModel, receivedAccessToken : String) {
             binding.plan = currentPlan
             this.planViewModel = planViewModel
@@ -57,6 +60,7 @@ class PlanAdapter(private val planViewModel: PlanViewModel, private val accessTo
 
                         if (response.isSuccessful) {
                             Log.d(TAG, "플랜 삭제 성공")
+                            planViewModel.deletePlan(currentPlan)
 
                         } else {
                             Log.d(TAG, "플랜 삭제 실패")
@@ -126,6 +130,8 @@ class PlanAdapter(private val planViewModel: PlanViewModel, private val accessTo
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+
+
 
     companion object {
         private const val TAG = "PlanAdapter"

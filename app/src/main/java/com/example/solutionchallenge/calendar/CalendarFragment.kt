@@ -1,6 +1,8 @@
 package com.example.solutionchallenge.calendar
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +28,9 @@ import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {
@@ -50,12 +55,57 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         receivedAccessToken = arguments?.getString("receivedAccessToken").toString()
 
         val adapter: PlanAdapter by lazy { PlanAdapter(planViewModel, receivedAccessToken)}
-
-        // 뷰바인딩
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        adapter.setHasStableIds(true)
 
-        // 아이템에 아이디를 설정해줌 (깜빡이는 현상방지)
-        //adapter.setHasStableIds(true)
+
+        val calendar = Calendar.getInstance()
+        val todayDate = calendar.time
+
+        // 날짜를 특정 형식으로 포맷팅
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = dateFormat.format(todayDate)
+
+        year = formattedDate?.split("-")?.get(0)?.toInt()!!
+        month = formattedDate?.split("-")?.get(1)?.toInt()!!
+        day = formattedDate?.split("-")?.get(2)?.toInt()!!
+
+
+            // 텍스트뷰에 오늘 날짜 설정
+        binding?.calendarDateText?.text = formattedDate
+
+        val callPlanToday: Call<ResponsePlanThisDateData> =
+            ServiceCreator.everyHealthService.getPlanOfThisDate("Bearer $receivedAccessToken",formattedDate)
+
+
+        callPlanToday.enqueue(object : Callback<ResponsePlanThisDateData> {
+            override fun onResponse(
+                call: Call<ResponsePlanThisDateData>,
+                response: Response<ResponsePlanThisDateData>
+            ) {
+                if (response.isSuccessful) {
+                    val responsePlanOfToday = response.body()
+                    if (responsePlanOfToday != null) {
+                        val thisDatePlanDetail = responsePlanOfToday.data
+                        Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                        val allPlans = thisDatePlanDetail.planList
+                       // planViewModel.readDateData(year, month, day)
+                        adapter.setData(allPlans)
+                      //  for (plan in allPlans) {
+                        //    planViewModel.addPlan(plan)
+                       // }
+                    } else {
+                        Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                    }
+                } else {
+                    Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlanThisDateData>, t: Throwable) {
+                Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
+            }
+        })
 
 
         //전체 달력 플랜 가져오기 - getPlanCalendar()
@@ -90,6 +140,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         binding!!.calendarRecyclerview.adapter = adapter
 
 
+
         // 달력 - 날짜 선택 Listener
         binding!!.calendarView.setOnDateChangeListener { _, year, month, day->
 
@@ -100,6 +151,8 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
             thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
 
+
+          //  planViewModel.readDateData(year, month+1, day)
 
             //지정날짜에 대한 PlanList 불러오기
             val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
@@ -117,9 +170,10 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                             val thisDatePlanDetail = responsePlanOfThisDateData.data
                          Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
                             val allPlans = thisDatePlanDetail.planList
-
                             adapter.setData(allPlans)
-
+                            for (plan in allPlans) {
+                                planViewModel.addPlan(plan)
+                            }
                         } else {
                             Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
                         }
@@ -134,20 +188,20 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             })
 
         }
+        planViewModel.readDateData(this.year, this.month, this.day)
 
-        planViewModel.readAllData.observe(viewLifecycleOwner) {
-            planViewModel.readAllData
+       planViewModel.readAllData.observe(viewLifecycleOwner) {
+        // LiveData가 업데이트될 때마다 RecyclerView 어댑터 업데이트
+         adapter.setData(it)
+           //planViewModel.readDateData(year, month, day)
         }
 
-        planViewModel.readAllData.observe(viewLifecycleOwner) {
-             planViewModel.readDateData(this.year, this.month + 1, this.day)
-        }
+        // currentData LiveData를 관찰하여 변경이 감지될 때마다 RecyclerView 어댑터 업데이트
+       planViewModel.currentData.observe(viewLifecycleOwner) {
+           adapter.setData(it)
+       }
 
 
-        // 현재 날짜 데이터 리스트(currentData) 관찰하여 변경시 어댑터에 전달해줌
-        planViewModel.currentData.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
-        })
         // Fab 클릭시 다이얼로그 띄움
         binding!!.calendarDialogButton.setOnClickListener {
             if (year == 0) {
@@ -220,12 +274,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
 
         // plannedDate가 null이거나 빈 문자열인 경우 예외 처리
         if (thisDate.isNotBlank()) {
-            // 선택된 날짜로 메모를 추가해줌
-            val plan = Plan(0, false, exerciseId, exerciseName, plannedTime, doneTime = 0, thisDate)
-            planViewModel.addPlan(plan)
-            Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
-
-
             val requestPlanData = RequestPlanData(
                 exerciseId,
                 thisDate,
@@ -242,6 +290,11 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                 ) {
                     if (response.isSuccessful) {
                         Log.d(TAG, "플랜 전송 성공")
+                        val plan = Plan(0, false, exerciseId, exerciseName, plannedTime, doneTime = 0, thisDate)
+                        Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
+                        planViewModel.addPlan(plan)
+
+
                     } else {
                         Log.d(TAG, "플랜 전송 실패")
                     }
@@ -262,7 +315,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         doneTime: Int,
         thisDate: String
     ) {
-        TODO("Not yet implemented")
     }
 
 
