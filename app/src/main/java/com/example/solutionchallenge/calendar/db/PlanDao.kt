@@ -29,7 +29,6 @@ interface PlanDao {
     fun readAllData() : LiveData<List<Plan>>
 
 
-
     // 날짜 정보를 입력받아 그 날짜에 해당하는 메모만 반환
     @Query("SELECT * FROM `Plan` WHERE year = :year AND month = :month AND day = :day ORDER BY planId DESC")
     fun readDateData(year : Int, month : Int, day : Int) : LiveData<List<Plan>>

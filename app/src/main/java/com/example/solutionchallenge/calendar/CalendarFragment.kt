@@ -33,9 +33,9 @@ import java.util.Calendar
 import java.util.Locale
 
 
-class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterface {
+class CalendarFragment : Fragment(), CustomDialogInterface {
 
-    private lateinit var  receivedAccessToken : String
+    private lateinit var receivedAccessToken: String
 
     private var binding: FragmentCalendarBinding? = null
     private val planViewModel: PlanViewModel by viewModels {
@@ -47,6 +47,9 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
     private var day: Int = 0
     private var thisDate: String = ""
 
+    val adapter: PlanAdapter by lazy { PlanAdapter(planViewModel, receivedAccessToken) }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +57,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
 
         receivedAccessToken = arguments?.getString("receivedAccessToken").toString()
 
-        val adapter: PlanAdapter by lazy { PlanAdapter(planViewModel, receivedAccessToken)}
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
         adapter.setHasStableIds(true)
 
@@ -71,11 +73,14 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         day = formattedDate?.split("-")?.get(2)?.toInt()!!
 
 
-            // 텍스트뷰에 오늘 날짜 설정
+        // 텍스트뷰에 오늘 날짜 설정
         binding?.calendarDateText?.text = formattedDate
 
         val callPlanToday: Call<ResponsePlanThisDateData> =
-            ServiceCreator.everyHealthService.getPlanOfThisDate("Bearer $receivedAccessToken",formattedDate)
+            ServiceCreator.everyHealthService.getPlanOfThisDate(
+                "Bearer $receivedAccessToken",
+                formattedDate
+            )
 
 
         callPlanToday.enqueue(object : Callback<ResponsePlanThisDateData> {
@@ -89,11 +94,11 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                         val thisDatePlanDetail = responsePlanOfToday.data
                         Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
                         val allPlans = thisDatePlanDetail.planList
-                       // planViewModel.readDateData(year, month, day)
+                        // planViewModel.readDateData(year, month, day)
                         adapter.setData(allPlans)
-                      //  for (plan in allPlans) {
+                        //  for (plan in allPlans) {
                         //    planViewModel.addPlan(plan)
-                       // }
+                        // }
                     } else {
                         Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
                     }
@@ -107,56 +112,39 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             }
         })
 
-
-        //전체 달력 플랜 가져오기 - getPlanCalendar()
-        val callGetCalendar: Call<ResponsePlanCalendarData> =
-            ServiceCreator.everyHealthService.getPlanCalendar("Bearer $receivedAccessToken")
-
-        callGetCalendar.enqueue(object :Callback<ResponsePlanCalendarData>{
-            override fun onResponse(
-                call: Call<ResponsePlanCalendarData>,
-                response: Response<ResponsePlanCalendarData>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d(TAG, " 달력 전체 플랜 가져오기 성공")
-                    val responsePlanCalendarData = response.body()
-                    if(responsePlanCalendarData != null){
-                        val planCalendarData = responsePlanCalendarData.data
-                        Log.d("planCalendarData", "$planCalendarData")
-                    }
-                } else {
-                    Log.d(TAG, "달력 전체 플랜 가져오기 실패")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponsePlanCalendarData>, t: Throwable) {
-                Log.e("NetworkTest", "error:$t")
-            }
-        })
-
         // 아이템을 가로로 하나씩 보여주고 어댑터 연결
         binding!!.calendarRecyclerview.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding!!.calendarRecyclerview.adapter = adapter
 
 
-
         // 달력 - 날짜 선택 Listener
-        binding!!.calendarView.setOnDateChangeListener { _, year, month, day->
+        binding!!.calendarView.setOnDateChangeListener { _, year, month, day ->
 
             this.year = year
             this.month = month + 1
             this.day = day
 
-            binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
-            thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+            binding!!.calendarDateText.text = "${this.year}-${String.format("%02d", this.month)}-${
+                String.format(
+                    "%02d",
+                    this.day
+                )
+            }"
+            thisDate = "${this.year}-${String.format("%02d", this.month)}-${
+                String.format(
+                    "%02d",
+                    this.day
+                )
+            }"
 
-
-          //  planViewModel.readDateData(year, month+1, day)
 
             //지정날짜에 대한 PlanList 불러오기
             val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
-                ServiceCreator.everyHealthService.getPlanOfThisDate("Bearer $receivedAccessToken",thisDate)
+                ServiceCreator.everyHealthService.getPlanOfThisDate(
+                    "Bearer $receivedAccessToken",
+                    thisDate
+                )
 
 
             callPlanOfThisDate.enqueue(object : Callback<ResponsePlanThisDateData> {
@@ -168,7 +156,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                         val responsePlanOfThisDateData = response.body()
                         if (responsePlanOfThisDateData != null) {
                             val thisDatePlanDetail = responsePlanOfThisDateData.data
-                         Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                            Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
                             val allPlans = thisDatePlanDetail.planList
                             adapter.setData(allPlans)
                             for (plan in allPlans) {
@@ -190,16 +178,14 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
         }
         planViewModel.readDateData(this.year, this.month, this.day)
 
-       planViewModel.readAllData.observe(viewLifecycleOwner) {
-        // LiveData가 업데이트될 때마다 RecyclerView 어댑터 업데이트
-         adapter.setData(it)
-           //planViewModel.readDateData(year, month, day)
-        }
+
+
 
         // currentData LiveData를 관찰하여 변경이 감지될 때마다 RecyclerView 어댑터 업데이트
-       planViewModel.currentData.observe(viewLifecycleOwner) {
-           adapter.setData(it)
-       }
+        // ******************** 얜 뭐하는 애지????? **********************
+        planViewModel.currentData.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
 
 
         // Fab 클릭시 다이얼로그 띄움
@@ -209,7 +195,12 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             } else {
 
                 //데이터 포맷 수정
-                val selectedDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+                val selectedDate = "${this.year}-${String.format("%02d", this.month)}-${
+                    String.format(
+                        "%02d",
+                        this.day
+                    )
+                }"
                 onFabClicked(selectedDate)
             }
         }
@@ -225,7 +216,10 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             ServiceCreator.everyHealthService.getExercise("Bearer $receivedAccessToken")
 
         callExercise.enqueue(object : Callback<ResponseExerciseData> {
-            override fun onResponse(call: Call<ResponseExerciseData>, response: Response<ResponseExerciseData>) {
+            override fun onResponse(
+                call: Call<ResponseExerciseData>,
+                response: Response<ResponseExerciseData>
+            ) {
                 if (response.isSuccessful) {
                     val responseExerciseData = response.body()
                     if (responseExerciseData != null) {
@@ -234,25 +228,43 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                         val parcelableExerciseList = ArrayList<Exercise>(exerciseList.size)
 
                         exerciseList.forEach { exercise ->
-                            val parcelableExercise = Exercise(exercise.id, exercise.name, exercise.time, exercise.difficulty,
-                                exercise.description, exercise.caution, exercise.reference, exercise.bookmarked)
+                            val parcelableExercise = Exercise(
+                                exercise.id,
+                                exercise.name,
+                                exercise.time,
+                                exercise.difficulty,
+                                exercise.description,
+                                exercise.caution,
+                                exercise.reference,
+                                exercise.bookmarked
+                            )
                             parcelableExerciseList.add(parcelableExercise)
                         }
 
 
                         // 운동 목록을 다이얼로그로 전달하여 표시
-                        val customDialog = CustomDialog(requireActivity(), this@CalendarFragment, selectedDate, parcelableExerciseList)
+                        val customDialog = CustomDialog(
+                            requireActivity(),
+                            this@CalendarFragment,
+                            selectedDate,
+                            parcelableExerciseList
+                        )
                         customDialog.show()
                     }
                 } else {
                     // 서버 요청이 실패한 경우 처리
-                    Toast.makeText(requireContext(), "운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseExerciseData>, t: Throwable) {
                 // 네트워크 오류 등으로 서버 요청이 실패한 경우 처리
-                Toast.makeText(requireContext(), "네트워크 오류로 운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "네트워크 오류로 운동목록을 가져오는데 실패하였습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -277,11 +289,15 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             val requestPlanData = RequestPlanData(
                 exerciseId,
                 thisDate,
-                plannedTime)
+                plannedTime
+            )
             Log.d(TAG, "RequestPlanData: $requestPlanData") // 서버로 보내기 전 확인용
 
             val call: Call<ResponsePlanData> =
-                ServiceCreator.everyHealthService.postPlan("Bearer $receivedAccessToken",requestPlanData)
+                ServiceCreator.everyHealthService.postPlan(
+                    "Bearer $receivedAccessToken",
+                    requestPlanData
+                )
 
             call.enqueue(object : Callback<ResponsePlanData> {
                 override fun onResponse(
@@ -290,15 +306,83 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
                 ) {
                     if (response.isSuccessful) {
                         Log.d(TAG, "플랜 전송 성공")
-                        val plan = Plan(0, false, exerciseId, exerciseName, plannedTime, doneTime = 0, thisDate)
-                        Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
-                        planViewModel.addPlan(plan)
+
+                        val responseData = response.body()
+
+                        if (responseData != null) {
+
+                            Log.d(TAG, "status: ${responseData.status}")
+                            Log.d(TAG, "message: ${responseData.message}")
+                            Log.d(TAG, "planId: ${responseData.data.planId}")
+                            Log.d(TAG, "exerciseId: ${responseData.data.exerciseId}")
+                            Log.d(TAG, "exerciseName: ${responseData.data.exerciseName}")
+                            Log.d(TAG, "plannedTime: ${responseData.data.plannedTime}")
+                            Log.d(TAG, "doneTime: ${responseData.data.doneTime}")
+
+                            val plan = Plan(
+                                responseData.data.planId,
+                                check = false,
+                                responseData.data.exerciseId,
+                                responseData.data.exerciseName,
+                                responseData.data.plannedTime,
+                                responseData.data.doneTime,
+                                thisDate
+                            )
+                            Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
+                            planViewModel.addPlan(plan)
+
+
+                            //지정날짜에 대한 PlanList 불러오기 -> 일정 추가 한 후에 실행해서 ui에 보이게 하기
+                            val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
+                                ServiceCreator.everyHealthService.getPlanOfThisDate(
+                                    "Bearer $receivedAccessToken",
+                                    thisDate
+                                )
+
+
+                            callPlanOfThisDate.enqueue(object : Callback<ResponsePlanThisDateData> {
+                                override fun onResponse(
+                                    call: Call<ResponsePlanThisDateData>,
+                                    response: Response<ResponsePlanThisDateData>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        val responsePlanOfThisDateData = response.body()
+                                        if (responsePlanOfThisDateData != null) {
+                                            val thisDatePlanDetail = responsePlanOfThisDateData.data
+                                            Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                                            val allPlans = thisDatePlanDetail.planList
+                                            adapter.setData(allPlans)
+                                            for (plan in allPlans) {
+                                                planViewModel.addPlan(plan)
+                                            }
+                                        } else {
+                                            Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                                        }
+                                    } else {
+                                        Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<ResponsePlanThisDateData>, t: Throwable) {
+                                    Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
+                                }
+                            })
+
+
+
+
+
+                        } else {
+                            Log.d("NetworkTest", "sth wrong")
+
+                        }
 
 
                     } else {
                         Log.d(TAG, "플랜 전송 실패")
                     }
                 }
+
                 override fun onFailure(call: Call<ResponsePlanData>, t: Throwable) {
                     Log.e("NetworkTest", "error:$t")
                 }
@@ -308,15 +392,6 @@ class CalendarFragment : Fragment(), CustomDialogInterface, UpdateDialogInterfac
             Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
-
-    override fun onOkButtonClicked2(
-        //exerciseId: Int,
-        exerciseName: String,
-        doneTime: Int,
-        thisDate: String
-    ) {
-    }
-
 
 
     companion object {
