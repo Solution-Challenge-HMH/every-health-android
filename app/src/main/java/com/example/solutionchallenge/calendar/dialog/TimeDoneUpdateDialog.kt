@@ -92,7 +92,7 @@ class TimeDoneUpdateDialog(
                             Log.d(TAG, "done time 전송 성공")
                             //planViewModel.deletePlan(currentPlan)
                             //ui랑 로컬데이터 업데이트
-                            plan.check = true // check 값을 true로 설정
+                           // plan.check = true // check 값을 true로 설정
 
 
                             updateDialogInterface.onOkButtonClicked2(plan.planId, doneTime, rreceivedAccessToken)
