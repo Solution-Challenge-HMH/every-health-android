@@ -1,7 +1,20 @@
 # EVERY-HEALTH
+
+
 ![HMH_GDSC-2024SolutionChallenge-001 1](https://github.com/Solution-Challenge-HMH/every-health-android/assets/110734087/15173395-304f-4e6b-b379-a7e5ab2808d5)
 
 Exercise recommendation and schedule management application for the physical disabilities 👩‍🦽👨‍🦽
+
+---
+
+📅2024.01.~2024.02 
+
+|~01.03| Ideation|
+|----|---|
+|~01.17| Functionalization and design|
+|~01.24| Organization of the exercise data|
+|~02.21| Development|
+
 
 ## HMH - TEAM MEMBER
 |JeongHyun LEE|SuHyun CHOI|MinSeo SON|MinGyeong SONG|
@@ -49,7 +62,7 @@ In response, our service aims to enhance health accessibility by providing perso
 ## 
 ![image 10](https://github.com/Solution-Challenge-HMH/every-health-android/assets/110734087/2a77d971-5a45-441f-afc6-3534f8e052b4)
 
-(explain)
+(explain - include some data) 
 
 ## DEMO
 (Link? -)
