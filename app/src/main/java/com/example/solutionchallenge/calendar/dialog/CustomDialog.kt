@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import com.example.solutionchallenge.R
 import com.example.solutionchallenge.calendar.dialog.CustomDialogInterface
@@ -28,7 +29,6 @@ class CustomDialog(
     private var customDialogInterface: CustomDialogInterface = myInterface
     private var selectedExerciseName: String? = null
     private var selectedExerciseId: Int? = null
-    // private var plannedDate: String? = null
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,10 @@ class CustomDialog(
         var cancelButton: Button = findViewById(R.id.cancelButton)
         var exerciseSpinner: Spinner = findViewById(R.id.ExerciseNameSpinner)
         var timeGoalEditView: EditText = findViewById(R.id.TimeEditView)
-        //var dateEditView: EditText = findViewById(R.id.DDateEditView)
+        val doneTimeTextView: TextView = findViewById(R.id.DoneTimeTextView)
+
+        //done time 숨기기
+        doneTimeTextView.visibility = View.GONE
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, exerciseNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -67,8 +70,6 @@ class CustomDialog(
             val plannedTime = if (inputTime.isNotEmpty()) {
                 inputTime.toInt()
             } else {
-                // 사용자가 아무런 값을 입력하지 않은 경우 기본값이나 에러 처리를 수행하십시오.
-                // 여기서는 0을 기본값으로 사용하도록 설정하였습니다.
                 0
             }
 

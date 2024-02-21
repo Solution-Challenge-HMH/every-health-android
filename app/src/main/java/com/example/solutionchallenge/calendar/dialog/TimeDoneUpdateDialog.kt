@@ -7,8 +7,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 //import com.myfirstandroidapp.helpcalendar.R
 import com.example.solutionchallenge.R
@@ -38,8 +41,14 @@ class TimeDoneUpdateDialog(
         var okButton: Button = findViewById(R.id.okButton)
         var cancelButton: Button = findViewById(R.id.cancelButton)
         var timeEditView: EditText = findViewById(R.id.TimeEditView)
+        val spinner: Spinner = findViewById(R.id.ExerciseNameSpinner)
+        val planTimeTextView : TextView = findViewById(R.id.PlanTimeTextView)
+        val diaLog : TextView = findViewById(R.id.DialogNotice)
 
-
+        // 불필요한 거 숨기기
+        spinner.visibility = View.GONE
+        planTimeTextView.visibility = View.GONE
+        diaLog.visibility = View.GONE
 
         window!!.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
@@ -83,6 +92,8 @@ class TimeDoneUpdateDialog(
                             Log.d(TAG, "done time 전송 성공")
                             //planViewModel.deletePlan(currentPlan)
                             //ui랑 로컬데이터 업데이트
+                            plan.check = true // check 값을 true로 설정
+
 
                             updateDialogInterface.onOkButtonClicked2(plan.planId, doneTime, rreceivedAccessToken)
                             dismiss()

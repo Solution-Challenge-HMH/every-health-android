@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 data class Plan(
     @PrimaryKey(autoGenerate = true)
     var planId: Int,
-    var check: Boolean,
-    var exerciseId: Int,
-    var exerciseName: String,
-    var plannedTime: Int,
-    var doneTime: Int,
+    var check: Boolean?,
+    var exerciseId: Int?,
+    var exerciseName: String?,
+    var plannedTime: Int?,
+    var doneTime: Int?,
     var thisDate: String,
     var year: Int? = thisDate?.split("-")?.get(0)?.toInt(),
     var month: Int? = thisDate?.split("-")?.get(1)?.toInt(),

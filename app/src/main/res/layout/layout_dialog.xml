@@ -42,6 +42,7 @@
             app:layout_constraintTop_toBottomOf="@id/DialogNotice" />
 
         <TextView
+            android:id="@+id/PlanTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/TimeEditView"
@@ -51,6 +52,18 @@
             android:textColor="@color/black"
             android:textSize="17sp"
             android:text="Plantime : "/>
+
+        <TextView
+            android:id="@+id/DoneTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/TimeEditView"
+            app:layout_constraintTop_toTopOf="@id/TimeEditView"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:text="DoneTime : "/>
 
         <EditText
             android:id="@+id/TimeEditView"

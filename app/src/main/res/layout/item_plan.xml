@@ -42,18 +42,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/TimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.valueOf(plan.plannedTime)}"
-                android:textSize="15sp"
-                android:layout_marginRight="3dp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/progress_bar"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <Button
                 android:id="@+id/deleteButton"
                 android:layout_width="25dp"
@@ -80,6 +68,18 @@
                 app:layout_constraintEnd_toStartOf="@id/deleteButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
+
+            <TextView
+                android:id="@+id/TimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(plan.plannedTime)  + `min`}"
+                android:textSize="13sp"
+                android:layout_marginRight="3dp"
+                android:textColor="@color/main"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_bar"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
