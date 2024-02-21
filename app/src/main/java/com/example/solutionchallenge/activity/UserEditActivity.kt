@@ -82,7 +82,6 @@ class UserEditActivity : AppCompatActivity() {
         val leftLowerLeg = buttonStateMap[R.id.left_lower_leg_button] ?: false
 
 
-
         val requestUserInfoData = RequestUserInfoData(
             nickname,
             gender,
@@ -98,7 +97,10 @@ class UserEditActivity : AppCompatActivity() {
             leftLowerLeg
         )
         val call: Call<ResponseUserInfoData> =
-            ServiceCreator.everyHealthService.postUserInfo("Bearer $receivedAccessToken",requestUserInfoData)
+            ServiceCreator.everyHealthService.postUserInfo(
+                "Bearer $receivedAccessToken",
+                requestUserInfoData
+            )
 
 
         if (nickname.isNotEmpty() && gender.isNotEmpty() && physicalAbilityLevel.isNotEmpty()) {

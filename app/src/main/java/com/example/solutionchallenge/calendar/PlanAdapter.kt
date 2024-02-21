@@ -6,8 +6,6 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.solutionchallenge.ServiceCreator
 import com.example.solutionchallenge.activity.CalendarActivity
@@ -16,9 +14,7 @@ import com.example.solutionchallenge.calendar.dialog.UpdateDialogInterface
 import com.example.solutionchallenge.databinding.ItemPlanBinding
 import com.example.solutionchallenge.calendar.dialog.TimeDoneUpdateDialog
 import com.example.solutionchallenge.calendar.model.Plan
-import com.example.solutionchallenge.datamodel.DatePlan
 import com.example.solutionchallenge.datamodel.ResponsePlanIdDELETEData
-import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +41,6 @@ class PlanAdapter(
         private val context: Context = binding.root.context
 
 
-
         @SuppressLint("SuspiciousIndentation")
         fun bind(currentPlan: Plan, planViewModel: PlanViewModel, receivedAccessToken: String) {
             binding.plan = currentPlan
@@ -57,7 +52,7 @@ class PlanAdapter(
 
             // 삭제 버튼 클릭 시 플랜 삭제
             binding.deleteButton.setOnClickListener {
-                val receivedAccessToken = receivedAccessToken
+                //val receivedAccessToken = receivedAccessToken
 
 
                 // 플랜 삭제 API 호출
@@ -73,7 +68,7 @@ class PlanAdapter(
                         call: Call<ResponsePlanIdDELETEData>,
                         response: Response<ResponsePlanIdDELETEData>
                     ) {
-                        Log.d(TAG, "Sending DELETE request to remove planId: $planId")
+                        Log.d(TAG, "Sending DELETE request to remove. (planId: $planId)")
 
                         if (response.isSuccessful) {
                             Log.d(TAG, "플랜 삭제 성공")
@@ -100,7 +95,12 @@ class PlanAdapter(
             binding.progressBar.setOnClickListener {
                 plan = currentPlan
                 val timeDoneUpdateDialog =
-                    TimeDoneUpdateDialog(binding.progressBar.context, this, selected_date = "abc")
+                    TimeDoneUpdateDialog(
+                        binding.progressBar.context,
+                        this,
+                        currentPlan,
+                        receivedAccessToken
+                    )
                 timeDoneUpdateDialog.show()
             }
         }
@@ -116,20 +116,37 @@ class PlanAdapter(
         }
 
         override fun onOkButtonClicked2(
-            exerciseName: String,
+            planId: Int,
             doneTime: Int,
-            date: String
+            receivedAccessToken: String
         ) { //이미 추가된 운동의 "달성시간" 수정 (프로그레스바 터치)
             val updatePlan = Plan(
                 plan.planId,
                 plan.check,
-                exerciseId = 0, //name 이랑 연결
-                exerciseName,
+                plan.exerciseId,
+                plan.exerciseName,
                 plan.plannedTime,
                 doneTime,
-                plan.thisDate
+                plan.thisDate,
             )
+
+            println(
+                "val updatePlan = Plan(\n" +
+                        "                plan.planId: ${plan.planId}\n" +
+                        "                plan.check: ${plan.check}\n" +
+                        "                plan.exerciseId: ${plan.exerciseId}\n" +
+                        "                plan.exerciseName: ${plan.exerciseName}\n" +
+                        "                plan.plannedTime: ${plan.plannedTime}\n" +
+                        "                doneTime: ${doneTime}\n" +
+                        "                plan.thisDate: ${plan.thisDate}\n" +
+                        "            )"
+            )
+
             planViewModel.updatePlan(updatePlan)
+            val intent = Intent(context, CalendarActivity::class.java)
+            intent.putExtra("receivedAccessToken", receivedAccessToken)
+            context.startActivity(intent)
+
         }
 
     }

@@ -21,8 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-         />
+        />
 
 
     <TextView
@@ -48,10 +47,10 @@
         android:layout_marginEnd="50dp"
         android:inputType="text"
         android:hint="Enter 1-8 characters"
+        android:textSize="14sp"
         app:layout_constraintBaseline_toBaselineOf="@id/nicknameTextview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        android:privateImeOptions="defaultInputmode=korean"/>
+        app:layout_constraintStart_toStartOf="@id/guideline" />
 
 
     <TextView
@@ -248,11 +247,10 @@
 
     <Button
         android:id="@+id/left_upper_arm_button"
-        android:layout_width="25sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="52dp"
-        android:background="@drawable/round_log"
-        android:layout_marginTop="404dp"
+        android:layout_width="23dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="408dp"
         android:rotation="15"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
@@ -260,11 +258,10 @@
 
     <Button
         android:id="@+id/left_lower_arm_button"
-        android:layout_width="25sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="465dp"
-        android:background="@drawable/round_log"
+        android:layout_width="23dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="467dp"
         android:rotation="15"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
@@ -272,11 +269,10 @@
 
     <Button
         android:id="@+id/right_upper_arm_button"
-        android:layout_width="25sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="404dp"
-        android:background="@drawable/round_log"
+        android:layout_width="23dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginTop="408dp"
         android:rotation="-15"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
@@ -284,12 +280,11 @@
 
     <Button
         android:id="@+id/right_lower_arm_button"
-        android:layout_width="25sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="465dp"
+        android:layout_width="23dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="467dp"
         android:rotation="-15"
-        android:background="@drawable/round_log"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -297,59 +292,53 @@
     <!--척추-->
     <Button
         android:id="@+id/core"
-        android:layout_width="30sp"
-        android:layout_height="50sp"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="443dp"
+        android:layout_marginTop="445dp"
         android:alpha="0.57"
-        android:background="@drawable/round_log"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/left_upper_leg_button"
-        android:layout_width="25sp"
-        android:layout_height="70sp"
-        android:layout_marginStart="68.5dp"
-        android:background="@drawable/round_log"
+        android:layout_width="23dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="71dp"
         android:layout_marginTop="500dp"
-        android:rotation="-5"
+        android:rotation="-4"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/left_lower_leg_button"
-        android:layout_width="20sp"
-        android:layout_height="55sp"
-        android:layout_marginStart="72dp"
+        android:layout_width="18dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="74dp"
         android:layout_marginTop="573dp"
         android:rotation="-5"
-        android:background="@drawable/round_log"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/right_upper_leg_button"
-        android:layout_width="25sp"
-        android:layout_height="70sp"
-        android:layout_marginStart="95dp"
+        android:layout_width="23dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="500dp"
-        android:background="@drawable/round_log"
-        android:rotation="5"
+        android:rotation="4"
         android:alpha="0.57"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/right_lower_leg_button"
-        android:layout_width="20sp"
-        android:layout_height="55sp"
-        android:layout_marginStart="96dp"
+        android:layout_width="18dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="97dp"
         android:layout_marginTop="573dp"
-        android:background="@drawable/round_log"
         android:rotation="5"
         android:alpha="0.57"
         app:layout_constraintStart_toStartOf="parent"

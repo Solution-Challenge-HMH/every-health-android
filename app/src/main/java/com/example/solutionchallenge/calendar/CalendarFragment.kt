@@ -391,41 +391,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
 
 
                             //지정날짜에 대한 PlanList 불러오기 -> 일정 추가 한 후에 실행해서 ui에 보이게 하기
-                            val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
-                                ServiceCreator.everyHealthService.getPlanOfThisDate(
-                                    "Bearer $receivedAccessToken",
-                                    thisDate
-                                )
-
-
-                            callPlanOfThisDate.enqueue(object : Callback<ResponsePlanThisDateData> {
-                                override fun onResponse(
-                                    call: Call<ResponsePlanThisDateData>,
-                                    response: Response<ResponsePlanThisDateData>
-                                ) {
-                                    if (response.isSuccessful) {
-                                        val responsePlanOfThisDateData = response.body()
-                                        if (responsePlanOfThisDateData != null) {
-                                            val thisDatePlanDetail = responsePlanOfThisDateData.data
-                                            Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
-                                            val allPlans = thisDatePlanDetail.planList
-                                            adapter.setData(allPlans)
-                                            for (plan in allPlans) {
-                                                planViewModel.addPlan(plan)
-                                            }
-                                        } else {
-                                            Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
-                                        }
-                                    } else {
-                                        Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
-                                    }
-                                }
-
-                                override fun onFailure(call: Call<ResponsePlanThisDateData>, t: Throwable) {
-                                    Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
-                                }
-                            })
-
+                            updateRecycler()
 
 
 
@@ -451,7 +417,44 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
         }
     }
 
+fun updateRecycler(){ //지정날짜에 대한 PlanList 불러오기 -> 추가/삭제/수정시 실행해서 리사이클럽뷰 업데이트
+    val callPlanOfThisDate: Call<ResponsePlanThisDateData> =
+        ServiceCreator.everyHealthService.getPlanOfThisDate(
+            "Bearer $receivedAccessToken",
+            thisDate
+        )
 
+
+    callPlanOfThisDate.enqueue(object : Callback<ResponsePlanThisDateData> {
+        override fun onResponse(
+            call: Call<ResponsePlanThisDateData>,
+            response: Response<ResponsePlanThisDateData>
+        ) {
+            if (response.isSuccessful) {
+                val responsePlanOfThisDateData = response.body()
+                if (responsePlanOfThisDateData != null) {
+                    Log.d(TAG, "지정 날짜 플랜 가져오기 성공")
+                    val thisDatePlanDetail = responsePlanOfThisDateData.data
+                    Log.d("thisDatePlanDetail", "$thisDatePlanDetail")
+                    val allPlans = thisDatePlanDetail.planList
+                    adapter.setData(allPlans)
+                    for (plan in allPlans) {
+                        planViewModel.addPlan(plan)
+                    }
+                } else {
+                    Log.d(TAG, "responsePlanOfThisDateData == null")
+                }
+            } else {
+                Log.d(TAG, "지정 날짜 플랜 가져오기 실패")
+            }
+        }
+
+        override fun onFailure(call: Call<ResponsePlanThisDateData>, t: Throwable) {
+            Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
+        }
+    })
+
+}
     fun toolbarButton(toolbar: androidx.appcompat.widget.Toolbar, receivedAccessToken: String?){
 
         toolbar.setOnMenuItemClickListener { menuItem ->

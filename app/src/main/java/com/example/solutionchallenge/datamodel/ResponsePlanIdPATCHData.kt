@@ -1,11 +1,11 @@
 package com.example.solutionchallenge.datamodel
 
 
-data class ResponsePlanPlanidPATCHData(
+data class ResponsePlanIdPATCHData(
+    val status: String,
+    val message: String
 
-    val status: Int
-
-    )
+)
 
 //response body 없음
 /*

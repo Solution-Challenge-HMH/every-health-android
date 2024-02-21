@@ -1,7 +1,7 @@
 package com.example.solutionchallenge
 
 import com.example.solutionchallenge.datamodel.RequestPlanData
-import com.example.solutionchallenge.datamodel.RequestPlanPlanIdPATCHData
+import com.example.solutionchallenge.datamodel.RequestPlanIdPATCHData
 import com.example.solutionchallenge.datamodel.RequestUserInfoData
 import com.example.solutionchallenge.datamodel.RequestUserLoginData
 import com.example.solutionchallenge.datamodel.ResponseExerciseBookmarkDELETEData
@@ -12,7 +12,7 @@ import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
 import com.example.solutionchallenge.datamodel.ResponsePlanCalendarData
 import com.example.solutionchallenge.datamodel.ResponsePlanData
 import com.example.solutionchallenge.datamodel.ResponsePlanIdDELETEData
-import com.example.solutionchallenge.datamodel.ResponsePlanPlanidPATCHData
+import com.example.solutionchallenge.datamodel.ResponsePlanIdPATCHData
 import com.example.solutionchallenge.datamodel.ResponsePlanThisDateData
 import com.example.solutionchallenge.datamodel.ResponsePlanTodayData
 import com.example.solutionchallenge.datamodel.ResponseUserInfoData
@@ -61,11 +61,11 @@ interface EveryHealthService { //로그인시 사용
 
 
     @PATCH("plan/{planId}")
-    fun patchPlanPlanId(
+    fun patchPlanId(
         @Header("Authorization") authorization: String,
         @Path("planId") planId: Int,
-        @Field("doneTime") field: RequestPlanPlanIdPATCHData //patch 요청하는 형식 이거 아닐수도..?
-    ): Call<ResponsePlanPlanidPATCHData>
+        @Body body: RequestPlanIdPATCHData
+    ): Call<ResponsePlanIdPATCHData>
 
     @GET("plan") //GET은 request body 없음
     fun getPlanOfThisDate(
@@ -91,11 +91,10 @@ interface EveryHealthService { //로그인시 사용
     ): Call<ResponseExerciseData>
 
     @GET("exercise/{exerciseId}") //GET은 request body 없음
-
-    fun getExerciseExerciseId(@Header("Authorization") authorization: String,
-                              @Path("exerciseId") exerciseId: Int
+    fun getExerciseExerciseId(
+        @Header("Authorization") authorization: String,
+        @Path("exerciseId") exerciseId: Int
     ): Call<ResponseExerciseExerciseIdData> //path 있음
-
 
 
     @POST("exercise/{exerciseId}/bookmark") //GET에서 POST로 API 수정됨 (0217) (request body 없는 POST)
