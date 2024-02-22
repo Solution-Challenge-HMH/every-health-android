@@ -136,11 +136,11 @@ class StopWatchActivity : AppCompatActivity() {
 
     private fun showAlertDialog() {
         AlertDialog.Builder(this).apply {
-            setMessage("종료하시겠습니까?")
-            setPositiveButton("네") { _, _ ->
+            setMessage("Stop current stopwatch?")
+            setPositiveButton("CONFIRM") { _, _ ->
                 stop()
             }
-            setNegativeButton("아니오", null)
+            setNegativeButton("CANCEL", null)
         }.show()
     }
 }

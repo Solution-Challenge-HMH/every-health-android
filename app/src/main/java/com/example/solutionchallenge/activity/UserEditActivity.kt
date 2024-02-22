@@ -112,10 +112,8 @@ class UserEditActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         //유저 신체 정보 전송 성공
                         Log.d(TAG, "유저 신체 정보 전송 성공")
+                        Toast.makeText(this@UserEditActivity, "Your information is successfully saved.", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this@UserEditActivity, LogOutActivity::class.java)
-                        intent.putExtra("nickname", nickname)
-                        Log.d("nickname", "$nickname")
                         val mainIntent = Intent(this@UserEditActivity, MainActivity::class.java)
                         mainIntent.putExtra("receivedAccessToken", receivedAccessToken)
                         startActivity(mainIntent)
@@ -134,7 +132,7 @@ class UserEditActivity : AppCompatActivity() {
 
         } else { // 닉네임, 성별, 신체 기능 중 뭔가 입력 안 했을 때
             // 사용자에게 모든 정보를 입력하라는 Toast 메시지 표시
-            Toast.makeText(this, "모든 정보를 입력하세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please enter all the information.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -155,7 +153,7 @@ class UserEditActivity : AppCompatActivity() {
             R.id.possibleToWalk -> "ABLE_TO_WALK"
             R.id.possibleToRun -> "ABLE_TO_RUN"
             else -> {
-                Toast.makeText(this, "신체 기능을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter all the information.", Toast.LENGTH_SHORT).show()
                 "Unable to sit" // 기본값
             }
         }

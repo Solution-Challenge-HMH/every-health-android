@@ -37,12 +37,6 @@ class LogOutActivity : AppCompatActivity() {
         var bookmarkButton : Button =findViewById(R.id.ToBookmarkButton)
 
 
-        val nickNameTextView : TextView = findViewById(R.id.NicknameView)
-        nickname?.let {
-            nickNameTextView.text = it
-        } ?: run {
-            nickNameTextView.text = "기본 닉네임"
-        }
 
         logOutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

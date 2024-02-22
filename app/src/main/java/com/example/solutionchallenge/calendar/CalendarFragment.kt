@@ -105,7 +105,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                 Log.e("NetworkTest", "error:$t")
             }
         })
-/*
+//여기부터
         val calendar = Calendar.getInstance()
         val todayDate = calendar.time
 
@@ -157,7 +157,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                 Log.e(TAG, "지정 날짜 플랜 가져오기 요청 실패: $t")
             }
         })
-        */
+//여기까지 오늘날짜 선택되게??
 
         // 아이템을 가로로 하나씩 보여주고 어댑터 연결
         binding!!.calendarRecyclerview.layoutManager =
@@ -240,7 +240,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
         // Fab 클릭시 다이얼로그 띄움
         binding!!.calendarDialogButton.setOnClickListener {
             if (year == 0) {
-                Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Please choose a date.", Toast.LENGTH_SHORT).show()
             } else {
 
                 //데이터 포맷 수정
@@ -311,7 +311,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                     }
                 } else {
                     // 서버 요청이 실패한 경우 처리
-                    Toast.makeText(requireContext(), "운동목록을 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), "Failed to get exercise list.", Toast.LENGTH_SHORT) //운동목록을 가져오는데 실패하였습니다.
                         .show()
                 }
             }
@@ -320,7 +320,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                 // 네트워크 오류 등으로 서버 요청이 실패한 경우 처리
                 Toast.makeText(
                     requireContext(),
-                    "네트워크 오류로 운동목록을 가져오는데 실패하였습니다.",
+                    "Failed to get exercise list.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -386,7 +386,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
                                 responseData.data.doneTime,
                                 thisDate
                             )
-                            Toast.makeText(activity, "추가됨", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "Successfully added to your calendar.", Toast.LENGTH_SHORT).show()
                             planViewModel.addPlan(plan)
 
 
@@ -413,7 +413,7 @@ class CalendarFragment : Fragment(), CustomDialogInterface {
             })
         } else {
             // 예외 처리: plannedDate가 null이거나 빈 문자열인 경우
-            Toast.makeText(activity, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Please choose a date.", Toast.LENGTH_SHORT).show()
         }
     }
 
