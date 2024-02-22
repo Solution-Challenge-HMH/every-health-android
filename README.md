@@ -60,7 +60,6 @@ In response, our service aims to enhance health accessibility by providing perso
 - Kotlin
 
 ## 
-![image 10](https://github.com/Solution-Challenge-HMH/every-health-android/assets/110734087/2a77d971-5a45-441f-afc6-3534f8e052b4)
 
 (explain - include some data) 
 
