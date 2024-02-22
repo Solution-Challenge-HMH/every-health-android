@@ -48,6 +48,8 @@ class PlanAddDialog(
 
         calendarView.setOnDateChangedListener {  _, date, _ ->
 
+
+
             val year = date.year
             val month = date.month + 1
             val day = date.day
@@ -55,11 +57,6 @@ class PlanAddDialog(
             this.year = year
             this.month = month
             this.day = day
-
-            //데이터 포맷 수정
-            thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
-
-            Log.d(TAG, "캘린더에서 "+thisDate+" 선택됨")
 
 
         }
@@ -69,13 +66,18 @@ class PlanAddDialog(
             val timeGoalStr = timeGoalEditView.text.toString()
             val timeGoalInt = timeGoalStr.toIntOrNull()
 
-            println(timeGoalInt)
-            println(thisDate)
-            if (timeGoalInt == null||TextUtils.isEmpty(thisDate)) {
-                Toast.makeText(context, "Enter all your plans.", Toast.LENGTH_SHORT).show()
-            } else {
-               // val outputDateString = convertDateFormat(thisDate, "yyyy-M-d", "yyyy-MM-dd")
-               // thisDate = outputDateString
+            if (year==0){
+                Toast.makeText(context, "Please choose a date.", Toast.LENGTH_SHORT).show()
+            }
+            else if (timeGoalInt == null){
+                Toast.makeText(context, "Please enter all the information.", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                //데이터 포맷 수정
+                thisDate = "${this.year}-${String.format("%02d", this.month)}-${String.format("%02d", this.day)}"
+                Log.d(TAG, "캘린더에서 "+thisDate+" 선택됨")
+                println(timeGoalInt)
+                println(thisDate)
                 postPlan(exerciseId, thisDate, timeGoalInt)
                 dismiss()
             }
@@ -110,6 +112,7 @@ class PlanAddDialog(
                 if (response.isSuccessful) {
                     //일정 추가하기 성공 --> 현재 서버로는 잘 보내지는데 calendar에서는 잘 안보임 (0219 민경)
                     Log.d(TAG, "플랜 전송 성공")
+                    Toast.makeText(context, "Successfully added to your calendar.", Toast.LENGTH_SHORT).show()
 
                 } else {
                     Log.d(TAG, "플랜 전송 실패")
