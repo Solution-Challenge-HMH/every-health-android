@@ -6,7 +6,7 @@
     <data>
         <variable
             name="plan"
-            type="com.example.solutionchallenge.calendar.model.Plan" />
+            type="com.example.solutionchallenge.datamodel.Plan" />
     </data>
 
     <LinearLayout

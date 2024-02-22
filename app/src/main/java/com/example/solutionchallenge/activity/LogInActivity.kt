@@ -1,27 +1,16 @@
 package com.example.solutionchallenge.activity
 
-//import android.os.Bundle
-//import android.util.Log
-//import androidx.appcompat.app.AppCompatActivity
-//import com.google.android.gms.auth.api.signin.GoogleSignIn
-//import com.google.android.gms.auth.api.signin.GoogleSignInClient
-//import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.solutionchallenge.ServiceCreator
 
 import com.example.solutionchallenge.databinding.ActivityLogInBinding
-import com.example.solutionchallenge.datamodel.RequestUserLoginData
-import com.example.solutionchallenge.datamodel.ResponseUserLoginData
-import com.example.solutionchallenge.TokenToServer
-import com.google.android.gms.auth.api.Auth
+import com.example.solutionchallenge.serverdata.TokenToServer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -37,11 +26,9 @@ import okhttp3.Call
 
 import okhttp3.Callback
 import okhttp3.FormBody
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONObject
 import java.io.IOException
 

@@ -1,6 +1,5 @@
 package com.example.solutionchallenge.activity
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,13 +11,9 @@ import androidx.core.content.ContextCompat
 import com.example.solutionchallenge.R
 import com.example.solutionchallenge.databinding.ActivityUserEditBinding
 import com.example.solutionchallenge.Constants.buttonIds
-import com.example.solutionchallenge.GENDER
-import com.example.solutionchallenge.NICKNAME
-import com.example.solutionchallenge.PHYSICAL_ABILITY_LEVEL
-import com.example.solutionchallenge.ServiceCreator
-import com.example.solutionchallenge.datamodel.RequestUserInfoData
-import com.example.solutionchallenge.datamodel.ResponseUserInfoData
-import com.example.solutionchallenge.datamodel.ResponseUserLoginData
+import com.example.solutionchallenge.serverdata.ServiceCreator
+import com.example.solutionchallenge.serverdata.RequestUserInfoData
+import com.example.solutionchallenge.serverdata.ResponseUserInfoData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

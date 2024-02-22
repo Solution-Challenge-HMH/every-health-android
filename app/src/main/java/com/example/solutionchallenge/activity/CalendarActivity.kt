@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solutionchallenge.R
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.example.solutionchallenge.calendar.ViewPagerAdapter
+import com.example.solutionchallenge.adapter.ViewPagerAdapter
 
 import com.example.solutionchallenge.databinding.CalendarActivityMainBinding
 

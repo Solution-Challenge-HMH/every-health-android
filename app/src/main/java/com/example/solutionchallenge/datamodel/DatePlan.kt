@@ -2,8 +2,6 @@ package com.example.solutionchallenge.datamodel
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.solutionchallenge.calendar.model.Plan
-import java.util.Date
 
 @Entity
 data class DatePlan(

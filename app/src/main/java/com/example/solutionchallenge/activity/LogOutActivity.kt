@@ -10,11 +10,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solutionchallenge.R
-import com.example.solutionchallenge.ServiceCreator
-import com.example.solutionchallenge.datamodel.ResponseExerciseData
+import com.example.solutionchallenge.serverdata.ServiceCreator
+import com.example.solutionchallenge.serverdata.ResponseExerciseData
 import com.example.solutionchallenge.fragment.BookmarkFragment
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
@@ -40,7 +39,6 @@ class LogOutActivity : AppCompatActivity() {
 
         logOutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            //앱이 종료돼야 하는 거 아닌가욥
             finish()
             val intent = Intent(this@LogOutActivity, LogInActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

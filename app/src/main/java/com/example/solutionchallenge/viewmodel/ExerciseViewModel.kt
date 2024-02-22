@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.solutionchallenge.datamodel.ExerciseDatabase
-import com.example.solutionchallenge.ExerciseRepository
+import com.example.solutionchallenge.db.ExerciseDatabase
+import com.example.solutionchallenge.repository.ExerciseRepository
 import com.example.solutionchallenge.datamodel.Exercise
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

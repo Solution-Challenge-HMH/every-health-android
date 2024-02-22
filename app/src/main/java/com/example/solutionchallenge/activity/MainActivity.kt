@@ -7,10 +7,10 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solutionchallenge.R
-import com.example.solutionchallenge.RecommendationOfTodayDialog
-import com.example.solutionchallenge.ServiceCreator
-import com.example.solutionchallenge.datamodel.ResponseExerciseData
-import com.example.solutionchallenge.datamodel.ResponseExerciseRecommendedData
+import com.example.solutionchallenge.dialog.RecommendationOfTodayDialog
+import com.example.solutionchallenge.serverdata.ServiceCreator
+import com.example.solutionchallenge.serverdata.ResponseExerciseData
+import com.example.solutionchallenge.serverdata.ResponseExerciseRecommendedData
 import com.example.solutionchallenge.fragment.RecommendListFragment
 
 import retrofit2.Call
